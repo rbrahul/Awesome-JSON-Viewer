@@ -1,0 +1,38 @@
+{
+  "name": "Awesome JSON",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "16": "images/icons/icon-16.png",
+    "38": "images/icons/icon-32.png",
+    "128": "images/icons/icon-128.png"
+  },
+  "background": {
+  },
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "static/js/contentScript.js",
+        "/static/js/main.ab443fdd.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "browser_action": {
+    "default_icon": "images/icons/icon-16.png"
+  },
+  "web_accessible_resources": [
+    "/static/js/main.ab443fdd.js",
+    "static/css/main.1960a8ae.css"
+  ]
+}
