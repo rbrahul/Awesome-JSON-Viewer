@@ -24,6 +24,13 @@ exec("mv "+__dirname+"/build/static/css/main*.css "+__dirname+"/build/static/css
     }
 });
 
+exec("mv "+__dirname+"/build/background.js "+__dirname+"/build/static/js/background.js", function (error, stdout, stderr) {
+    if (error !== null) {
+        console.log('exec error: ' + error);
+    } else{
+        console.log("Background.js file has been moved successfully");
+    }
+});
 
 exec("rm -f "+__dirname+"/build/static/js/main*.js.map ", function (error, stdout, stderr) {
     if (error) {
