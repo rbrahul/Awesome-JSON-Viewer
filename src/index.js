@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", function () {
             document.getElementById('rbrahul-awesome-json')
         );
     } catch (e) {
-        console.error('JSON parsing failed');
+       // console.error('JSON parsing failed');
     }
 }, false);
 
