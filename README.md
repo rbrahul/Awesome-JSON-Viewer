@@ -9,3 +9,4 @@ A chrome extension to visualize JSON response as well as to introduce awesome pr
 -Cool User Interface
 
 ## Screen Shots
+![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
