@@ -25,7 +25,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Menus changeTabSelection={this.changeTabSelection.bind(this)}/>
+                <Menus changeTabSelection={this.changeTabSelection.bind(this)} selectedTab={this.state.selectedTab}/>
                 <div className="tab-container">
                     {
                         this.state.selectedTab === 'tree' &&

@@ -22,7 +22,7 @@
       ],
       "js": [
         "static/js/contentScript.js",
-        "/static/js/main.ab443fdd.js"
+        "/static/js/main.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -32,7 +32,7 @@
     "default_icon": "images/icons/icon-16.png"
   },
   "web_accessible_resources": [
-    "/static/js/main.ab443fdd.js",
-    "static/css/main.1960a8ae.css"
+    "/static/js/main.js",
+    "static/css/main.css"
   ]
 }

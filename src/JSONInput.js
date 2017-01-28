@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import update from 'immutability-helper';
 import { initPlugin } from './utils/json-viewer/jquery.json-viewer.js';
 
 class JSONInput extends Component {
@@ -22,14 +21,8 @@ class JSONInput extends Component {
 
     parseJSON() {
         const rawJSON = this.refs.rawJSON.value.trim();
+        this.resetErrors();
         if (!rawJSON) {
-  /*          update(this.state, {
-                errors: {
-                    rawJSON: {
-                        status: { $set: true }
-                    }
-                }
-            });*/
             this.setState({
                 'errors': {
                     ...this.state.errors,
@@ -68,6 +61,28 @@ class JSONInput extends Component {
         }
     }
 
+resetErrors() {
+    this.setState({
+        'errors': {
+            ...this.state.errors,
+            ...{
+                ...this.state.errors,
+                jsonParseFailed: {
+                    ...this.state.errors.jsonParseFailed,
+                    ... {
+                        status: false
+                    }
+                },
+                rawJSON: {
+                    ...this.state.errors.rawJSON,
+                    ... {
+                        status: false
+                    }
+                }
+            }
+        }
+    });
+}
     render() {
         return (
             <div className="json-input-section">
@@ -75,15 +90,6 @@ class JSONInput extends Component {
                     <span>{'{..}'}</span>
                 </div>
                 <h1>JSON formated text</h1>
-                {
-                    /* Object.keys(this.state.errors).filter((error) => {
-                     if(this.state.errors[error].status) {
-                     return (<div className="json-input-error-msg">
-                     {this.state.errors[error].message}
-                     </div>);
-                     }
-                     })*/
-                }
 
                 {
                     this.state.errors.jsonParseFailed.status &&

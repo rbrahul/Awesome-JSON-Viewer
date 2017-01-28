@@ -5,12 +5,24 @@ class Menus extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedPan: 'tree'
+            selectedPan: props.selectedTab
         };
     }
     setActive(tab) {
         this.setState({selectedPan:tab});
         this.props.changeTabSelection(tab);
+    }
+    componentWillMount () {
+    this.prepareComponentState(this.props);
+}
+ componentWillReceiveProps(nextProps) {
+    this.prepareComponentState(nextProps);
+}
+    prepareComponentState(props) {
+        console.log(props)
+        this.setState({
+            selectedPan:props.selectedTab
+        });
     }
   render() {
     return (

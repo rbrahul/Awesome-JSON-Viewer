@@ -1,7 +1,7 @@
 function initApplication() {
     var styleTag = document.createElement('link');
-    var cssFilePath = chrome.extension.getURL('/static/css/main.1960a8ae.css');
-    var jsFilePath = chrome.extension.getURL('/static/js/main.ab443fdd.js');
+    var cssFilePath = chrome.extension.getURL('/static/css/main.css');
+    var jsFilePath = chrome.extension.getURL('/static/js/main.js');
     styleTag.setAttribute('href',cssFilePath);
     styleTag.rel="stylesheet";
     styleTag.type="text/css";
