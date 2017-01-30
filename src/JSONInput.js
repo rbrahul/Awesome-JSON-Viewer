@@ -15,7 +15,7 @@ class JSONInput extends Component {
                     message: 'Field shouldn\'t be empty'
                 }
             },
-            json: JSON.stringify(props.json)
+            json: JSON.stringify(props.json, null, 4)
         }
     }
 

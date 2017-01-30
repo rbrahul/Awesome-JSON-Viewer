@@ -8,6 +8,7 @@
     "128": "images/icons/icon-128.png"
   },
   "background": {
+    "scripts":[ "static/js/background.js"]
   },
   "permissions": [
     "tabs",
