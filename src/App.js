@@ -11,15 +11,27 @@ class App extends Component {
         super(props);
         this.state = {
             selectedTab: 'tree',
-            json:props.json
+            json: props.json,
+            selectedJSON: props.json
         };
     }
     changeTabSelection(tab) {
         this.setState({selectedTab: tab});
     }
     changeJSON(json) {
-        this.setState({json},() => {
+        this.setState({
+            json,
+            selectedJSON: json
+        },() => {
             this.changeTabSelection('tree');
+        });
+    }
+    changeTargetNodeOnChart(json) {
+        console.warn(json);
+        this.setState({
+            selectedJSON: json
+        },() => {
+         console.log("selected");
         });
     }
     render() {
@@ -33,7 +45,11 @@ class App extends Component {
                     }
                     {
                         this.state.selectedTab === 'chart' &&
-                        <ChartViews data={this.state.json}/>
+                        <ChartViews
+                            rootData = {this.state.json}
+                            data={this.state.selectedJSON}
+                            changeTargetNodeOnChart={this.changeTargetNodeOnChart.bind(this)}
+                        />
                     }
                     {
                         this.state.selectedTab === 'jsonInput' &&
