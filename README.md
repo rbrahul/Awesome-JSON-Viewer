@@ -1,6 +1,8 @@
 ## Awesome JSON 
 A chrome extension to visualize JSON response as well as to introduce awesome prettifying experience.
 
+[Demo on Github page](https://rbrahul.github.io/Awesome-JSON)
+
 ## Features
 + Prettify JSON response
 + Visual representation of response
