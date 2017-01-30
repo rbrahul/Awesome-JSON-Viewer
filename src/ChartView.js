@@ -28,7 +28,7 @@ class ChartView extends Component {
     }
     renderIngChart() {
         const config = {
-            state: this.state.chartData,
+            state: this.props.data,
             rootKeyName: 'response',
             onClickText: (data) => {
                 const targetNode = data;
@@ -49,12 +49,9 @@ class ChartView extends Component {
                     }
                 }
 
-
             } else {
                 hirarchy = this.state.breadcrumbs;
             }
-
-
                 let paths= hirarchy;
                const newNodeData = this.createNewNodeValue(paths);
 
@@ -130,7 +127,7 @@ class ChartView extends Component {
     }
     componentWillReceiveProps(nextProps) {
         this.prepareComponentState(nextProps);
-        this.renderChart(nextProps.data);
+        this.renderChart(nextProps.data || nextProps.state);
 
     }
     prepareComponentState(props) {
@@ -139,7 +136,8 @@ class ChartView extends Component {
         });
     }
 componentDidUpdate() {
-    this.renderIngChart();
+    console.warn("updated");
+   // this.renderIngChart();
 }
     componentDidMount() {
        this.renderIngChart();
