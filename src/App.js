@@ -30,8 +30,6 @@ class App extends Component {
         console.warn(json);
         this.setState({
             selectedJSON: json
-        },() => {
-         console.log("selected");
         });
     }
     render() {

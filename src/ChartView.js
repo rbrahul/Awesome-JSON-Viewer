@@ -11,20 +11,64 @@ class ChartView extends Component {
             chartData: props.data
         };
     }
+    createValidPath(path) {
+        const arrayIndexBracketStartAt = path.lastIndexOf("[");
+        const arrayIndexBracketEndAt = path.lastIndexOf("]");
+        if(arrayIndexBracketStartAt > -1) {
+            let indexPart = path.substring(arrayIndexBracketStartAt+1,arrayIndexBracketEndAt);
+            console.log(indexPart);
+            return indexPart; // return 10 from xyz[10]
+        }
+        return path;
+    }
     createNewNodeValue(depthPath) {
-        let nodeData = this.state.rootState;
+        let nodeData = this.props.data;
         let pathSequence = [...depthPath];
         if(pathSequence.length==1) {
             return this.state.rootState;
         }
         pathSequence.reverse().splice(0,1);
-        pathSequence.forEach((path) => {
+        pathSequence.forEach((path,index) => {
+            console.log("path is :"+path);
+            const arrayIndexBracketStartAt = path.lastIndexOf("[");
+            const arrayIndexBracketEndAt = path.lastIndexOf("]");
+            if(arrayIndexBracketStartAt > -1) {
+                let indexPart = path.substring(arrayIndexBracketStartAt+1,arrayIndexBracketEndAt);
+                console.log(nodeData+" "+indexPart);
+                nodeData= nodeData[indexPart];
+                console.clear();
+                console.group("NODE DATA");
+                console.log(pathSequence);
+                console.info(nodeData);
+                console.groupEnd();
+                return nodeData;
+            }
             nodeData = nodeData[path];
-            console.group("path is "+ path);
+            console.clear();
+            console.log(pathSequence);
+            console.group("NODE DATA");
             console.info(nodeData);
             console.groupEnd();
         });
        return nodeData;
+    }
+    createNewNodeValueFromCurrentState(path, depth) {
+        if(depth == 0) {
+            return this.state.rootState;
+        }
+        const arrayIndexBracketStartAt = path.lastIndexOf("[");
+        const arrayIndexBracketEndAt = path.lastIndexOf("]");
+        if(arrayIndexBracketStartAt > -1) {
+            let indexPart = path.substring(arrayIndexBracketStartAt+1,arrayIndexBracketEndAt);
+              const nodeData= this.props.data[indexPart];
+            console.clear();
+            console.group("NODE DATA");
+            console.info(nodeData);
+            console.groupEnd();
+            return nodeData;
+        } else {
+            return this.props.data[path]
+        }
     }
     renderIngChart() {
         const config = {
@@ -34,7 +78,7 @@ class ChartView extends Component {
                 const targetNode = data;
                 let hirarchy;
                 let updateTargetPath = false;
-                let selectedNodeName= data.name;//data.value || data.object || data.children;
+                let selectedNodeName= this.createValidPath(data.name);//data.value || data.object || data.children;
             if((this.state.breadcrumbs[this.state.breadcrumbs.length-1] !== targetNode.name && targetNode.depth !==1) ||
                 (this.state.breadcrumbs[this.state.breadcrumbs.length-1] !== targetNode.name && targetNode.depth ==1)
             ) {
@@ -42,7 +86,7 @@ class ChartView extends Component {
                  hirarchy = [data.name];
                 while(data.hasOwnProperty('parent')) {
                     if(data.parent.hasOwnProperty('name')) {
-                        hirarchy.push(data.parent.name);
+                        hirarchy.push(this.createValidPath(data.parent.name));
                         data = data.parent;
                     }else {
                         break;
@@ -53,16 +97,15 @@ class ChartView extends Component {
                 hirarchy = this.state.breadcrumbs;
             }
                 let paths= hirarchy;
-               const newNodeData = this.createNewNodeValue(paths);
-
-                console.info("node name is "+ selectedNodeName);
+               const newNodeData = this.createNewNodeValue(paths);// this.createNewNodeValueFromCurrentState(targetNode.name,targetNode.depth);//
+                console.warn(newNodeData);
                 let newNode = {};
-                console.log(targetNode);
                if(targetNode.depth==0){
                    newNode = {...newNodeData};
                 } else {
                    newNode[selectedNodeName] = newNodeData;
                }
+
                 this.props.changeTargetNodeOnChart(newNode);
                 if(updateTargetPath) {
                     this.setState({
@@ -135,11 +178,7 @@ class ChartView extends Component {
             chartData: props.data
         });
     }
-componentDidUpdate() {
-    console.warn("updated");
-   // this.renderIngChart();
-}
-    componentDidMount() {
+componentDidMount() {
        this.renderIngChart();
     }
 
