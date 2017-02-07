@@ -1,6 +1,7 @@
 body {
     background-color: #1C2833;
     color:#fff;
+    font-size: 14px;
 }
 .tab-container {
     margin: 20px;
@@ -89,6 +90,7 @@ body {
 ul.json-dict li {
     width: auto;
     display: block;
+    line-height: 180%;
 }
 .copyable{
     background: rgba(33, 47, 61  ,.8);
