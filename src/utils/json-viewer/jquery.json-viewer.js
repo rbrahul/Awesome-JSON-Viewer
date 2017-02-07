@@ -115,7 +115,7 @@
 
       // Bind click on toggle buttons
       $(this).off('click');
-      $(this).on('click', 'a.json-toggle', function(e) {
+ /*     $(this).on('click', 'a.json-toggle', function(e) {
         e.preventDefault();
         var target = $(this).toggleClass('collapsed').siblings('ul.json-dict, ol.json-array');
         target.toggle();
@@ -128,7 +128,7 @@
           target.after('<a href class="json-placeholder">' + placeholder + '</a>');
         }
        // return false;
-      });
+      });*/
 
       $(this).on('click', 'span.property', function(e) {
         $("li").removeClass("copyable");

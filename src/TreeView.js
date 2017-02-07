@@ -72,9 +72,11 @@ class TreeView extends Component {
     }
     findPath(self,e) {
             var keys=[];
-            e.preventDefault();
-            let spansText= $(e.target).text().replace(/\"+/g,'');
-            let nodes =$(e.target).parentsUntil("#codes");
+         //   e.preventDefault();
+            let keyValueString= $(e.target).parents("li").first().text();
+            let firstIndexOfColone = keyValueString.indexOf(':');
+            let value = keyValueString.substring(firstIndexOfColone+1);
+            let nodes =$(e.target).parentsUntil("#json-rb");
             $(nodes).each(function(i,node) {
 
                 if($(node).get(0).tagName == "LI" && $(node).parent()[0].tagName == "UL") {
@@ -88,11 +90,33 @@ class TreeView extends Component {
                 }
 
             });
-        self.setState({'actualPath':self.createValidPath(keys.reverse())});
+
+        if(value[value.length-1] === ',') {
+            value = value.substring(0,value.length-1);
+        }
+        self.setState({
+            'actualPath':self.createValidPath(keys.reverse()),
+            value
+        });
+    }
+
+    toggleSection(e) {
+            e.preventDefault();
+            var target = $(e.target).toggleClass('collapsed').siblings('ul.json-dict, ol.json-array');
+            target.toggle();
+            if (target.is(':visible')) {
+                target.siblings('.json-placeholder').remove();
+            }
+            else {
+                var count = target.children('li').length;
+                var placeholder = count + (count > 1 ? ' items' : ' item');
+                target.after('<a href class="json-placeholder">' + placeholder + '</a>');
+            }
     }
     componentDidMount() {
         var self = this;
         $(document).on("click", "span.property", this.changeCopyIconLocation.bind(self));
+        $(document).on('click', 'a.json-toggle', this.toggleSection.bind(self));
         this.$node = $(this.refs.jsonRenderer);
         if ($) {
             initPlugin(this.$node, $, this.props.data, {
@@ -103,7 +127,9 @@ class TreeView extends Component {
     }
 
     componentWillUnmount() {
-        $(document).off("click", "span.property", this.changeCopyIconLocation);
+        var self = this;
+        $(document).off("click", "span.property", this.changeCopyIconLocation.bind(self));
+        $(document).off('click', 'a.json-toggle', this.toggleSection.bind(self));
     }
 
     render() {
@@ -115,7 +141,7 @@ class TreeView extends Component {
                         <li><a onClick={this.copy.bind(this,event,'value')}>Copy Value</a></li>
                     </ul>
                 </a>
-             <pre ref="jsonRenderer" id="codes">
+             <pre ref="jsonRenderer" id="json-rb">
               </pre>
             </div>
         );

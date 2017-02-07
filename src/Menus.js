@@ -19,7 +19,6 @@ class Menus extends Component {
     this.prepareComponentState(nextProps);
 }
     prepareComponentState(props) {
-        console.log(props)
         this.setState({
             selectedPan:props.selectedTab
         });

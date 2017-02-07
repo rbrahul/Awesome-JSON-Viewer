@@ -27,7 +27,6 @@ class App extends Component {
         });
     }
     changeTargetNodeOnChart(json) {
-        console.warn(json);
         this.setState({
             selectedJSON: json
         });
