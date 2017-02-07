@@ -20,7 +20,7 @@ let json = {
 window.addEventListener("DOMContentLoaded", function () {
     const content = document.body.textContent;
     try {
-        const json = JSON.parse(content);
+        const json = window.json = JSON.parse(content);
         let root = document.createElement("div");
         root.setAttribute("id", "rbrahul-awesome-json");
         document.body.innerHTML = "";

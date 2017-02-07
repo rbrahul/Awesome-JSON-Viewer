@@ -8,7 +8,8 @@ class ChartView extends Component {
         this.state = {
             breadcrumbs: ['response'],
             rootState: props.rootData,
-            chartData: props.data
+            chartData: props.data,
+            positionTop: window.innerHeight/2
         };
     }
 
@@ -17,7 +18,6 @@ class ChartView extends Component {
         const arrayIndexBracketEndAt = path.lastIndexOf("]");
         if (arrayIndexBracketStartAt > -1) {
             let indexPart = path.substring(arrayIndexBracketStartAt + 1, arrayIndexBracketEndAt);
-            console.log(indexPart);
             return indexPart; // return 10 from xyz[10]
         }
         return path;
@@ -31,49 +31,40 @@ class ChartView extends Component {
         }
         pathSequence.reverse().splice(0, 1);
         pathSequence.forEach((path, index) => {
-            console.log("path is :" + path);
             const arrayIndexBracketStartAt = path.lastIndexOf("[");
             const arrayIndexBracketEndAt = path.lastIndexOf("]");
             if (arrayIndexBracketStartAt > -1) {
                 let indexPart = path.substring(arrayIndexBracketStartAt + 1, arrayIndexBracketEndAt);
-                console.log(nodeData + " " + indexPart);
                 nodeData = nodeData[indexPart];
-                console.clear();
-                console.group("NODE DATA");
-                console.log(pathSequence);
-                console.info(nodeData);
-                console.groupEnd();
                 return nodeData;
             }
             nodeData = nodeData[path];
-            console.clear();
-            console.log(pathSequence);
-            console.group("NODE DATA");
-            console.info(nodeData);
-            console.groupEnd();
         });
         return nodeData;
     }
-
-    createNewNodeValueFromCurrentState(path, depth) {
-        if (depth == 0) {
-            return this.state.rootState;
-        }
-        const arrayIndexBracketStartAt = path.lastIndexOf("[");
-        const arrayIndexBracketEndAt = path.lastIndexOf("]");
-        if (arrayIndexBracketStartAt > -1) {
-            let indexPart = path.substring(arrayIndexBracketStartAt + 1, arrayIndexBracketEndAt);
-            const nodeData = this.props.data[indexPart];
-            console.clear();
-            console.group("NODE DATA");
-            console.info(nodeData);
-            console.groupEnd();
-            return nodeData;
-        } else {
-            return this.props.data[path]
-        }
+    generateDataFromBreadcumb(breadcumbs) {
+        let currentData = this.state.rootState;
+          breadcumbs.forEach((item,index) => {
+             currentData = currentData[item];
+         });
+        return currentData;
     }
 
+    gotToChart(index) {
+         let breadcumbs = this.state.breadcrumbs.slice(1,index+1);
+         const chartData= this.generateDataFromBreadcumb(breadcumbs);
+        let newNode = {};
+        if (index === 0) {
+            newNode = { ...chartData };
+        } else {
+            newNode[breadcumbs[breadcumbs.length-1]] = chartData;
+        }
+
+        this.setState({
+            'breadcrumbs': this.state.breadcrumbs.slice(0,index+1)
+        });
+        this.props.changeTargetNodeOnChart(newNode);
+    }
     renderIngChart() {
         const config = {
             state: this.props.data,
@@ -101,8 +92,7 @@ class ChartView extends Component {
                     hirarchy = this.state.breadcrumbs;
                 }
                 let paths = hirarchy;
-                const newNodeData = this.createNewNodeValue(paths);// this.createNewNodeValueFromCurrentState(targetNode.name,targetNode.depth);//
-                console.warn(newNodeData);
+                const newNodeData = this.createNewNodeValue(paths);
                 let newNode = {};
                 if (targetNode.depth == 0) {
                     newNode = { ...newNodeData };
@@ -112,7 +102,6 @@ class ChartView extends Component {
 
                 this.props.changeTargetNodeOnChart(newNode);
                 if (updateTargetPath) {
-                    let lastNodePathName;
                     if (targetNode.depth === 0) {
                         this.setState({
                             'breadcrumbs': ['response']
@@ -137,7 +126,7 @@ class ChartView extends Component {
             aspectRatio: 0.8,
             isSorted: false,
             margin: {
-                top: 40,
+                top: 50,
                 left: 100
             },
             widthBetweenNodesCoeff: 1.5,
@@ -210,7 +199,7 @@ class ChartView extends Component {
                 <div className="breadcumb">
                     <ul>{
                         this.state.breadcrumbs.map((item, i) => {
-                            return <li key={i}><a> {item} </a></li>
+                            return <li key={i} ><a href="#" onClick={this.gotToChart.bind(this, i)}> {item} </a></li>
                         })
                     }
                     </ul>

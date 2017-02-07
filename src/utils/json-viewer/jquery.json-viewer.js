@@ -115,7 +115,8 @@
 
       // Bind click on toggle buttons
       $(this).off('click');
-      $(this).on('click', 'a.json-toggle', function() {
+      $(this).on('click', 'a.json-toggle', function(e) {
+        e.preventDefault();
         var target = $(this).toggleClass('collapsed').siblings('ul.json-dict, ol.json-array');
         target.toggle();
         if (target.is(':visible')) {
@@ -126,9 +127,14 @@
           var placeholder = count + (count > 1 ? ' items' : ' item');
           target.after('<a href class="json-placeholder">' + placeholder + '</a>');
         }
-        return false;
+       // return false;
       });
 
+      $(this).on('click', 'span.property', function(e) {
+        $("li").removeClass("copyable");
+        $(this).parents("li").first().addClass("copyable");
+      //  return false;
+      });
       // Simulate click on toggle button when placeholder is clicked
       $(this).on('click', 'a.json-placeholder', function() {
         $(this).siblings('a.json-toggle').click();

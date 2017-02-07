@@ -2,7 +2,7 @@
 ul.json-dict, ol.json-array {
   list-style-type: none;
   margin: 0 0 0 1px;
-  border-left: 1px dotted #ccc;
+  border-left: 1px dotted #5D6D7E;
   padding-left: 2em;
 }
 .json-string {

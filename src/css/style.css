@@ -1,5 +1,5 @@
 body {
-    background-color: #171717;
+    background-color: #1C2833;
     color:#fff;
 }
 .tab-container {
@@ -38,6 +38,7 @@ body {
     background-color: #222;
     border-right: none;
     border-left: none;
+    cursor:pointer;
 }
 
 .breadcumb > ul > li:last-child > a{
@@ -49,6 +50,7 @@ body {
 .breadcumb > ul > li> a::after{
     content: "\25B6"; /* left arrow */
     color: #7C4BDE;
+    cursor: auto;
 }
 .breadcumb > ul > li:last-child> a::after {
     content: ""; /* no arrow after last child*/
@@ -84,17 +86,31 @@ body {
 .action-area > ul.menus > li.active > a{
     background-color: #7C4BDE;
 }
+ul.json-dict li {
+    width: auto;
+    display: block;
+}
+.copyable{
+    background: rgba(33, 47, 61  ,.8);
+    width: auto;
+    border: 1px dotted #5D6D7E;
+}
+.copyable>ul.json-dict, .copyable > ol.json-array {
+    border-left:none;
+}
 .property{
-    color:#3DAAE0;
+    color:#4FDEE5;/*#3DAAE0;*/
+    line-height: 160%;
+    font-weight: bold;
 }
 .json-literal-numeric{
-    color:#D85417;
+    color:#F5B041;
 }
 .json-literal-string{
     color:#01ff70;
 }
 .json-literal-boolean{
-    color:#7C4BDE;
+    color: #AF7AC5;
 }
 .nodeCircle{
     fill: #01ff70;
@@ -182,4 +198,77 @@ textarea:focus {
     margin: 0 auto;
     margin-bottom: 20px;
     box-shadow: 0 7px 7px 0 #111;
+}
+.copier {
+    background: #2ECC71;
+    padding: 5px;
+    display: none;
+    background-image: url('../../public/images/icons/copy.png');
+    background-repeat: no-repeat;
+    top:10px;
+    left:10px;
+    width:10px;
+    height:10px;
+    position: absolute;
+    z-index: 1001;
+    background-size: contain;
+    border:3px solid #2ECC71;
+}
+
+
+ul.copyMenu{
+    left:30px;
+    top:-20px;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    z-index: 1001;
+    display: none;
+    border:1px solid #222;
+}
+.copier:hover >  ul.copyMenu{
+    display: block;
+}
+ul.copyMenu::before{
+    width:20px;
+    height: 20px;
+    content: '';
+    transform: rotate(45deg);
+    background: #111;
+    position: absolute;
+    top: 4px;
+    left: -10px;
+    z-index: -100;
+    border:1px solid #222;
+}
+
+ul.copyMenu{
+    box-shadow: 0 5px 10px 0 rgba(6,6,6,.8);
+}
+ul.copyMenu> li > a{
+    background: #111;
+    color:#2ECC71;
+    font-size:12px;
+    font-weight: bold;
+    width: 100px;
+    padding:6px 8px;
+    border-bottom:1px solid #222;
+    display: block;
+    cursor: pointer;
+
+}
+ul.copyMenu> li:first-child {
+    border-radius: 4px 4px 0 0;
+}
+ul.copyMenu> li:last-child {
+    border-radius:0 0 4px 4px ;
+}
+
+ul.copyMenu> li:last-child > a{
+    border-bottom: none;
+}
+
+ul.copyMenu> li > a:hover {
+    background: #2ECC71;
+    color:#111;
 }
