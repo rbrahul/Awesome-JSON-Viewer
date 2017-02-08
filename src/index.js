@@ -21,6 +21,7 @@ window.addEventListener("DOMContentLoaded", function () {
     const content = document.body.textContent;
     try {
         const json = window.json = JSON.parse(content);
+        window.json = json;
         let root = document.createElement("div");
         root.setAttribute("id", "rbrahul-awesome-json");
         document.body.innerHTML = "";
