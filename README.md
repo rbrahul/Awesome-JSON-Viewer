@@ -1,4 +1,4 @@
-## Awesome JSON 
+## Awesome JSON Viewer
 A chrome extension to visualize JSON response as well as to introduce awesome prettifying experience.
 
 [Get it from Chrome Store](https://chrome.google.com/webstore/detail/awesome-json/iemadiahhbebdklepanmkjenfdebfpfe)
