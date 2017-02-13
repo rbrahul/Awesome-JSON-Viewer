@@ -9,6 +9,7 @@ import './css/style.css';
 class App extends Component {
     constructor(props) {
         super(props);
+        window.json = props.json;
         this.state = {
             selectedTab: 'tree',
             json: props.json,
@@ -23,6 +24,7 @@ class App extends Component {
             json,
             selectedJSON: json
         },() => {
+            window.json = json;
             this.changeTabSelection('tree');
         });
     }
@@ -32,6 +34,7 @@ class App extends Component {
         });
     }
     render() {
+        window.json = this.state.json;
         return (
             <div className="App">
                 <Menus changeTabSelection={this.changeTabSelection.bind(this)} selectedTab={this.state.selectedTab}/>

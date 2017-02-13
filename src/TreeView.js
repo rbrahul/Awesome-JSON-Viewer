@@ -13,7 +13,9 @@ class TreeView extends Component {
             showCopier: false,
             actualPath: null,
             value: null
-        }
+        };
+        this.changeCopyIconLocation = this.changeCopyIconLocation.bind(this);
+        this.toggleSection = this.toggleSection.bind(this);
     }
 
     copy(event,type) {
@@ -40,10 +42,12 @@ class TreeView extends Component {
     changeCopyIconLocation(e) {
         const self = this;
         this.findPath(self,e);
+        console.log(self);
         self.setState({
             top: $(e.target).offset().top,
             showCopier: true
-        })
+        });
+        return false;
     }
     getArrayIndex(path) {
         const arrayIndexBracketStartAt = path.lastIndexOf("[");
@@ -114,22 +118,22 @@ class TreeView extends Component {
             }
     }
     componentDidMount() {
-        var self = this;
-        $(document).on("click", "span.property", this.changeCopyIconLocation.bind(self));
-        $(document).on('click', 'a.json-toggle', this.toggleSection.bind(self));
+
+        window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
         if ($) {
             initPlugin(this.$node, $, this.props.data, {
                 collapsed: false,
                 withQuotes: true
             });
+            $(document).on("click", "span.property",  this.changeCopyIconLocation);
+            $(document).on("click", "a.json-toggle", this.toggleSection);
         }
     }
 
     componentWillUnmount() {
-        var self = this;
-        $(document).off("click", "span.property", this.changeCopyIconLocation.bind(self));
-        $(document).off('click', 'a.json-toggle', this.toggleSection.bind(self));
+        $(document).off("click", "span.property", this.changeCopyIconLocation);
+        $(document).off("click", "a.json-toggle", this.toggleSection);
     }
 
     render() {

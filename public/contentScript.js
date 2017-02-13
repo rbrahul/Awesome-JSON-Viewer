@@ -25,7 +25,8 @@ function initApplication() {
 function isJSONResponsePageOnly() {
     var content = document.body.textContent;
     try {
-        JSON.parse(content);
+        var jsonData = JSON.parse(content);
+        window.jsonData = jsonData;
         return true;
     }catch(e) {
         return false;
@@ -35,6 +36,7 @@ function isJSONResponsePageOnly() {
 document.onreadystatechange = function () {
     if (document.readyState === "interactive") {
         if(isJSONResponsePageOnly()) {
+            console.log('%cWrite %c\'json\' and hit Enter to debug response:\n','color:#0cf;font-size:22px;' 'color:#fff;font-weight:bold,font-size:22px;');
             initApplication();
         }
     }
