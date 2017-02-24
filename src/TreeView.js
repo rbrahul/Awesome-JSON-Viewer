@@ -42,7 +42,6 @@ class TreeView extends Component {
     changeCopyIconLocation(e) {
         const self = this;
         this.findPath(self,e);
-        console.log(self);
         self.setState({
             top: $(e.target).offset().top,
             showCopier: true
@@ -118,7 +117,6 @@ class TreeView extends Component {
             }
     }
     componentDidMount() {
-
         window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
         if ($) {
@@ -137,6 +135,7 @@ class TreeView extends Component {
     }
 
     render() {
+        window.json = this.props.data;
         return (
             <div>
                 <a className="copier" style={ {top : this.state.top, display: this.state.showCopier ? 'block':'none'} }>

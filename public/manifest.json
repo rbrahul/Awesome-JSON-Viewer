@@ -1,8 +1,8 @@
 {
-  "name": "Awesome JSON Viewer",
+  "name": "JSON Viewer Awesome",
   "short_name": "JSON Viewer",
   "offline_enabled": true,
-  "version": "1.0.4",
+  "version": "1.0.6",
   "manifest_version": 2,
   "icons": {
     "16": "images/icons/icon-16.png",

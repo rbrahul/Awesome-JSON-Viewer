@@ -35,6 +35,7 @@ class App extends Component {
     }
     render() {
         window.json = this.state.json;
+        console.log('%cWrite %cjson %cand hit Enter to debug response:\n','color:#0cf;font-size:22px;', 'color:#fff;font-weight:bold;font-size:22px;', 'color:#0cf;font-size:22px;');
         return (
             <div className="App">
                 <Menus changeTabSelection={this.changeTabSelection.bind(this)} selectedTab={this.state.selectedTab}/>

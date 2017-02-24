@@ -36,7 +36,6 @@ function isJSONResponsePageOnly() {
 document.onreadystatechange = function () {
     if (document.readyState === "interactive") {
         if(isJSONResponsePageOnly()) {
-            console.log('%cWrite %c\'json\' and hit Enter to debug response:\n','color:#0cf;font-size:22px;' 'color:#fff;font-weight:bold,font-size:22px;');
             initApplication();
         }
     }
