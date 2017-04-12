@@ -23,7 +23,7 @@ function initApplication() {
 };
 
 function isJSONResponsePageOnly() {
-    var content = document.body.textContent;
+    var content = document.body.textContent.trim();
     try {
         var jsonData = JSON.parse(content);
         window.jsonData = jsonData;
