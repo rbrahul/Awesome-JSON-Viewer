@@ -12,6 +12,7 @@
   "background": {
     "scripts":[ "static/js/background.js"]
   },
+   "options_page": "options.html",
   "permissions": [
     "tabs",
     "activeTab"

@@ -49,5 +49,3 @@ exec("rm -f "+__dirname+"/build/static/css/main*.css.map ", function (error, std
         console.log("Main*.css.map file has been deleted successfully");
     }
 });
-
-
