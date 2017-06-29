@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
   <link rel="stylesheet" href="css/options.css">
-
-    <style type="text/css">
-        a.brand-logo {
-            font-size: 20px;
-            margin-left: 15px;
-        }
-    </style>
+<link rel="stylesheet" href="code-mirror/codemirror.css">
+<link rel="stylesheet" href="code-mirror/hint/show-hint.css">
+<link rel="stylesheet" href="code-mirror/theme/dracula.css">
 </head>
-
 <body>
     <nav>
         <div class="nav-wrapper">
@@ -40,7 +34,11 @@
 
                     <div class="form-item">
                          <label>Custom css</label>
-                        <textarea class="form-control"> am a very simple card. I am good at containing small bits of information. I am convenient because require little markup to use effectively.</textarea>
+                        <textarea class="form-control" id="code">/*You may write your own css here */
+body {
+
+}
+</textarea>
                      </div>
 
                        <div class="form-item">
@@ -52,6 +50,17 @@
         </div>
     </div>
 
+<script src="code-mirror/codemirror.js"></script>
+<script  src="code-mirror/mode/css/css.js"></script>
+<script src="code-mirror/hint/show-hint.js"></script>
+<script src="code-mirror/hint/css-hint.js"></script>
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    lineNumbers: true,
+    mode: 'css',
+    extraKeys: {"Ctrl-Space": "autocomplete"},
+    theme: 'dracula'
+  });
+</script>
 </body>
-
 </html>
