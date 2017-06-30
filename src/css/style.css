@@ -2,7 +2,11 @@ body {
     background-color: #1C2833;
     color:#fff;
     font-size: 14px;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
+
 .tab-container {
     margin: 20px;
     margin-left: 40px;
@@ -61,7 +65,7 @@ body {
     width: auto;
     position: fixed;
     top:20px;
-    right: 20px;
+    right: 75px;
 }
 .action-area>ul.menus {
     margin:0;
@@ -82,6 +86,7 @@ body {
     font-size: 12px;
     background-color: #17202A;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .action-area > ul.menus > li.active > a{
@@ -273,4 +278,26 @@ ul.copyMenu> li:last-child > a{
 ul.copyMenu> li > a:hover {
     background: #2ECC71;
     color:#111;
+}
+
+a.option-menu {
+position: absolute;
+top:18px; right:20px;
+border-radius: 50px;
+border: 2px solid #16456f;
+z-index: 10001;
+text-align: center;
+display: table-cell;
+vertical-align: middle;
+width: 38px; height: 38px;
+padding-bottom:20px;
+cursor: pointer;
+text-decoration: none;
+position: fixed;
+}
+
+a.option-menu img {
+    margin-top:3px;
+    display: none;
+    margin-left: 3px;
 }

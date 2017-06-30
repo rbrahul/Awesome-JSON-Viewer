@@ -37,6 +37,9 @@
   },
   "web_accessible_resources": [
     "/static/js/main.js",
-    "static/css/main.css"
+    "static/css/main.css",
+    "static/css/themes/mdn.css",
+    "options.html",
+    "images/icons/gear.png"
   ]
 }

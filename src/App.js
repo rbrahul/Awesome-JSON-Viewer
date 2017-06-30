@@ -3,7 +3,6 @@ import Menus from './Menus';
 import TreeView from './TreeView';
 import ChartViews from './ChartView.js';
 import JSONInput from './JSONInput.js';
-import './css/App.css';
 import './css/style.css';
 
 class App extends Component {
@@ -35,7 +34,8 @@ class App extends Component {
     }
     render() {
         window.json = this.state.json;
-        console.log('%cWrite %cjson %cand hit Enter to debug response:\n','color:#0cf;font-size:22px;', 'color:#fff;font-weight:bold;font-size:22px;', 'color:#0cf;font-size:22px;');
+        console.log("CUSTOME OPTIONS ARE", window.extensionOptions);
+        console.log('%cWrite %cjson %cand hit Enter to debug response:\n','color:#0cf;font-size:22px;', 'color:#000;font-weight:bold;font-size:22px;', 'color:#0cf;font-size:22px;');
         return (
             <div className="App">
                 <Menus changeTabSelection={this.changeTabSelection.bind(this)} selectedTab={this.state.selectedTab}/>
@@ -61,6 +61,7 @@ class App extends Component {
                     }
 
                 </div>
+                <a href={window.optionPageURL} target="_blank" className='option-menu' id="option-menu" title="Options" style={{padding: '0px'}}><img id="option-menu-icon" src="images/icons/gear.png"/></a>
             </div>
         );
     }

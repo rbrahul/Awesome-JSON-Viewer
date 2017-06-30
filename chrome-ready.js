@@ -16,6 +16,14 @@ var fs =require("fs");
     }
 });
 
+exec("mkdir "+__dirname+"/build/static/css/themes", function (error, stdout, stderr) {
+    if (error !== null) {
+        console.log('exec error: ' + error);
+    } else {
+        console.log("Created static/css/themes");
+    }
+});
+
 exec("mv "+__dirname+"/build/static/css/main*.css "+__dirname+"/build/static/css/main.css", function (error, stdout, stderr) {
     if (error !== null) {
         console.log('exec error: ' + error);
@@ -60,13 +68,7 @@ exec("mv "+__dirname+"/build/css/*.css "+__dirname+"/build/static/css", function
     }
 });
 
-exec("mkdir "+__dirname+"/build/static/css/themes", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Created static/css/themes");
-    }
-});
+
 
 exec("mv "+__dirname+"/build/css/themes/*.css "+__dirname+"/build/static/css/themes", function (error, stdout, stderr) {
     if (error !== null) {

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-  <link rel="stylesheet" href="css/options.css">
-<link rel="stylesheet" href="code-mirror/codemirror.css">
-<link rel="stylesheet" href="code-mirror/hint/show-hint.css">
-<link rel="stylesheet" href="code-mirror/theme/dracula.css">
+    <link rel="stylesheet" href="static/css/options.css">
+    <link rel="stylesheet" href="code-mirror/codemirror.css">
+    <link rel="stylesheet" href="code-mirror/hint/show-hint.css">
+    <link rel="stylesheet" href="code-mirror/theme/dracula.css">
 </head>
+
 <body>
     <nav>
         <div class="nav-wrapper">
@@ -23,44 +25,44 @@
                 <div class="card-content">
                     <h4 class="title">Settings</h4>
                     <div class="form-item">
-                        <label>Materialize Select</label>
-                        <select class="form-control">
+                        <label>Select Theme</label>
+                        <select class="form-control" id="theme">
                             <option value="" disabled selected>Choose your theme</option>
-                            <option value="1">Dark</option>
-                            <option value="2">White</option>
+                            <option value="default">Default dark</option>
+                            <option value="mdn">MDN Like(White)</option>
                         </select>
-                      
+
                     </div>
 
                     <div class="form-item">
-                         <label>Custom css</label>
+                        <label>Custom css</label>
                         <textarea class="form-control" id="code">/*You may write your own css here */
 body {
 
 }
 </textarea>
-                     </div>
+                    </div>
+                    <div class="form-item">
+                        <label>Auto collapse Child Items <input type="checkbox" id="collapsed"/></label>
+                    </div>
 
-                       <div class="form-item">
-                           <a href="" class="btn info">Save Changes</a>
-                            <a href="" class="btn default">Restore Default</a>
-                        </div>
+                    <div class="form-item">
+                        <a href="" id="save-options" class="btn info">Save Changes</a>
+                        <a href="" id="reset-options" class="btn default">Restore Default</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-<script src="code-mirror/codemirror.js"></script>
-<script  src="code-mirror/mode/css/css.js"></script>
-<script src="code-mirror/hint/show-hint.js"></script>
-<script src="code-mirror/hint/css-hint.js"></script>
-<script>
-  var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-    lineNumbers: true,
-    mode: 'css',
-    extraKeys: {"Ctrl-Space": "autocomplete"},
-    theme: 'dracula'
-  });
-</script>
+    <script src="code-mirror/codemirror.js"></script>
+    <script src="code-mirror/mode/css/css.js"></script>
+    <script src="code-mirror/hint/show-hint.js"></script>
+    <script src="code-mirror/hint/css-hint.js"></script>
+    <script src="static/js/options.js"></script>
+    <script>
+
+    </script>
 </body>
+
 </html>
