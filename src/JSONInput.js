@@ -89,7 +89,7 @@ resetErrors() {
                 <div className="json-logo">
                     <span>{'{..}'}</span>
                 </div>
-                <h1>JSON formated text</h1>
+                <h1>JSON formatted text</h1>
 
                 {
                     this.state.errors.jsonParseFailed.status &&
