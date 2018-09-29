@@ -1,0 +1,33 @@
+lightGreen = #dcfae3
+lightGrey = #72777d
+darkGrey = #1d1d1d
+
+borderStyle = 1px solid darkGrey
+
+table
+  border-spacing 0
+  color darkGrey
+
+tr
+  margin 1px 0
+
+tr:last-of-type > td,
+tr:last-of-type > th
+  border-bottom borderStyle
+th
+  background white
+
+th.json-empty
+  font-style italic
+
+th, td
+  padding 0.5rem 1rem
+  border-top borderStyle
+  border-left borderStyle
+
+td
+  border-right borderStyle
+  background lightGrey
+
+td.value
+  background lightGreen

@@ -1,0 +1,30 @@
+table {
+  border-spacing: 0;
+  color: #1d1d1d;
+}
+tr {
+  margin: 1px 0;
+}
+tr:last-of-type > td,
+tr:last-of-type > th {
+  border-bottom: 1px solid #1d1d1d;
+}
+th {
+  background: #fff;
+}
+th.json-empty {
+  font-style: italic;
+}
+th,
+td {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #1d1d1d;
+  border-left: 1px solid #1d1d1d;
+}
+td {
+  border-right: 1px solid #1d1d1d;
+  background: #72777d;
+}
+td.value {
+  background: #dcfae3;
+}
