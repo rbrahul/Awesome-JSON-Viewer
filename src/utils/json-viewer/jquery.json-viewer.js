@@ -26,7 +26,7 @@ function json2html(json, options) {
     // Escape tags
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     if (isUrl(json))
-      html += '<a href="' + json + '" class="json-literal-string">"' + json + '"</a>';
+      html += '<a href="' + json + '" class="json-literal-url">"' + json + '"</a>';
     else
       html += '<span class="json-literal-string">"' + json + '"</span>';
   }

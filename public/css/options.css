@@ -7,21 +7,27 @@ body {
     color:#222;
 }
 h1, h2, h3, h4, h5, h6 {
-    line-height: 100%;
+    line-height: 1.8;
     margin:10px 0px;
     color: #464a4c;
+
 }
 h1 {
-    font-size:32px;
+    font-size:34px;
 }
 h2 {
-    font-size:28px;
+    font-size:30px;
 }
 h3 {
-    font-size:24px;
+    font-size:26px;
 }
 h4 {
-    font-size:20px;
+    font-size:22px;
+}
+
+.wrapper-area{
+    margin: 0 auto;
+    margin-top: 40px;
 }
 nav {
     margin:0;
@@ -43,7 +49,7 @@ a.brand-logo {
 .form-control {
     display: block;
     width: 100%;
-    padding: .5rem .75rem;
+    padding: 10px 15px;
     font-size: 1rem;
     line-height: 1.25;
     color: #464a4c;
@@ -70,6 +76,8 @@ select {
     border-style: solid;
     border-color: initial;
     border-image: initial;
+    padding: 10px 15px;
+    height: 45px;
 }
 .row {
     margin: 0px;
@@ -81,8 +89,8 @@ select {
 
 .card {
     width: 100%;
-    padding:10px;
-    margin:10px;
+    padding:30px;
+    margin-bottom: 20px;
     box-sizing: border-box;
     box-shadow: 0 2px 5px 2px rgba(160,160,160,.15);
     border-top: 1px solid rgba(160,160,160,0.2);
@@ -90,6 +98,8 @@ select {
 }
 .card .title {
     color: #464a4c;
+    text-transform: uppercase;
+    margin-bottom: 30px;
 }
 
 label {
@@ -100,7 +110,7 @@ label {
     margin-bottom:10px;
 }
 .form-item {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     display: block;
 }
 textarea {
@@ -111,7 +121,7 @@ textarea {
 }
 
 .btn {
-    padding: 10px 15px;
+    padding: 15px 20px;
     width: auto;
     display: inline-block;
     border-radius: 3px;
@@ -120,6 +130,8 @@ textarea {
     outline: none;
     font-size: 14px;
     font-weight: 500;
+    text-transform: uppercase;
+    margin-right: 15px;
 }
 
 .info {

@@ -54,7 +54,7 @@ class App extends Component {
                     }
                     {
                         this.state.selectedTab === 'jsonInput' &&
-                        <JSONInput
+                        <JSONInput  
                             json={this.state.json}
                             changeJSON={this.changeJSON.bind(this)}
                         />
