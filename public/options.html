@@ -28,7 +28,7 @@
                         <label>Select Theme</label>
                         <select class="form-control" id="theme">
                             <option value="" disabled selected>Choose your theme</option>
-                            <option value="default">Default dark</option>
+                            <option value="default">Default (Dark)</option>
                             <option value="mdn">MDN Like(White)</option>
                         </select>
 
@@ -38,7 +38,22 @@
                         <label>Custom css</label>
                         <textarea class="form-control" id="code">/*You may write your own css here */
 body {
-
+/*background-color:white*/
+}
+.property{
+    /*color:#994c9e;*/
+}
+.json-literal-numeric{
+    /*color:#F5B041;*/
+}
+.json-literal-url {
+    /*color: #34a632;*/
+}
+.json-literal-string{
+    /*color:#0642b0;*/
+}
+.json-literal-boolean{
+    /*color: #f23ebb;*/
 }
 </textarea>
                     </div>
@@ -60,11 +75,6 @@ body {
     <script src="code-mirror/hint/show-hint.js"></script>
     <script src="code-mirror/hint/css-hint.js"></script>
     <script src="static/js/options.js"></script>
-    <script>
-
-
-
-    </script>
 </body>
 
 </html>

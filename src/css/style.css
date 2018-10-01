@@ -121,7 +121,7 @@ ul.json-dict li {
     color:#0184ff;
 }
 
-.json-literal-boolean{
+.json-literal-boolean, .json-literal {
     color: #AF7AC5;
 }
 .nodeCircle{
@@ -149,7 +149,7 @@ ul.json-dict li {
 .json-input{
     box-sizing: border-box;
     width: 100%;
-    height:350px;
+    height:450px;
     background-color: #17202A;
     border: none;
     border-bottom: 1px solid #363537;

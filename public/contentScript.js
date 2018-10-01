@@ -48,7 +48,6 @@ const applyOptions = (options) => {
     document.getElementById('custom-css').innerHTML = options.css;
     customScriptNode.innerHTML = 'window.extensionOptions = ' + JSON.stringify(options, null, 2);
     setTimeout((options) => {
-        console.log('OPTION', options);
         document.getElementById('option-menu').setAttribute('href', options.optionPageURL);
         document.getElementById('option-menu-icon').setAttribute('src', options.optionIconURL);
         document.getElementById('option-menu-icon').style.display = 'block';
@@ -57,7 +56,6 @@ const applyOptions = (options) => {
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
-        console.log(message);
         switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;
@@ -75,8 +73,7 @@ messageReceiver();
 function isJSONResponsePageOnly() {
     var content = document.body.textContent.trim();
     try {
-        var jsonData = JSON.parse(content);
-        window.jsonData = jsonData;
+        JSON.parse(content);
         return true;
     } catch (e) {
         return false;
@@ -86,7 +83,6 @@ function isJSONResponsePageOnly() {
 document.onreadystatechange = function () {
     if (document.readyState === "interactive") {
         if (isJSONResponsePageOnly()) {
-            console.log('requesting');
             chrome.runtime.sendMessage({ action: 'give_me_options' });
             initApplication();
         }
