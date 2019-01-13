@@ -36,14 +36,12 @@ class TreeView extends Component {
         selection.addRange(selRange);
         document.execCommand("Copy");
         document.body.removeChild(selElement);
-        this.showCopier = false;
-        this.render();
+        this.setState({showCopier: false});
     }
 
     changeCopyIconLocation(e) {
         const self = this;
         this.findPath(self, e);
-        console.log('I am ');
         self.setState({
             top: $(e.target).offset().top,
             showCopier: true
@@ -121,7 +119,6 @@ class TreeView extends Component {
     componentDidMount() {
         window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
-        console.log('component is up babe');
         if ($) {
             const pluginOptions = {
                 collapsed: false,
@@ -149,7 +146,6 @@ class TreeView extends Component {
     }
 
     render() {
-        console.log("Current copier status: " + this.showCopier);
         window.json = this.props.data;
         return (
             <div>
