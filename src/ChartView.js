@@ -26,7 +26,7 @@ class ChartView extends Component {
     createNewNodeValue(depthPath) {
         let nodeData = this.props.data;
         let pathSequence = [...depthPath];
-        if (pathSequence.length == 1) {
+        if (pathSequence.length === 1) {
             return this.state.rootState;
         }
         pathSequence.reverse().splice(0, 1);
@@ -75,7 +75,7 @@ class ChartView extends Component {
                 let updateTargetPath = false;
                 let selectedNodeName = this.createValidPath(data.name);//data.value || data.object || data.children;
                 if ((this.state.breadcrumbs[this.state.breadcrumbs.length - 1] !== targetNode.name && targetNode.depth !== 1) ||
-                    (this.state.breadcrumbs[this.state.breadcrumbs.length - 1] !== targetNode.name && targetNode.depth == 1)
+                    (this.state.breadcrumbs[this.state.breadcrumbs.length - 1] !== targetNode.name && targetNode.depth === 1)
                 ) {
                     updateTargetPath = true;
                     hirarchy = [data.name];
@@ -94,7 +94,7 @@ class ChartView extends Component {
                 let paths = hirarchy;
                 const newNodeData = this.createNewNodeValue(paths);
                 let newNode = {};
-                if (targetNode.depth == 0) {
+                if (targetNode.depth === 0) {
                     newNode = { ...newNodeData };
                 } else {
                     newNode[selectedNodeName] = newNodeData;

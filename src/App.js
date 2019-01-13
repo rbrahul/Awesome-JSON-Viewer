@@ -57,7 +57,7 @@ class App extends Component {
                     {
                         this.state.selectedTab === 'chart' &&
                         <ChartViews
-                            rootData = {this.state.json}
+                            rootData={this.state.json}
                             data={this.state.selectedJSON}
                             changeTargetNodeOnChart={this.changeTargetNodeOnChart.bind(this)}
                         />
@@ -71,7 +71,7 @@ class App extends Component {
                     }
 
                 </div>
-                <a href={window.optionPageURL} target="_blank" className='option-menu' id="option-menu" title="Options" style={{padding: '0px'}}><img id="option-menu-icon" src="images/icons/gear.png"/></a>
+                <a href={window.optionPageURL} target="_blank" className='option-menu' id="option-menu" title="Options" style={{padding: '0px'}}><img role="presentation" id="option-menu-icon" src="images/icons/gear.png"/></a>
             </div>
         );
     }
