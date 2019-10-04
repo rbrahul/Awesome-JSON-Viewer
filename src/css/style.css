@@ -66,6 +66,7 @@ body {
     position: fixed;
     top:20px;
     right: 75px;
+    user-select: none;
 }
 .action-area>ul.menus {
     margin:0;
