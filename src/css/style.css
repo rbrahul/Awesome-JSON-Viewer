@@ -64,7 +64,7 @@ body {
 .action-area{
     width: auto;
     position: fixed;
-    top:20px;
+    bottom:20px;
     right: 75px;
     user-select: none;
 }
