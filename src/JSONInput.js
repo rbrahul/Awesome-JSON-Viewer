@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { initPlugin } from './utils/json-viewer/jquery.json-viewer.js';
 
 class JSONInput extends Component {
     constructor(props) {
@@ -30,7 +29,7 @@ class JSONInput extends Component {
                         ...this.state.errors,
                         rawJSON: {
                             ...this.state.errors.rawJSON,
-                            ... {
+                            ...{
                                 status: true
                             }
                         }
@@ -51,7 +50,7 @@ class JSONInput extends Component {
                         ...this.state.errors,
                         jsonParseFailed: {
                             ...this.state.errors.jsonParseFailed,
-                            ... {
+                            ...{
                                 status: true
                             }
                         }
@@ -69,13 +68,13 @@ resetErrors() {
                 ...this.state.errors,
                 jsonParseFailed: {
                     ...this.state.errors.jsonParseFailed,
-                    ... {
+                    ...{
                         status: false
                     }
                 },
                 rawJSON: {
                     ...this.state.errors.rawJSON,
-                    ... {
+                    ...{
                         status: false
                     }
                 }
