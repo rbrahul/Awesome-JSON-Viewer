@@ -56,7 +56,6 @@ const applyOptions = (options) => {
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
-        console.info('MESSAGE', message);
         switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;
@@ -74,8 +73,7 @@ messageReceiver();
 function isJSONResponsePageOnly() {
     var content = document.body.textContent.trim();
     try {
-        var jsonData = JSON.parse(content);
-        window.jsonData = jsonData;
+        JSON.parse(content);
         return true;
     } catch (e) {
         return false;

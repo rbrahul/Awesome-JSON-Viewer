@@ -8,6 +8,7 @@ var fs =require("fs");
         console.log("Content script has been moved successfully");
     }
 });
+
  exec("mv "+__dirname+"/build/static/js/main*.js "+__dirname+"/build/static/js/main.js", function (error, stdout, stderr) {
     if (error !== null) {
         console.log('exec error: ' + error);
@@ -75,6 +76,13 @@ exec("mv "+__dirname+"/build/css/themes/*.css "+__dirname+"/build/static/css/the
         console.log('exec error: ' + error);
     } else{
         console.log("All files in css/themes folder moved to static/css/themes");
+        exec("rm -rf "+__dirname+"/build/css", function (error, stdout, stderr) {
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            } else{
+                console.log("CSS folder has been deleted");
+            }
+        });
     }
 });
 
@@ -83,21 +91,16 @@ exec("mv "+__dirname+"/build/js/*.js "+__dirname+"/build/static/js", function (e
         console.log('exec error: ' + error);
     } else{
         console.log("All files in js folder moved to static/js");
+        exec("rm -rf "+__dirname+"/build/js", function (error, stdout, stderr) {
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            } else{
+                console.log("Js folder has been deleted");
+            }
+        });
     }
 });
 
-exec("rm -rf "+__dirname+"/build/js", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Js folder has been deleted");
-    }
-});
 
-exec("rm -rf "+__dirname+"/build/css", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("CSS folder has been deleted");
-    }
-});
+
+

@@ -23,7 +23,7 @@ const getOptions = (key) => {
         const data = localStorage.getItem(key);
         return JSON.parse(data);
     } catch (e) {
-        console.error('Your browser support localStorage', e.message);
+        console.error('Your browser doesn\'t support localStorage', e.message);
     }
     return null;
 };
@@ -46,7 +46,6 @@ const initOptions = () => {
     }
 
     const savedOptions = getOptions(dbName);
-    console.log(savedOptions);
     document.getElementById('theme').value = savedOptions.theme;
     window.cssEditor.setValue(savedOptions.css);
     if (savedOptions.collapsed) {

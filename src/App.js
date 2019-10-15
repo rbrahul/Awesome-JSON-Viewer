@@ -15,10 +15,13 @@ class App extends Component {
             json: props.json,
             selectedJSON: props.json
         };
+        this.notify();
     }
+
     changeTabSelection(tab) {
         this.setState({selectedTab: tab});
     }
+
     changeJSON(json) {
         this.setState({
             json,
@@ -33,10 +36,17 @@ class App extends Component {
             selectedJSON: json
         });
     }
+
+    notify(){
+        console.log('%cYou can have access to JSON in console as follows:\n %cjson.property_name %cor %cjson[\'property-name\']', 'font-size:16px; color: green;', 'font-size:16px;color:orange;font-family:monospace;font-weight:bold','font-size:16px;color:blue;font-family:monospace;font-weight:bold','font-size:16px;color:orange;font-family:monospace;font-weight:bold');
+    }
+
+    componentDidMount(){
+        window.json_data = this.props.json;
+    }
+
     render() {
         window.json = this.state.json;
-        console.log("CUSTOME OPTIONS ARE", window.extensionOptions);
-        console.log('%cWrite %cjson %cand hit Enter to debug response:\n','color:#0cf;font-size:22px;', 'color:#000;font-weight:bold;font-size:22px;', 'color:#0cf;font-size:22px;');
         return (
             <div className="App">
                 <Menus changeTabSelection={this.changeTabSelection.bind(this)} selectedTab={this.state.selectedTab}/>
@@ -55,7 +65,7 @@ class App extends Component {
                     }
                     {
                         this.state.selectedTab === 'jsonInput' &&
-                        <JSONInput
+                        <JSONInput  
                             json={this.state.json}
                             changeJSON={this.changeJSON.bind(this)}
                         />

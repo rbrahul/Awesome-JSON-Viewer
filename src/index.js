@@ -9,7 +9,7 @@ import './index.css';
 window.addEventListener("DOMContentLoaded", function () {
     const content = document.body.textContent;
     try {
-        const jsonData = JSON.parse(content);
+        const jsonData = JSON.parse(content.trim());
         window.json = jsonData;
         let root = document.createElement("div");
         root.setAttribute("id", "rbrahul-awesome-json");

@@ -131,7 +131,7 @@ class TreeView extends Component {
             $(document).on("click", "a.json-toggle", this.toggleSection);
 
           setTimeout(() => {
-                if (window.extensionOptions.collapsed == true) {
+                if ((window.extensionOptions || {}).collapsed == true) {
                 $.each($('a.json-toggle'), function (index, item) {
                     if (index > 0) {
                         $(item).trigger('click');
