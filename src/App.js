@@ -4,6 +4,7 @@ import TreeView from './TreeView';
 import ChartViews from './ChartView.js';
 import JSONInput from './JSONInput.js';
 import './css/style.css';
+import TableView from "./TableView";
 
 class App extends Component {
     constructor(props) {
@@ -68,6 +69,10 @@ class App extends Component {
                             json={this.state.json}
                             changeJSON={this.changeJSON.bind(this)}
                         />
+                    }
+                    {
+                        this.state.selectedTab === 'table' &&
+                        <TableView json={this.state.json} />
                     }
 
                 </div>
