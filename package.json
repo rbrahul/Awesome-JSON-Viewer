@@ -16,6 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "chrome-ready": "node chrome-ready.js"
+    "chrome-ready": "node chrome-ready.js",
+    "compile-sass": "sass src/sass:src/css"
   }
 }

@@ -12,12 +12,10 @@ class TableView extends Component {
      * @returns {*}
      */
     renderObject (obj) {
-        const rows = Object.entries(obj).map(o => {
-            const key = o[0],
-                value = o[1];
+        const rows = Object.entries(obj).map(([key, value]) => {
             return (
                 <tr key={key}>
-                    <th>{key}</th>
+                    <th><div className="th-text">{key}</div></th>
                     {this.renderCell(value)}
                 </tr>
             )
@@ -37,8 +35,12 @@ class TableView extends Component {
      * @returns {*}
      */
     renderCell (value) {
-        if (typeof value === 'string' || typeof value === 'number') {
-            return (<td className="value">{value || '" "'}</td>);
+        if (typeof value === 'string') {
+            return (<td className="value">{value || '-empty string-'}</td>)
+        }
+        
+        if (typeof value === 'number') {
+            return (<td className="value">{value || '-empty number-'}</td>)
         }
 
         if (typeof value === 'boolean') {
@@ -66,7 +68,7 @@ class TableView extends Component {
         return (
             <table>
                 {rows.length > 0 ? rows : <tr>
-                    <th className="json-empty">Empty array</th>
+                    <th className="json-empty">[ ]</th>
                 </tr>}
             </table>
         )
