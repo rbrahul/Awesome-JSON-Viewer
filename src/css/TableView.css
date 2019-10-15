@@ -1,30 +1,41 @@
 table {
   border-spacing: 0;
-  color: #1d1d1d;
 }
+
 tr {
   margin: 1px 0;
 }
+
 tr:last-of-type > td,
 tr:last-of-type > th {
-  border-bottom: 1px solid #1d1d1d;
+  border-bottom: 1px solid #cfdbe5;
 }
+
 th {
-  background: #fff;
+  color: #4fdee5;
+  background: #405c75;
+  border-right: 1px solid #cfdbe5;
+  border-left: 1px solid #cfdbe5;
 }
+
 th.json-empty {
   font-style: italic;
 }
-th,
-td {
+
+th, td {
   padding: 0.5rem 1rem;
-  border-top: 1px solid #1d1d1d;
-  border-left: 1px solid #1d1d1d;
+  border-top: 1px solid #cfdbe5;
 }
+
 td {
-  border-right: 1px solid #1d1d1d;
-  background: #72777d;
+  border-right: 1px solid #cfdbe5;
+  color: #01ff70;
 }
-td.value {
-  background: #dcfae3;
+
+th > div.th-text {
+  position: sticky;
+  top: 80px;
+  bottom: 80px;
 }
+
+/*# sourceMappingURL=TableView.css.map */

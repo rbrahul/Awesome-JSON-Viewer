@@ -72,9 +72,7 @@ class App extends Component {
                     }
                     {
                         this.state.selectedTab === 'table' &&
-                        <TableView
-                            json={this.state.json}
-                        />
+                        <TableView json={this.state.json} />
                     }
 
                 </div>
