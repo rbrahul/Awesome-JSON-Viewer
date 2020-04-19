@@ -208,6 +208,9 @@ textarea:focus {
 .save-btn-area{
     text-align: center;
 }
+.save-btn-area button:not(:first-child) {
+    margin-left: 1em;
+}
 .json-input-error-msg{
     color:#fff;
     padding:20px;
@@ -310,4 +313,8 @@ a.option-menu img {
     margin-top:3px;
     display: none;
     margin-left: 3px;
+}
+
+.d-none {
+    display: none!important;
 }
