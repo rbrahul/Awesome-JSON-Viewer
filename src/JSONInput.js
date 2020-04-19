@@ -20,9 +20,9 @@ class JSONInput extends Component {
     }
 
     parseJSON(initialJSON = null) {
-        let rawJSON = initialJSON || this.refs.rawJSON.value.trim();
+        this.resetErrors();        
+        let rawJSON = initialJSON && typeof initialJSON === 'string' ? initialJSON : this.refs.rawJSON.value.trim();
         if (!initialJSON) {
-            this.resetErrors();
             if (!rawJSON) {
                 this.setState({
                     'errors': {
