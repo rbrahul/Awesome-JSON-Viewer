@@ -6,7 +6,23 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
+function isNextJSApplication() {
+    return !!document.getElementById("__next");
+}
+
+function shouldNotBeConsideredJSON() {
+    const redFlags = [
+        isNextJSApplication
+    ];
+
+    return redFlags.some(flag => flag() === true);
+}
+
 window.addEventListener("DOMContentLoaded", function () {
+    if (shouldNotBeConsideredJSON()) {
+        return;
+    }
+    
     const content = document.body.textContent;
     try {
         const jsonData = JSON.parse(content.trim());
