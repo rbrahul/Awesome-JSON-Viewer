@@ -1,10 +1,26 @@
 const options = {
   theme: "default",
-  collapsed: true,
-  css: `\/*You may write your own css here *\/
-body {
-
-}`,
+  collapsed: false,
+  css: `/**Write your CSS style **/
+  .property{
+      /*color:#994c9e;*/
+   }
+   
+  .json-literal-numeric{
+      /*color:#F5B041;*/
+   }
+      
+   .json-literal-url {
+      /*color: #34a632;*/
+   }
+      
+   .json-literal-string{
+      /*color:#0642b0;*/
+   }
+      
+   .json-literal-boolean{
+      /*color: #f23ebb;*/
+   }`,
 };
 
 var selectors = {
@@ -14,25 +30,39 @@ var selectors = {
   urlItemsContainer: ".url-items",
   noURLMessage: ".no-urls-msg",
   urlDelete: ".url-delete",
-  tostMessage: '.tost-message'
+  tostMessage: ".tost-message",
 };
 
 const dbName = "rb-awesome-json-viewer-options";
 
+function sendMessage(action, message) {
+    chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+            const messageObj = {
+                action: action,
+            };
+
+            if(message) {
+                messageObj.data = message;
+            }
+            chrome.tabs.sendMessage(tab.id, messageObj);
+        });
+    });
+}
 
 function notify(message, type, duration) {
-    var messageType = type || 'success';
-    var maxVisibleTime = duration || 3000;
-    var tostMessageElement = document.querySelector(selectors.tostMessage);
-    ['success', 'error', 'info', 'warning'].forEach((className) => {
-        tostMessageElement.classList.remove(className);
-    });
-    tostMessageElement.querySelector('p.text').textContent = message;
-    tostMessageElement.classList.add(messageType, 'active');
+  var messageType = type || "success";
+  var maxVisibleTime = duration || 3000;
+  var tostMessageElement = document.querySelector(selectors.tostMessage);
+  ["success", "error", "info", "warning"].forEach((className) => {
+    tostMessageElement.classList.remove(className);
+  });
+  tostMessageElement.querySelector("p.text").textContent = message;
+  tostMessageElement.classList.add(messageType, "active");
 
-    setTimeout(() => {
-        tostMessageElement.classList.remove('active');
-    }, maxVisibleTime);
+  setTimeout(() => {
+    tostMessageElement.classList.remove("active");
+  }, maxVisibleTime);
 }
 
 const saveOptions = (value) => {
@@ -94,6 +124,7 @@ const initOptions = () => {
       newOption.css = window.cssEditor.getValue();
       newOption.collapsed = document.getElementById("collapsed").checked;
       saveOptions(newOption);
+      sendMessage('settings_updated');
       notify("Changes have been saved");
     },
     false
@@ -104,10 +135,12 @@ const initOptions = () => {
     (e) => {
       e.preventDefault();
       saveOptions(options);
+      sendMessage('settings_updated');
       document.getElementById("theme").value = options.theme;
       document.getElementById("code").value = options.css;
+      window.cssEditor.setValue(options.css)
       document.getElementById("collapsed").setAttribute("checked", "checked");
-      notify("Default settings have been saved","info", 2000);
+      notify("Default settings have been saved", "info", 2000);
     },
     false
   );
@@ -156,7 +189,9 @@ function updateURLView(urls) {
       urlItem += "</div>";
       urlItem += '<div class="action-menu m2">';
       urlItem +=
-        '<a href="#" class="btn btn-sm url-delete danger" onClick="deleteURL(\'' + url + '\')">Delete</a>';
+        '<a href="#" class="btn btn-sm url-delete danger" onClick="deleteURL(\'' +
+        url +
+        "')\">Delete</a>";
       urlItem += "</div>";
       urlItem += "</div>";
 
@@ -181,7 +216,7 @@ function initilizeTab() {
 function intializeURLInput() {
   document.querySelector(selectors.urlSaveBtn).addEventListener("click", () => {
     var url = document.querySelector(selectors.urlInput).value;
-    var urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+    var urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
     if (url && urlPattern.test(url)) {
       url = url.trim();
       var options = getOptions(dbName);
@@ -194,26 +229,24 @@ function intializeURLInput() {
         saveOptions(options);
         document.querySelector(selectors.urlInput).value = "";
         updateURLView(options.filteredURL);
-        notify("URL has been saved in filtered list","success", 2000);
+        notify("URL has been saved in filtered list", "success", 2000);
       }
     } else {
-        notify("Please enter a valid URL","error", 2000);
+      notify("Please enter a valid URL", "error", 2000);
     }
   });
 }
 
-
 function deleteURL(deletableURL) {
-    var options = getOptions(dbName);
-    var filteredURL = (options || {}).filteredURL;
-    options.filteredURL = filteredURL.filter(function (url) {
-      return url !== deletableURL;
-    });
+  var options = getOptions(dbName);
+  var filteredURL = (options || {}).filteredURL;
+  options.filteredURL = filteredURL.filter(function (url) {
+    return url !== deletableURL;
+  });
 
-
-    saveOptions(options);
-    updateURLView(options.filteredURL);
-  }
+  saveOptions(options);
+  updateURLView(options.filteredURL);
+}
 
 function initializeURLDeleteEventListner() {
   Array.from(document.querySelectorAll(selectors.urlDelete)).forEach(
@@ -223,17 +256,15 @@ function initializeURLDeleteEventListner() {
   );
 }
 
-
-
 function initEventListener() {
   initilizeTab();
   updateURLView();
   intializeURLInput();
-  //initializeURLDeleteEventListner();
 }
 
 initOptions();
 
 document.body.onload = function () {
+  console.log("chrome", chrome);
   initEventListener();
 };

@@ -62,6 +62,9 @@ const messageReceiver = () => {
                 window.extensionOptions = message.options;
                 applyOptions(message.options);
                 break;
+            case 'settings_updated':
+                window.location.reload();
+                break;
 
             default:
                 break;
