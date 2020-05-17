@@ -10,7 +10,7 @@
     "128": "images/icons/icon-128.png"
   },
   "background": {
-    "scripts":[ "static/js/background.js"]
+    "scripts":[ "/js/background.js"]
   },
    "options_page": "options.html",
   "permissions": [
@@ -25,8 +25,8 @@
         "https://*/*"
       ],
       "js": [
-        "static/js/contentScript.js",
-        "/static/js/main.js"
+        "/js/contentScript.js",
+        "/js/main.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -36,9 +36,9 @@
     "default_icon": "images/icons/icon-16.png"
   },
   "web_accessible_resources": [
-    "/static/js/main.js",
-    "static/css/main.css",
-    "static/css/themes/mdn.css",
+    "/js/main.js",
+    "/css/main.css",
+    "/css/themes/mdn.css",
     "options.html",
     "images/icons/gear.png"
   ]

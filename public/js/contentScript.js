@@ -3,8 +3,8 @@ function initApplication() {
     var customStyleTag = document.createElement('style');
     var customScriptTag = document.createElement('script');
     customStyleTag.id = 'custom-css';
-    var cssFilePath = chrome.extension.getURL('/static/css/main.css');
-    var jsFilePath = chrome.extension.getURL('/static/js/main.js');
+    var cssFilePath = chrome.extension.getURL('/css/main.css');
+    var jsFilePath = chrome.extension.getURL('/js/main.js');
     styleTag.setAttribute('href', cssFilePath);
     styleTag.rel = "stylesheet";
     styleTag.type = "text/css";
@@ -37,9 +37,9 @@ const applyOptions = (options) => {
     const customScriptNode = document.getElementById('custom-script');
     let cssURL = '';
     if (options.theme === 'default') {
-        cssURL = chrome.extension.getURL('/static/css/' + themes[options.theme]);
+        cssURL = chrome.extension.getURL('/css/' + themes[options.theme]);
     } else {
-        cssURL = chrome.extension.getURL('/static/css/themes/' + themes[options.theme]);
+        cssURL = chrome.extension.getURL('/css/themes/' + themes[options.theme]);
     }
 
     if (styleNode.href.indexOf(themes[options.theme] < 0)) {
