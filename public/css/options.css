@@ -406,10 +406,10 @@ img.icon.sm {
 }
 
 .note {
-    padding: 15px;
+    padding: 10px 15px;
     box-sizing: border-box;
     background-color: #cee4fa;
-    color: #222;
+    color: #0e5397;
     margin: 15px 0px;
     font-size: 14px;
 }

@@ -71,7 +71,6 @@ class App extends Component {
                     }
 
                 </div>
-                <a href={window.optionPageURL} target="_blank" className='option-menu' id="option-menu" title="Options" style={{padding: '0px'}}><img id="option-menu-icon" src="images/icons/gear.png"/></a>
             </div>
         );
     }
