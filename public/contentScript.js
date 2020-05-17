@@ -51,11 +51,12 @@ const applyOptions = (options) => {
         document.getElementById('option-menu').setAttribute('href', options.optionPageURL);
         document.getElementById('option-menu-icon').setAttribute('src', options.optionIconURL);
         document.getElementById('option-menu-icon').style.display = 'block';
-    }, 3 * 1000, options);
+    }, 2 * 1000, options);
 };
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
+        console.log('message:', message);
         switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;
