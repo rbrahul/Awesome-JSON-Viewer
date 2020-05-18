@@ -108,7 +108,7 @@ ul.json-dict li {
 }
 
 .copyable {
-  background: rgba(33, 47, 61, 0.8);
+  background: rgba(228, 241, 254, 0.8);
   width: auto;
   border: 1px dotted #5d6d7e;
 }
@@ -248,7 +248,7 @@ textarea:focus {
   background: #2ecc71;
   padding: 5px;
   display: none;
-  background-image: url("../../public/images/icons/copy.png");
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAADdAAAA3QFwU6IHAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJBQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPUIf2wAAAC90Uk5TAAwWFxgfICIqLi8wND5AS09QXWBwe32Ijo+Qk5WlpqitrrW6wMjO1ejw9/j6+/zuA4QFAAAAuElEQVQ4y8XU2Q6CMBBA0SJSN0SKKIrgvuHC/P/fiU2nlnR4MRLvCwmchGlZGOOCymcYL4EsQiDo65AaIA6s6iBgVt+A7sgMIJdHR4MJvZjCRbBsWEyIIIXn1CoBEB9wt0cNWgBetsEWHQqsjPlnFBhfrth52M6Q/wNJ9VwOEvS3R2ztKRDixrxBZmzUXAG3UCduFRjsT9iupwBz5LuVN86gSn8AHvbnE9cAnQYRfb3k+n4++Rfg7AWA7U1SIacFjQAAAABJRU5ErkJggg==);
   background-repeat: no-repeat;
   top: 10px;
   left: 10px;
@@ -332,4 +332,52 @@ a.option-menu img {
   width: 100%;
   max-width: 34px;
   display: none;
+}
+
+/* Syntax highlighting for JSON objects */
+ul.json-dict, ol.json-array {
+  list-style-type: none;
+  margin: 0 0 0 1px;
+  border-left: 1px dotted #5D6D7E;
+  padding-left: 2em;
+}
+.json-string {
+  color: #0B7500;
+}
+.json-literal {
+  color: #b568de;
+  font-weight: bold;
+}
+
+/* Toggle button */
+a.json-toggle {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+a.json-toggle:focus {
+  outline: none;
+}
+a.json-toggle:before {
+  color: #aaa;
+  content: "\25BC"; /* down arrow */
+  position: absolute;
+  display: inline-block;
+  width: 1em;
+  left: -1em;
+  font-size: 14px;
+}
+a.json-toggle.collapsed:before {
+  content: "\25B6"; /* left arrow */
+  font-size: 14px;
+}
+
+/* Collapsable placeholder links */
+a.json-placeholder {
+  color: #aaa;
+  padding: 0 1em;
+  text-decoration: none;
+}
+a.json-placeholder:hover {
+  text-decoration: underline;
 }

@@ -139,7 +139,7 @@ const initOptions = () => {
       document.getElementById("theme").value = options.theme;
       document.getElementById("code").value = options.css;
       window.cssEditor.setValue(options.css)
-      document.getElementById("collapsed").setAttribute("checked", "checked");
+      document.getElementById("collapsed").checked = false;
       notify("Default settings have been saved", "info", 2000);
     },
     false
@@ -265,6 +265,5 @@ function initEventListener() {
 initOptions();
 
 document.body.onload = function () {
-  console.log("chrome", chrome);
   initEventListener();
 };

@@ -43,6 +43,22 @@ exec("rm -rf " + __dirname + "/build/static ", function (
   }
 });
 
+['index.html', 'asset-manifest.json'].forEach((file) => {
+    exec("rm -f " + __dirname + "/build/"+file, function (
+        error,
+        stdout,
+        stderr
+      ) {
+        if (error !== null) {
+          console.log("exec error: " + error);
+        } else {
+          console.log("Unecessery files have been deleted successfully");
+        }
+      });
+});
+
+  
+
 /** REMOVE HASH FROM INDEX.html from style.css and main.js */
 const indexHTMLInBuild = __dirname + "/build/index.html";
 
