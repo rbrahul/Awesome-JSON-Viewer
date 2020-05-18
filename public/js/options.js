@@ -107,7 +107,7 @@ const initOptions = () => {
   if (savedOptions.collapsed) {
     document.getElementById("collapsed").setAttribute("checked", "checked");
   } else {
-    document.getElementById("collapsed").removeAttribute("checked");
+    document.getElementById("collapsed").checked = false;
   }
 
   document.getElementById("save-options").addEventListener(
