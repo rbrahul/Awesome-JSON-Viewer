@@ -2,7 +2,8 @@
 
 A chrome extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
 
-[Get it from Chrome Store](https://chrome.google.com/webstore/detail/awesome-json/iemadiahhbebdklepanmkjenfdebfpfe)
+[![Awesome JSON Viewer](https://raw.githubusercontent.com/rbrahul/Smart-Webpage-Ruler/master/images/chrome.png)](https://chrome.google.com/webstore/detail/awesome-json/iemadiahhbebdklepanmkjenfdebfpfe)
+
 
 ## Features
 
