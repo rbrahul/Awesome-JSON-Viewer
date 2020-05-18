@@ -261,7 +261,6 @@ function initializeURLDeleteEventListner() {
 
 function initEventListener() {
   initilizeTab();
-  updateURLView();
   intializeURLInput();
   initializeURLDeleteEventListner();
 }
@@ -269,5 +268,6 @@ function initEventListener() {
 initOptions();
 
 document.body.onload = function () {
+  updateURLView();
   initEventListener();
 };
