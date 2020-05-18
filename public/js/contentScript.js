@@ -60,7 +60,7 @@ const applyOptions = (options) => {
         .setAttribute("src", options.optionIconURL);
       document.getElementById("option-menu-icon").style.display = "block";
     },
-    2 * 1000,
+    1 * 1000,
     options
   );
 };

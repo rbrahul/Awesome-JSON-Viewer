@@ -36,18 +36,18 @@ var selectors = {
 const dbName = "rb-awesome-json-viewer-options";
 
 function sendMessage(action, message) {
-    chrome.tabs.query({}, (tabs) => {
-        tabs.forEach((tab) => {
-            const messageObj = {
-                action: action,
-            };
+  chrome.tabs.query({}, (tabs) => {
+    tabs.forEach((tab) => {
+      const messageObj = {
+        action: action,
+      };
 
-            if(message) {
-                messageObj.data = message;
-            }
-            chrome.tabs.sendMessage(tab.id, messageObj);
-        });
+      if (message) {
+        messageObj.data = message;
+      }
+      chrome.tabs.sendMessage(tab.id, messageObj);
     });
+  });
 }
 
 function notify(message, type, duration) {
@@ -124,7 +124,7 @@ const initOptions = () => {
       newOption.css = window.cssEditor.getValue();
       newOption.collapsed = document.getElementById("collapsed").checked;
       saveOptions(newOption);
-      sendMessage('settings_updated');
+      sendMessage("settings_updated");
       notify("Changes have been saved");
     },
     false
@@ -135,10 +135,10 @@ const initOptions = () => {
     (e) => {
       e.preventDefault();
       saveOptions(options);
-      sendMessage('settings_updated');
+      sendMessage("settings_updated");
       document.getElementById("theme").value = options.theme;
       document.getElementById("code").value = options.css;
-      window.cssEditor.setValue(options.css)
+      window.cssEditor.setValue(options.css);
       document.getElementById("collapsed").checked = false;
       notify("Default settings have been saved", "info", 2000);
     },
@@ -189,15 +189,16 @@ function updateURLView(urls) {
       urlItem += "</div>";
       urlItem += '<div class="action-menu m2">';
       urlItem +=
-        '<a href="#" class="btn btn-sm url-delete danger" onClick="deleteURL(\'' +
+        '<a href="#" class="btn btn-sm url-delete danger" data-url="' +
         url +
-        "')\">Delete</a>";
+        '">Delete</a>';
       urlItem += "</div>";
       urlItem += "</div>";
 
       nodeStr += urlItem;
     });
     urlItemsContainer.innerHTML = nodeStr;
+    initializeURLDeleteEventListner();
     document
       .querySelector(selectors.noURLMessage)
       .classList.toggle("hidden", urlItems.length > 0);
@@ -237,7 +238,9 @@ function intializeURLInput() {
   });
 }
 
-function deleteURL(deletableURL) {
+function deleteURL(event) {
+  event.preventDefault();
+  var deletableURL = event.currentTarget.getAttribute("data-url");
   var options = getOptions(dbName);
   var filteredURL = (options || {}).filteredURL;
   options.filteredURL = filteredURL.filter(function (url) {
@@ -260,6 +263,7 @@ function initEventListener() {
   initilizeTab();
   updateURLView();
   intializeURLInput();
+  initializeURLDeleteEventListner();
 }
 
 initOptions();
