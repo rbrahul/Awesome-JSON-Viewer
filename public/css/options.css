@@ -245,7 +245,7 @@ button.info:hover {
 }
 
 .danger, .error {
-  background-color: rgb(175, 0, 0);
+  background-color: rgb(217, 16, 16);
   color: white;
 }
 
