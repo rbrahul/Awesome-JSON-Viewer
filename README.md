@@ -11,7 +11,7 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 * ✅ Visual representation of response
 * ✅ Depth traversing of JSON property using breadcrumbs
 * ✅ Write custom JSON in JSON Input area
-* ✅ URL filters
+* ✅ URL filters to bypass on listed websites
 * ✅ Switch Themes
 * ✅ Custom CSS
 * ✅ Cool User Interface.
