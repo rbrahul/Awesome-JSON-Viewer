@@ -2,7 +2,7 @@
   "name": "JSON Viewer Awesome",
   "short_name": "JSON Viewer",
   "offline_enabled": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "manifest_version": 2,
   "icons": {
     "16": "images/icons/icon-16.png",
@@ -13,14 +13,13 @@
     "scripts":[ "/js/background.js"]
   },
    "options_page": "options.html",
-  "permissions": [
-    "tabs"
-  ],
   "content_scripts": [
     {
       "matches": [
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "ftp://*/*",
+        "file:///*"
       ],
       "js": [
         "/js/contentScript.js"
