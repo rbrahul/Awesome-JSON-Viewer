@@ -22,8 +22,11 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
 
 ## Change Log: 
-
-### Version 1.0.6 on  20-05-2020
+### Version 1.1.2 on  21-05-2020
+***Bug Fixed***
+  * Index.html page is not loading because /static/js/main.js and /static/css/main.css was missing.
+  
+### Version 1.1.1 on  20-05-2020
 ***New Features:***
   * Added option page to control UI and experience.
   * Change Theme - Now we have Dark and MDN Light initially (Many more will come in future)
