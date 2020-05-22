@@ -22,6 +22,12 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
 
 ## Change Log: 
+
+### Version 1.1.3 on  22-05-2020
+***Bug Fixed***
+  * Style is affecting other websites which does not event contain JSON.
+
+## Change Log: 
 ### Version 1.1.2 on  21-05-2020
 ***Bug Fixed***
   * Index.html page is not loading because /static/js/main.js and /static/css/main.css was missing.
