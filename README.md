@@ -24,7 +24,7 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 
 ## Known Issue/Expected Behaviour:
 
- * Custom CSS/Style, Theme, Collapsible settings are not applicable on [chrome-extension://iemadiahhbebdklepanmkjenfdebfpfe/index.html](chrome-extension://iemadiahhbebdklepanmkjenfdebfpfe/index.html) page as **chrome-extension://\*** doesn't allow **conentScript** to be executed.
+ * Custom CSS/Style, Theme, Collapsible settings are not applicable on **chrome-extension://iemadiahhbebdklepanmkjenfdebfpfe/index.html** page as **chrome-extension://\*** doesn't allow **conentScript** to be executed.
 
 
 
