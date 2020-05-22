@@ -21,6 +21,13 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
 
+
+**Known Issue(s)/Expected Behaviour**
+
+> Custom CSS/Style, Theme, Collapsible settings are not applicable for [chrome-extension://iemadiahhbebdklepanmkjenfdebfpfe/index.html](chrome-extension://iemadiahhbebdklepanmkjenfdebfpfe/index.html) page since `chrome-extension://*` doesn't allow `conentScript` to execute.
+
+
+
 ## Change Log: 
 
 ### Version 1.1.3 on  22-05-2020
