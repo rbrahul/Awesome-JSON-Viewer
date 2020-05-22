@@ -68,6 +68,8 @@ fs.readFile(indexHTMLInBuild).then((data) => {
     return `main.${$1}"`;
   });
 
+  text = text.replace(/\/static/g, '');
+
   fs.writeFile(indexHTMLInBuild, text).then(() => {
     console.log("Removed file naming Hash from build/index.html");
   });

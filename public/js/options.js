@@ -230,6 +230,7 @@ function intializeURLInput() {
         saveOptions(options);
         document.querySelector(selectors.urlInput).value = "";
         updateURLView(options.filteredURL);
+        sendMessage("settings_updated");
         notify("URL has been saved in filtered list", "success", 2000);
       }
     } else {
@@ -249,6 +250,7 @@ function deleteURL(event) {
 
   saveOptions(options);
   updateURLView(options.filteredURL);
+  sendMessage("settings_updated");
 }
 
 function initializeURLDeleteEventListner() {

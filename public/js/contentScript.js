@@ -71,7 +71,8 @@ const renderApplicationWithURLFiltering = (options) => {
     return window.location.href.startsWith(url);
   });
   if (urls.length && hasMatched.length) return;
-
+  if(!isJSONResponsePageOnly()) return;
+  
   initApplication();
   applyOptions(options);
 };

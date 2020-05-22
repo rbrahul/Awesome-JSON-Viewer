@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./css/style.css";
 
+const OPTION_ICON_PATH = '/images/icons/gear.png';
+const LIVE_EXTENSION_ID = 'iemadiahhbebdklepanmkjenfdebfpfe';
+
 class Menus extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +35,7 @@ class Menus extends Component {
     window.open(window.optionPageURL);
   }
   render() {
+    const optionIconURL = location.protocol === 'chrome-extension:' ? OPTION_ICON_PATH : `chrome-extension://${LIVE_EXTENSION_ID}${OPTION_ICON_PATH}`;
     return (
       <div className="action-area">
         <ul className="menus">
@@ -54,13 +58,13 @@ class Menus extends Component {
           </li>
           <li className="">
             <a
-              href={window.optionPageURL}
+              href={window.optionPageURL || '/options.html'}
               target="_blank"
               className="option-menu"
               id="option-menu"
               title="Options"
             >
-              <img id="option-menu-icon"  src="images/icons/gear.png" />
+              <img id="option-menu-icon"  src={optionIconURL} />
             </a>
           </li>
         </ul>

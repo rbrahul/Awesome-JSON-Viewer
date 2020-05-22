@@ -331,7 +331,6 @@ ul.copyMenu > li > a:hover {
 a.option-menu img {
   width: 100%;
   max-width: 34px;
-  display: none;
 }
 
 /* Syntax highlighting for JSON objects */
