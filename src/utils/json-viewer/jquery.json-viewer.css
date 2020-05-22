@@ -29,9 +29,11 @@ a.json-toggle:before {
   display: inline-block;
   width: 1em;
   left: -1em;
+  font-size: 14px;
 }
 a.json-toggle.collapsed:before {
   content: "\25B6"; /* left arrow */
+  font-size: 14px;
 }
 
 /* Collapsable placeholder links */

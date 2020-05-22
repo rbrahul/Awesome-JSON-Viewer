@@ -37,7 +37,7 @@ class App extends Component {
     }
 
     notify(){
-        console.log('%cYou can have access to JSON in console as follows:\n %cjson.property_name %cor %cjson[\'property-name\']', 'font-size:16px; color: green;', 'font-size:16px;color:orange;font-family:monospace;font-weight:bold','font-size:16px;color:blue;font-family:monospace;font-weight:bold','font-size:16px;color:orange;font-family:monospace;font-weight:bold');
+        console.log('%cYou have access to JSON data in the console now : %cjson.property_name %cor %cjson[\'property-name\']', 'font-size:14px; color: #4fdee5;background:black;padding:8px;', 'font-size:14px;color:orange;font-family:monospace;font-weight:bold;background:black;padding:8px;','font-size:14px;color:white;font-family:monospace;font-weight:bold;background:black;padding:8px;','font-size:14px;color:orange;font-family:monospace;font-weight:bold;background:black;padding:8px;')
     }
 
     componentDidMount(){
@@ -71,7 +71,6 @@ class App extends Component {
                     }
 
                 </div>
-                <a href={window.optionPageURL} target="_blank" className='option-menu' id="option-menu" title="Options" style={{padding: '0px'}}><img id="option-menu-icon" src="images/icons/gear.png"/></a>
             </div>
         );
     }

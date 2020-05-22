@@ -1,106 +1,76 @@
-var exec = require('child_process').exec;
-var fs =require("fs");
+var exec = require("child_process").exec;
+var fs = require("fs").promises;
 
- exec("cp "+__dirname+"/public/contentScript.js "+__dirname+"/build/static/js/contentScript.js", function (error, stdout, stderr) {
+exec(
+  "mv " +
+    __dirname +
+    "/build/static/js/main*.js " +
+    __dirname +
+    "/build/js/main.js",
+  function (error, stdout, stderr) {
     if (error !== null) {
-        console.log('exec error: ' + error);
+      console.log("exec error: " + error);
     } else {
-        console.log("Content script has been moved successfully");
+      console.log("Main.js file has been generated successfully");
     }
-});
+  }
+);
 
- exec("mv "+__dirname+"/build/static/js/main*.js "+__dirname+"/build/static/js/main.js", function (error, stdout, stderr) {
+exec(
+  "mv " +
+    __dirname +
+    "/build/static/css/main*.css " +
+    __dirname +
+    "/build/css/main.css",
+  function (error, stdout, stderr) {
     if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Main.js file has been generated successfully");
-    }
-});
-
-exec("mkdir "+__dirname+"/build/static/css/themes", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
+      console.log("exec error: " + error);
     } else {
-        console.log("Created static/css/themes");
+      console.log("Main.css file has been generated successfully");
     }
+  }
+);
+
+exec("rm -rf " + __dirname + "/build/static ", function (
+  error,
+  stdout,
+  stderr
+) {
+  if (error !== null) {
+    console.log("exec error: " + error);
+  } else {
+    console.log("build/static has been deleted successfully");
+  }
 });
 
-exec("mv "+__dirname+"/build/static/css/main*.css "+__dirname+"/build/static/css/main.css", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Main.css file has been generated successfully");
-    }
+['index.html', 'asset-manifest.json'].forEach((file) => {
+    exec("rm -f " + __dirname + "/build/"+file, function (
+        error,
+        stdout,
+        stderr
+      ) {
+        if (error !== null) {
+          console.log("exec error: " + error);
+        } else {
+          console.log("Unecessery files have been deleted successfully");
+        }
+      });
 });
 
-exec("mv "+__dirname+"/build/background.js "+__dirname+"/build/static/js/background.js", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Background.js file has been moved successfully");
-    }
+  
+
+/** REMOVE HASH FROM INDEX.html from style.css and main.js */
+const indexHTMLInBuild = __dirname + "/build/index.html";
+
+fs.readFile(indexHTMLInBuild).then((data) => {
+  let text = data.toString();
+  text = text.replace(/main\.(?:.)+\.(js|css)"/g, (_, $1) => {
+    return `main.${$1}"`;
+  });
+
+  text = text.replace(/\/static/g, '');
+
+  fs.writeFile(indexHTMLInBuild, text).then(() => {
+    console.log("Removed file naming Hash from build/index.html");
+  });
 });
-
-
-
-exec("rm -f "+__dirname+"/build/static/js/main*.js.map ", function (error, stdout, stderr) {
-    if (error) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log(stdout);
-        console.log("Main*.js.map file has been deleted successfully");
-    }
-});
-
-
-exec("rm -f "+__dirname+"/build/static/css/main*.css.map ", function (error, stdout, stderr) {
-    if (error) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("Main*.css.map file has been deleted successfully");
-    }
-});
-
-exec("mv "+__dirname+"/build/css/*.css "+__dirname+"/build/static/css", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("All files in css folder moved to static/css");
-    }
-});
-
-
-
-exec("mv "+__dirname+"/build/css/themes/*.css "+__dirname+"/build/static/css/themes", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("All files in css/themes folder moved to static/css/themes");
-        exec("rm -rf "+__dirname+"/build/css", function (error, stdout, stderr) {
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            } else{
-                console.log("CSS folder has been deleted");
-            }
-        });
-    }
-});
-
-exec("mv "+__dirname+"/build/js/*.js "+__dirname+"/build/static/js", function (error, stdout, stderr) {
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    } else{
-        console.log("All files in js folder moved to static/js");
-        exec("rm -rf "+__dirname+"/build/js", function (error, stdout, stderr) {
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            } else{
-                console.log("Js folder has been deleted");
-            }
-        });
-    }
-});
-
-
-
-
