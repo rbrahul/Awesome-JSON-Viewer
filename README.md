@@ -24,27 +24,26 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 ## Change Log: 
 
 ### Version 1.1.3 on  22-05-2020
-***Bug Fixed***
+**Bug Fixed**
   * Style is affecting other websites which does not event contain JSON.
-
-## Change Log: 
+---
 ### Version 1.1.2 on  21-05-2020
-***Bug Fixed***
+**Bug Fixed**
   * Index.html page is not loading because /static/js/main.js and /static/css/main.css was missing.
-  
+ --- 
 ### Version 1.1.1 on  20-05-2020
-***New Features:***
+**New Features:**
   * Added option page to control UI and experience.
   * Change Theme - Now we have Dark and MDN Light initially (Many more will come in future)
   * Write your custom CSS to style it.
   * You can toggle expanding childrens in trees.
   * URL blocking to bypass on listed websites.
-
-***Bug Fixed:***
+---
+**Bug Fixed:**
 * Color of values were not that visible in the tree view.
 * Parsing error if the page used to contain whitespace with JSON
 
-***Important Update:***
+**Important Update:**
 > Removed few permissions requests to install and use this extension.
 
 **Developed with ♥ using ReactJS, Jquery and D3**
