@@ -45,6 +45,7 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
   * Write your custom CSS to style it.
   * You can toggle expanding childrens in trees.
   * URL blocking to bypass on listed websites.
+
 **Bug Fixed:**
 * Color of values were not that visible in the tree view.
 * Parsing error if the page used to contain whitespace with JSON
