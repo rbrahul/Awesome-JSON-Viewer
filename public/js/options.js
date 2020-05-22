@@ -18,6 +18,10 @@ const options = {
       /*color:#0642b0;*/
    }
       
+   .json-literal{
+      /*color:#b568de;*/
+   }
+      
    .json-literal-boolean{
       /*color: #f23ebb;*/
    }`,

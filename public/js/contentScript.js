@@ -1,4 +1,16 @@
-function initApplication() {
+"use strict";
+
+const isJSONResponsePageOnly = () => {
+  try {
+    const content = document.body.textContent.trim();
+    JSON.parse(content);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const initApplication = () => {
   var styleTag = document.createElement("link");
   var customStyleTag = document.createElement("style");
   var customScriptTag = document.createElement("script");
@@ -29,7 +41,8 @@ function initApplication() {
     var body = document.createElement("body");
     document.querySelector("html").appendChild(body);
   }
-}
+};
+
 const applyOptions = (options) => {
   const themes = {
     default: "main.css",
@@ -67,12 +80,9 @@ const applyOptions = (options) => {
 
 const renderApplicationWithURLFiltering = (options) => {
   const urls = (options || {}).filteredURL || [];
-  const hasMatched = urls.filter((url) => {
-    return window.location.href.startsWith(url);
-  });
-  if (urls.length && hasMatched.length) return;
-  if(!isJSONResponsePageOnly()) return;
-  
+  const hasMatched = urls.filter((url) => window.location.href.startsWith(url));
+  if ((urls.length && hasMatched.length) || !isJSONResponsePageOnly()) return;
+
   initApplication();
   applyOptions(options);
 };
@@ -95,16 +105,6 @@ const messageReceiver = () => {
 };
 
 messageReceiver();
-
-function isJSONResponsePageOnly() {
-  var content = document.body.textContent.trim();
-  try {
-    JSON.parse(content);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
 
 // alternative to DOMContentLoaded event
 document.onreadystatechange = function () {
