@@ -2,7 +2,7 @@
   "name": "JSON Viewer Awesome",
   "short_name": "JSON Viewer",
   "offline_enabled": true,
-  "version": "1.0.6",
+  "version": "1.1.3",
   "manifest_version": 2,
   "icons": {
     "16": "images/icons/icon-16.png",
@@ -10,23 +10,19 @@
     "128": "images/icons/icon-128.png"
   },
   "background": {
-    "scripts":[ "static/js/background.js"]
+    "scripts":[ "/js/background.js"]
   },
    "options_page": "options.html",
-  "permissions": [
-    "tabs",
-    "activeTab"
-  ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "ftp://*/*",
+        "file:///*"
       ],
       "js": [
-        "static/js/contentScript.js",
-        "/static/js/main.js"
+        "/js/contentScript.js"
       ],
       "run_at": "document_start",
       "all_frames": true
@@ -36,9 +32,9 @@
     "default_icon": "images/icons/icon-16.png"
   },
   "web_accessible_resources": [
-    "/static/js/main.js",
-    "static/css/main.css",
-    "static/css/themes/mdn.css",
+    "/js/main.js",
+    "/css/main.css",
+    "/css/themes/mdn.css",
     "options.html",
     "images/icons/gear.png"
   ]

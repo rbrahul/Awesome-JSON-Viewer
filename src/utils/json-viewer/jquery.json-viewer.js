@@ -100,8 +100,7 @@ function json2html(json, options) {
  */
 export const initPlugin = function (node, jQuery, json, option) {
   (function ($, node, json, options) {
-    options = options || { collapsed: true };
-
+    options = options || { collapsed: false };
     // jQuery chaining
     return $(node).each(function () {
 

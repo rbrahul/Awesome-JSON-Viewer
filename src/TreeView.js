@@ -48,6 +48,7 @@ class TreeView extends Component {
         });
         return false;
     }
+
     getArrayIndex(path) {
         const arrayIndexBracketStartAt = path.lastIndexOf("[");
         const arrayIndexBracketEndAt = path.lastIndexOf("]");
@@ -56,6 +57,7 @@ class TreeView extends Component {
         }
         return path;
     }
+
     createValidPath(pathArray) {
         let path = '';
         pathArray.forEach((item, index) => {
@@ -73,6 +75,7 @@ class TreeView extends Component {
         });
         return path;
     }
+
     findPath(self, e) {
         var keys = [];
         //   e.preventDefault();
@@ -116,6 +119,7 @@ class TreeView extends Component {
             target.after('<a href class="json-placeholder">' + placeholder + '</a>');
         }
     }
+    
     componentDidMount() {
         window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
