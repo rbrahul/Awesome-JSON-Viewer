@@ -18,25 +18,27 @@ class JSONInput extends Component {
         }
     }
 
-    parseJSON() {
-        const rawJSON = this.refs.rawJSON.value.trim();
-        this.resetErrors();
-        if (!rawJSON) {
-            this.setState({
-                'errors': {
-                    ...this.state.errors,
-                    ...{
+    parseJSON(initialJSON = null) {
+        this.resetErrors();        
+        let rawJSON = initialJSON && typeof initialJSON === 'string' ? initialJSON : this.refs.rawJSON.value.trim();
+        if (!initialJSON) {
+            if (!rawJSON) {
+                this.setState({
+                    'errors': {
                         ...this.state.errors,
-                        rawJSON: {
-                            ...this.state.errors.rawJSON,
-                            ...{
-                                status: true
+                        ...{
+                            ...this.state.errors,
+                            rawJSON: {
+                                ...this.state.errors.rawJSON,
+                                ... {
+                                    status: true
+                                }
                             }
                         }
                     }
-                }
-            });
-            return;
+                });
+                return;
+            }
         }
 
         try {
@@ -57,6 +59,26 @@ class JSONInput extends Component {
                     }
                 }
             });
+        }
+    }
+
+    
+
+    showFileDialog() {
+        const fileInput = document.getElementById('fileInput')
+        if (fileInput) {
+            fileInput.click()
+        }   
+    }
+
+    handleFileInputChange(event) {
+        const { files } = event.target
+        if (files.length) {
+            var reader = new FileReader();
+            reader.onload = file => {
+                this.parseJSON(file.target.result)
+            }
+            reader.readAsText(files[0]);
         }
     }
 
@@ -106,13 +128,20 @@ resetErrors() {
                 <div className="form-input">
                     <textarea ref="rawJSON" defaultValue={this.state.json} className="json-input"></textarea>
                 </div>
-
+                <input className="d-none" onChange={this.handleFileInputChange.bind(this)} accept="application/json" type="file" id="fileInput" />
                 <div className="form-input save-btn-area">
                     <button
                         type="button"
                         className="btn btn-big btn-white"
                         onClick={this.parseJSON.bind(this)}
                     >Parse JSON
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-big btn-white"
+                        onClick={this.showFileDialog.bind(this)}
+                    >
+                        Load a file
                     </button>
                 </div>
             </div>
