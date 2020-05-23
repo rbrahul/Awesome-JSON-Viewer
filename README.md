@@ -7,18 +7,18 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 
 ## Features
 
-✅ Beautify JSON response from API
-✅ Visual representation of JSON
-✅ Depth traversing of JSON property using breadcrumbs
-✅ Write custom JSON in Input area
-✅ Import local JSON file
-✅ Download JSON file using Context Menu
-✅ URL filters
-✅ Change Themes
-✅ Custom CSS
-✅ Cool User Interface.
-✅ Copy property and value
-✅ Access JSON in your console using only `json` keyword
+* ✅ Beautify JSON response from API
+* ✅ Visual representation of JSON
+* ✅ Depth traversing of JSON property using breadcrumbs
+* ✅ Write custom JSON in Input area
+* ✅ Import local JSON file
+* ✅ Download JSON file using Context Menu
+* ✅ URL filters
+* ✅ Change Themes
+* ✅ Custom CSS
+* ✅ Cool User Interface.
+* ✅ Copy property and value
+* ✅ Access JSON in your console using only `json` keyword
 
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
