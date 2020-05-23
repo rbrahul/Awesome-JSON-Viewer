@@ -88,11 +88,9 @@ class App extends Component {
 
     showLogInConsole() {
         console.log(
-            "%cYou have access to JSON data in the console now : %cjson.property_name %cor %cjson['property-name']",
-            'font-size:14px; color: #4fdee5;background:black;padding:8px;',
-            'font-size:14px;color:orange;font-family:monospace;font-weight:bold;background:black;padding:8px;',
-            'font-size:14px;color:white;font-family:monospace;font-weight:bold;background:black;padding:8px;',
-            'font-size:14px;color:orange;font-family:monospace;font-weight:bold;background:black;padding:8px;',
+            '%cTo access the JSON data just write: %cjson',
+            'font-size:14px; color: #4fdee5;background:black;padding:8px;padding-right:0px',
+            'font-size:14px;color:orange;font-weight:bold;background:black;padding:8px;padding-left:0px',
         );
     }
 
