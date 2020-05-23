@@ -32,6 +32,13 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 
 ## Change Log:
 
+### Version 1.1.4 on  24-05-2020
+**New Feature**
+  * Download as a JSON file using Context Menu.
+  * Importing Local JSON file in the Editor - (Contributed by [withT](https://github.com/whthT))
+
+---
+
 ### Version 1.1.3 on  22-05-2020
 **Bug Fixed**
   * Style is affecting other websites which does not event contain JSON.
