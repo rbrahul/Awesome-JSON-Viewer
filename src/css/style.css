@@ -238,25 +238,27 @@ textarea:focus {
 }
 
 .json-logo span {
-  display: block;
-  font-size: 30px;
-  color: #fff;
-  line-height: 100%;
-  margin-top: 15px;
+    display: block;
+    font-size:30px;
+    color:#fff;
+    line-height: 100%;
+    margin-top:15px;
+}
+.save-btn-area{
+    text-align: center;
+}
+.save-btn-area button:not(:first-child) {
+    margin-left: 1em;
+}
+.json-input-error-msg{
+    color:#fff;
+    padding:20px;
+    background-color: #DE1509;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    box-shadow: 0 7px 7px 0 #111;
 }
 
-.save-btn-area {
-  text-align: center;
-}
-
-.json-input-error-msg {
-  color: #fff;
-  padding: 20px;
-  background-color: #de1509;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  box-shadow: 0 7px 7px 0 #111;
-}
 
 .copier {
   background: #2ecc71;
@@ -333,4 +335,8 @@ ul.copyMenu > li:last-child > a {
 ul.copyMenu > li > a:hover {
   background: #2ecc71;
   color: #111;
+}
+
+.d-none {
+    display: none!important;
 }
