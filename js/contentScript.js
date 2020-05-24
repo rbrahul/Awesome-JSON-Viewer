@@ -104,7 +104,10 @@ const messageReceiver = () => {
                 break;
 
             case 'rb_download_json':
-                location.hash = 'downloadJSON=true';
+                if(!document.querySelector('#rbrahul-awesome-json')){
+
+                }
+              //  location.hash = 'downloadJSON=true';
                 break;
 
             default:

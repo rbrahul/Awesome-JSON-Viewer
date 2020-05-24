@@ -23,7 +23,8 @@ const createContextMenu = () => {
                 if (info.menuItemId !== RB_DOWNLOAD_JSON_MENU) {
                     return;
                 }
-                chrome.tabs.sendMessage(tab.id, { action: 'rb_download_json' });
+                location.hash = 'downloadJSON=true';
+               // chrome.tabs.sendMessage(tab.id, { action: 'rb_download_json' });
             },
         });
 
@@ -76,10 +77,12 @@ chrome.runtime.onMessage.addListener((message) => {
     switch (message.action) {
         case 'give_me_options':
             sendOptions();
-            createContextMenuOnce();
             break;
 
         default:
             break;
     }
 });
+
+createContextMenuOnce();
+
