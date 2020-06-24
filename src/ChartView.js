@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';https://github.com/rbrahul/Awesome-JSON-Viewer/pull/15/conflict?name=src%252FJSONInput.js&ancestor_oid=d578a746fc6a193fb068fb4b4f0228452b8a3eb8&base_oid=d9ea2f1f43a0d2e78925b81184047f72caf5897d&head_oid=885fdf1dda86149e429e842ec1810aa859e3f4f1
+import { findDOMNode } from 'react-dom';
 import { tree } from 'd3-state-visualizer';
 
 class ChartView extends Component {
