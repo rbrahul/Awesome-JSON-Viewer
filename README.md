@@ -1,25 +1,30 @@
 ## Awesome JSON Viewer
 
-A chrome extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
+A Chrome browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
 
 [![Awesome JSON Viewer](https://raw.githubusercontent.com/rbrahul/Smart-Webpage-Ruler/master/images/chrome.png)](https://chrome.google.com/webstore/detail/awesome-json/iemadiahhbebdklepanmkjenfdebfpfe)
 
 
 ## Features
 
-* ✅ Beautify JSON response from API url.
-* ✅ Visual representation of response
+* ✅ Beautify JSON response from API
+* ✅ Visual representation of JSON
 * ✅ Depth traversing of JSON property using breadcrumbs
-* ✅ Write custom JSON in JSON Input area
-* ✅ URL filters to bypass on listed websites
-* ✅ Switch Themes
+* ✅ Write custom JSON in Input area
+* ✅ Import local JSON file
+* ✅ Download JSON file using Context Menu
+* ✅ URL filters
+* ✅ Change Themes
 * ✅ Custom CSS
 * ✅ Cool User Interface.
-* ✅ Copy property and value 
-* ✅ Access JSON in your console using 'json' keyword
+* ✅ Copy property and value
+* ✅ Access JSON in your console using only `json` keyword
 
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
+
+[Awesome JSON View Online Editor with very limited features](https://rbrahul.github.io/Awesome-JSON-Viewer/# "Awesome JSON Viewer")
+
 
 
 ## Known Issue/Expected Behaviour:
@@ -28,7 +33,14 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 
 
 
-## Change Log: 
+## Change Log:
+
+### Version 1.1.4 on  24-05-2020
+**New Feature**
+  * Download as a JSON file using Context Menu.
+  * Importing Local JSON file in the Editor - (Contributed by [withT](https://github.com/whthT))
+
+---
 
 ### Version 1.1.3 on  22-05-2020
 **Bug Fixed**
@@ -37,7 +49,7 @@ A chrome extension to visualize JSON response in awesome Tree and Chart view wit
 ### Version 1.1.2 on  21-05-2020
 **Bug Fixed**
   * Index.html page is not loading because /static/js/main.js and /static/css/main.css was missing.
- --- 
+ ---
 ### Version 1.1.1 on  20-05-2020
 **New Features:**
   * Added option page to control UI and experience.
