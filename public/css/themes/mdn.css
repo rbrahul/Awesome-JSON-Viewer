@@ -130,10 +130,12 @@ ul.json-dict li {
 
 .json-literal-url {
   color: #34a632;
+  white-space: normal;
 }
 
 .json-literal-string {
   color: #0642b0;
+  white-space: normal;
 }
 
 .json-literal-boolean {
@@ -377,6 +379,11 @@ a.json-placeholder {
   padding: 0 1em;
   text-decoration: none;
 }
+
 a.json-placeholder:hover {
   text-decoration: underline;
+}
+
+.d-none {
+    display: none!important;
 }

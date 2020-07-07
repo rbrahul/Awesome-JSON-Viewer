@@ -142,10 +142,12 @@ ul.json-dict li {
 
 .json-literal-string {
   color: #01ff70;
+  white-space: normal;
 }
 
 .json-literal-url {
   color: #0184ff;
+  white-space: normal;
 }
 
 .json-literal-boolean,
@@ -244,12 +246,15 @@ textarea:focus {
     line-height: 100%;
     margin-top:15px;
 }
+
 .save-btn-area{
     text-align: center;
 }
+
 .save-btn-area button:not(:first-child) {
     margin-left: 1em;
 }
+
 .json-input-error-msg{
     color:#fff;
     padding:20px;
