@@ -7,7 +7,7 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 
 ---
 
-# ⚠️ IMPORTANT!!!  JSON Viewer Awesome is no longer owned, maintained and developed by me or from this repository. The ownership of this JSON Viewer Awesome was changed and which is not available in the Chrome Webstore anymore.
+## ⚠️ IMPORTANT!!!  JSON Viewer Awesome is no longer owned, maintained and developed by me or from this repository. The ownership of this JSON Viewer Awesome was changed and which is not available in the Chrome Webstore anymore.
 ___
 
 [![](https://raw.githubusercontent.com/rbrahul/Smart-Webpage-Ruler/master/images/chrome.png)](https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc)
