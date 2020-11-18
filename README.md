@@ -1,5 +1,5 @@
 # ~~Awesome JSON Viewer~~ JSON Viewer Pro
-
+# Why was JSON Viewer Awesome marked as malware by chrome?
 A Chrome browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
 
 
