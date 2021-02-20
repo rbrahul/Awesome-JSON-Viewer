@@ -29,7 +29,7 @@ class ChartView extends Component {
     createNewNodeValue(depthPath) {
         let nodeData = this.props.data;
         let pathSequence = [...depthPath];
-        if (pathSequence.length == 1) {
+        if (pathSequence.length === 1) {
             return this.state.rootState;
         }
         pathSequence.reverse().splice(0, 1);
@@ -109,7 +109,7 @@ class ChartView extends Component {
                 let paths = hirarchy;
                 const newNodeData = this.createNewNodeValue(paths);
                 let newNode = {};
-                if (targetNode.depth == 0) {
+                if (targetNode.depth === 0) {
                     newNode = { ...newNodeData };
                 } else {
                     newNode[selectedNodeName] = newNodeData;

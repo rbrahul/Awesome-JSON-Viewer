@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { initPlugin } from './utils/json-viewer/jquery.json-viewer.js';
 
 class JSONInput extends Component {
     constructor(props) {
