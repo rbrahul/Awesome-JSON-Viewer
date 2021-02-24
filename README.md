@@ -5,7 +5,7 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 
 # Welcome to the JSON Viewer Pro. It is absolutely free and has no annoying advertisements.
 
-[![](https://raw.githubusercontent.com/rbrahul/Smart-Webpage-Ruler/master/images/chrome.png)](https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc)
+[![](https://raw.githubusercontent.com/rbrahul/Awesome-JSON-Viewer/master/chrome-web-store.png)](https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc)
 
 
 ## Features
