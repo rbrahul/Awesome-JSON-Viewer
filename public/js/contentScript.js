@@ -1,14 +1,7 @@
 'use strict';
 
-const isJSONResponsePageOnly = () => {
-    try {
-        const content = document.body.textContent.trim();
-        JSON.parse(content);
-        return true;
-    } catch (e) {
-        return false;
-    }
-};
+const isJSONResponse = () =>
+    document.contentType === 'application/json';
 
 const initApplication = () => {
     var styleTag = document.createElement('link');
@@ -82,10 +75,15 @@ const applyOptions = (options) => {
 
 const renderApplicationWithURLFiltering = (options) => {
     const urls = (options || {}).filteredURL || [];
-    const hasMatched = urls.filter((url) =>
+    const isURLBlocked = urls.some((url) =>
         window.location.href.startsWith(url),
     );
-    if ((urls.length && hasMatched.length) || !isJSONResponsePageOnly()) return;
+
+    if (
+        isURLBlocked ||
+        !isJSONResponse()
+    )
+        return;
 
     initApplication();
     applyOptions(options);
@@ -118,7 +116,7 @@ messageReceiver();
 // alternative to DOMContentLoaded event
 document.onreadystatechange = function () {
     if (document.readyState === 'interactive') {
-        if (isJSONResponsePageOnly()) {
+        if (isJSONResponse()) {
             chrome.runtime.sendMessage({ action: 'give_me_options' });
         }
     }

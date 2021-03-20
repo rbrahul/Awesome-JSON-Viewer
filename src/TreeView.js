@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 var $ = require('jquery');
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/jquery.json-viewer.js';
@@ -120,22 +119,23 @@ class TreeView extends Component {
             target.after('<a href class="json-placeholder">' + placeholder + '</a>');
         }
     }
-    
+
     componentDidMount() {
         window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
 
         if ($) {
             const pluginOptions = {
-                collapsed: false,
+                collapsed: 0,
                 withQuotes: true
             };
+            console.log('TREE: window.extensionOptions:',window.extensionOptions)
             initPlugin(this.$node, $, this.props.data, pluginOptions);
             $(document).on("click", "span.property", this.changeCopyIconLocation);
             $(document).on("click", "a.json-toggle", this.toggleSection);
 
           setTimeout(() => {
-                if ((window.extensionOptions || {}).collapsed == true) {
+                if ((window.extensionOptions || {}).collapsed == 1) {
                 $.each($('a.json-toggle'), function (index, item) {
                     if (index > 0) {
                         $(item).trigger('click');

@@ -89,10 +89,10 @@ body {
   text-decoration: none;
   color: #ccc;
   width: auto;
-  border: 1px solid #170232;
+  border: 1px solid #111;
   border-right: none;
   font-size: 12px;
-  background-color: #4a148c;
+  background-color: #17202a;
   font-weight: bold;
   cursor: pointer;
 }
@@ -237,6 +237,10 @@ textarea:focus {
   text-align: center;
 }
 
+.save-btn-area > .btn-big:first-child {
+    margin-right: 20px;
+}
+
 .json-input-error-msg {
   color: #fff;
   padding: 20px;
@@ -342,9 +346,11 @@ ul.json-dict, ol.json-array {
   border-left: 1px dotted #5D6D7E;
   padding-left: 2em;
 }
+
 .json-string {
   color: #0B7500;
 }
+
 .json-literal {
   color: #b568de;
   font-weight: bold;
@@ -356,9 +362,11 @@ a.json-toggle {
   color: inherit;
   text-decoration: none;
 }
+
 a.json-toggle:focus {
   outline: none;
 }
+
 a.json-toggle:before {
   color: #aaa;
   content: "\25BC"; /* down arrow */
@@ -368,6 +376,7 @@ a.json-toggle:before {
   left: -1em;
   font-size: 14px;
 }
+
 a.json-toggle.collapsed:before {
   content: "\25B6"; /* left arrow */
   font-size: 14px;

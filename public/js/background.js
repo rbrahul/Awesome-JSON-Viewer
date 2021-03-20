@@ -55,7 +55,7 @@ const sendOptions = () => {
         options = {};
         options.theme = 'default';
         options.css = '';
-        options.collapsed = true;
+        options.collapsed = 0;
     }
     (options.optionPageURL = chrome.extension.getURL('options.html')),
         (options.optionIconURL = chrome.extension.getURL(

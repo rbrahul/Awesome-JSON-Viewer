@@ -1,6 +1,6 @@
 const options = {
     theme: 'default',
-    collapsed: false,
+    collapsed: 0,
     css: `/**Write your CSS style **/
   .property{
       /*color:#994c9e;*/
@@ -111,7 +111,7 @@ const initOptions = () => {
     const savedOptions = getOptions(dbName);
     document.getElementById('theme').value = savedOptions.theme;
     window.cssEditor.setValue(savedOptions.css);
-    if (savedOptions.collapsed) {
+    if (savedOptions.collapsed == 1) {
         document.getElementById('collapsed').setAttribute('checked', 'checked');
     } else {
         document.getElementById('collapsed').checked = false;
@@ -129,7 +129,7 @@ const initOptions = () => {
                 newOption.theme = theme;
             }
             newOption.css = window.cssEditor.getValue();
-            newOption.collapsed = document.getElementById('collapsed').checked;
+            newOption.collapsed = document.getElementById('collapsed').checked ? 1 : 0;
             saveOptions(newOption);
             sendMessage('settings_updated');
             notify('Changes have been saved');
@@ -228,7 +228,7 @@ function intializeURLInput() {
         .querySelector(selectors.urlSaveBtn)
         .addEventListener('click', () => {
             var url = document.querySelector(selectors.urlInput).value;
-            var urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,}(:[0-9]{1,5})?(\/.*)?$/;
+            var urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*(:[0-9]{1,5})?(\/.*)?$/;
             if (url && urlPattern.test(url)) {
                 url = url.trim();
                 var options = getOptions(dbName);

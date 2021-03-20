@@ -1,8 +1,6 @@
 import React from 'react';
-if (typeof window !== 'undefined') {
-    window.React = React;
-}
 import ReactDOM from 'react-dom';
+
 import App from './App';
 import './index.css';
 
@@ -11,7 +9,7 @@ const content = document.body.textContent;
 try {
     const jsonData = JSON.parse(content.trim());
     window.json = jsonData;
-    let root = document.createElement('div');
+    const root = document.createElement('div');
     root.setAttribute('id', 'rbrahul-awesome-json');
     document.body.innerHTML = '';
     document.body.appendChild(root);
