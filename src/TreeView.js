@@ -129,7 +129,6 @@ class TreeView extends Component {
                 collapsed: 0,
                 withQuotes: true
             };
-            console.log('TREE: window.extensionOptions:',window.extensionOptions)
             initPlugin(this.$node, $, this.props.data, pluginOptions);
             $(document).on("click", "span.property", this.changeCopyIconLocation);
             $(document).on("click", "a.json-toggle", this.toggleSection);
