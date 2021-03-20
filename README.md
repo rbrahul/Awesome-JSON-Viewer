@@ -45,6 +45,7 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 ### Version 1.0.1 on  20-10-2021
 **New Feature**
   - Added ContentType application/json detection before initialising JSON Viewer Pro extension to webpage.
+
 **Bug Fix**
 - Fixed bug for NextJS framework implemented sites and Twitter Cards.
 - Added support for *localhost (http://localhost:port)* sites blocking in Manage URL settings.
