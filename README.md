@@ -8,6 +8,8 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 [![](https://raw.githubusercontent.com/rbrahul/Awesome-JSON-Viewer/master/chrome-web-store.png)](https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc)
 
 
+
+
 ## Features
 
 * ✅ Beautify JSON response from API
@@ -25,6 +27,13 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
+
+
+## Your small contribution inspires us.
+
+[![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/awesomejson)
+
+
 
 [Awesome JSON View Online Editor with very limited features](https://rbrahul.github.io/Awesome-JSON-Viewer/# "Awesome JSON Viewer")
 
