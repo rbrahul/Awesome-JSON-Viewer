@@ -28,11 +28,11 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
 
-# Donation:
+# Your donation is appreciated
 
 ### Your small contribution inspires us.
 
-[![](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/awesomejson)
+[![](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=VQLQGCRJAAF3L)
 
 
 
