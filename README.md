@@ -28,7 +28,7 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 ## Screen Shots
 ![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
 
-#Donation:
+# Donation:
 
 ### Your small contribution inspires us.
 
