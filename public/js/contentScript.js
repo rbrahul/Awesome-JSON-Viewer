@@ -1,7 +1,6 @@
 'use strict';
 
-const isJSONResponse = () =>
-    document.contentType === 'application/json';
+const isJSONResponse = () => document.contentType === 'application/json';
 
 const initApplication = () => {
     var styleTag = document.createElement('link');
@@ -60,13 +59,16 @@ const applyOptions = (options) => {
         'window.extensionOptions = ' + JSON.stringify(options, null, 2);
     setTimeout(
         (options) => {
-            document
-                .getElementById('option-menu')
-                .setAttribute('href', options.optionPageURL);
-            document
-                .getElementById('option-menu-icon')
-                .setAttribute('src', options.optionIconURL);
-            document.getElementById('option-menu-icon').style.display = 'block';
+            if (!!document.getElementById('option-menu')) {
+                document
+                    .getElementById('option-menu')
+                    .setAttribute('href', options.optionPageURL);
+                document
+                    .getElementById('option-menu-icon')
+                    .setAttribute('src', options.optionIconURL);
+                document.getElementById('option-menu-icon').style.display =
+                    'block';
+            }
         },
         1 * 1000,
         options,
@@ -79,11 +81,7 @@ const renderApplicationWithURLFiltering = (options) => {
         window.location.href.startsWith(url),
     );
 
-    if (
-        isURLBlocked ||
-        !isJSONResponse()
-    )
-        return;
+    if (isURLBlocked || !isJSONResponse()) return;
 
     initApplication();
     applyOptions(options);
