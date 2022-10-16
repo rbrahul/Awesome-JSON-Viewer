@@ -1,65 +1,51 @@
-# JSON Viewer Pro (Completely Free)
+# JSON Viewer NotPro
 
-A Chrome browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
+A ~~Chrome~~ browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
 
-
-# Welcome to the JSON Viewer Pro. It is absolutely free and has no annoying advertisements.
-
-[![](https://raw.githubusercontent.com/rbrahul/Awesome-JSON-Viewer/master/chrome-web-store.png)](https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc)
-
-
-
+Originally created for Chrome by @rbrahul, this is my fork of the [original extension](https://github.com/rbrahul/Awesome-JSON-Viewer) to experiment with Firefox.
 
 ## Features
 
-* ✅ Beautify JSON response from API
-* ✅ Visual representation of JSON
-* ✅ Depth traversing of JSON property using breadcrumbs
-* ✅ Write custom JSON in Input area
-* ✅ Import local JSON file
-* ✅ Download JSON file using Context Menu
-* ✅ URL filters
-* ✅ Change Themes
-* ✅ Custom CSS
-* ✅ Cool User Interface.
-* ✅ Copy property and value
-* ✅ Access JSON in your console using only `json` keyword
+Same as the original
 
-## Screen Shots
-![Awesome JSON](https://raw.githubusercontent.com/rbrahul/Awesome-JSON/master/awesome-json-slideshow.gif "Awesome JSON an awesome Chrome extension to assist development")
+    * ✅ Beautify JSON response from API
+    * ✅ Visual representation of JSON
+    * ✅ Depth traversing of JSON property using breadcrumbs
+    * ✅ Write custom JSON in Input area
+    * ✅ Import local JSON file
+    * ✅ Download JSON file using Context Menu
+    * ✅ URL filters
+    * ✅ Change Themes
+    * ✅ Custom CSS
+    * ✅ Cool User Interface.
+    * ✅ Copy property and value
+    * ✅ Access JSON in your console using only `json` keyword
 
-# Your donation is appreciated
-
-### Your small contribution inspires us.
+## Donate to @rbrahul, if you like the extension
 
 [![](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=VQLQGCRJAAF3L)
 
-
-
-## Online JSON viewer(without any installation needed):
-[Awesome JSON View Online Editor with very limited features](https://rbrahul.github.io/Awesome-JSON-Viewer/# "Awesome JSON Viewer")
-
-
-
-## Known Issue/Expected Behaviour:
-
- * Custom CSS/Style, Theme, Collapsible settings are not applicable on **chrome-extension://eifflpmocdbdmepbjaopkkhbfmdgijcc/index.html** page as **chrome-extension://\*** doesn't allow **conentScript** to be executed.
-
-
-
 ## Change Log:
 
-### Version 1.0.0 on  04-10-2020
-**New Feature**
-  - All the essential features of JSON Viewer
+### 2.0.0 \[WIP] - Work in Progress
 
-### Version 1.0.1 on  20-10-2021
-**New Feature**
-  - Added ContentType application/json detection before initialising JSON Viewer Pro extension to webpage.
+- ✅ Rewrite some scripts to native node instead of using system calls
+- 🚧 Add support for Firefox
+- 🕛 Port over the build system to use Vite
 
-**Bug Fix**
-- Fixed bug for NextJS framework implemented sites and Twitter Cards.
-- Added support for *localhost (http://localhost:port)* sites blocking in Manage URL settings.
-
-
-**Developed with ♥ using ReactJS, Jquery and D3**
+> ### Version 1.0.0 on 04-10-2020
+>
+> **New Feature**
+>
+> - All the essential features of JSON Viewer
+>
+> ### Version 1.0.1 on 20-10-2021
+>
+> **New Feature**
+>
+> - Added ContentType application/json detection before initialising JSON Viewer Pro extension to webpage.
+>
+> **Bug Fix**
+>
+> - Fixed bug for NextJS framework implemented sites and Twitter Cards.
+> - Added support for _localhost (http://localhost:port)_ sites blocking in Manage URL settings.

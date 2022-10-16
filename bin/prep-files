@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const fs = require('fs-extra');
+
+const BUILD_DIR = path.resolve(__dirname, '../build');
+const STATIC_DIR = path.join(BUILD_DIR, 'static');
+const INDEX_HTML = path.resolve(BUILD_DIR, 'index.html');
+
+async function main() {
+  console.log('Preparing files for bundling...');
+  const asset_manifest = await fs.readJSON(
+    path.join(BUILD_DIR, 'asset-manifest.json'),
+    'utf8'
+  );
+
+  await fs
+    .move(
+      path.join(BUILD_DIR, asset_manifest['main.js']),
+      path.join(BUILD_DIR, '/js/main.js')
+    )
+    .then(() => console.log('Moved JS bundle to js/main.js'))
+    .catch(err => console.error('Failed to move js bundle', err));
+
+  await fs
+    .move(
+      path.join(BUILD_DIR, asset_manifest['main.css']),
+      path.join(BUILD_DIR, '/css/main.css')
+    )
+    .then(() => console.log('Copied CSS bundle to css/main.css'))
+    .catch(err => console.error('Failed to move CSS bundle', err));
+
+  await fs
+    .rm(path.join(BUILD_DIR, 'asset-manifest.json'))
+    .then(() => console.log('Removed asset-manifest.json'))
+    .catch(err => console.error('Failed to remove asset-manifest.json', err));
+
+  await fs
+    .emptyDir(STATIC_DIR)
+    .then(() => fs.rmdir(STATIC_DIR))
+    .then(() => console.log('Removed build/static/'))
+    .catch(err => console.error('Failed to remove build/static/', err));
+
+  await fs
+    .readFile(INDEX_HTML, 'utf8')
+    .then(text =>
+      text
+        .replace(/main\.(?:.)+\.(js|css)"/g, (_, $1) => `main.${$1}"`)
+        .replace(/\/static/g, '')
+    )
+    .then(text => fs.writeFile(INDEX_HTML, text))
+    .then(() => console.log('Removed file naming Hash from build/index.html'));
+}
+
+main();
