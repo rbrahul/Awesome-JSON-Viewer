@@ -46,8 +46,12 @@ class JSONInput extends Component {
         }
 
         try {
-            // Accept JSON properties without quotes => https://stackoverflow.com/a/24175850
-            rawJSON = rawJSON.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:([^\/])/g, '"$2":$4');
+            // Accept JSON properties without quotes
+            var regex = /(\"(.*?)\"|(\w+))(\s*:\s*(\".*?\"|[^,\r\n}]+))/g
+            let match
+            while ((match = regex.exec(rawJSON)) !== null) {
+                rawJSON = rawJSON.replace(match[0], `"${match[2] || match[1]}": ${match[5]}`)
+            }
             // Accept JSON with trailing commas => https://stackoverflow.com/a/34347475
             rawJSON = rawJSON.replace(/\,(?=\s*?[\}\]])/g, '');
             const json = JSON.parse(rawJSON);
