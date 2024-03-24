@@ -1,5 +1,8 @@
 'use strict';
 
+console.log("hello from Content Script!");
+
+
 const isJSONResponse = () => document.contentType === 'application/json';
 
 const initApplication = () => {
@@ -7,8 +10,8 @@ const initApplication = () => {
     var customStyleTag = document.createElement('style');
     var customScriptTag = document.createElement('script');
     customStyleTag.id = 'custom-css';
-    var cssFilePath = chrome.extension.getURL('/css/main.css');
-    var jsFilePath = chrome.extension.getURL('/js/main.js');
+    var cssFilePath = chrome.runtime.getURL('/css/main.css');
+    var jsFilePath = chrome.runtime.getURL('/js/main.js');
     styleTag.setAttribute('href', cssFilePath);
     styleTag.rel = 'stylesheet';
     styleTag.type = 'text/css';
@@ -44,9 +47,9 @@ const applyOptions = (options) => {
     const customScriptNode = document.getElementById('custom-script');
     let cssURL = '';
     if (options.theme === 'default') {
-        cssURL = chrome.extension.getURL('/css/' + themes[options.theme]);
+        cssURL = chrome.runtime.getURL('/css/' + themes[options.theme]);
     } else {
-        cssURL = chrome.extension.getURL(
+        cssURL = chrome.runtime.getURL(
             '/css/themes/' + themes[options.theme],
         );
     }
@@ -55,8 +58,8 @@ const applyOptions = (options) => {
         styleNode.setAttribute('href', cssURL);
     }
     document.getElementById('custom-css').innerHTML = options.css;
-    customScriptNode.innerHTML =
-        'window.extensionOptions = ' + JSON.stringify(options, null, 2);
+    /*customScriptNode.innerHTML =
+        'window.extensionOptions = ' + JSON.stringify(options, null, 2);*/
     setTimeout(
         (options) => {
             if (!!document.getElementById('option-menu')) {
@@ -89,7 +92,8 @@ const renderApplicationWithURLFiltering = (options) => {
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
-        switch (message.action) {
+        console.log("MESSAGE:", message);
+       switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;
                 renderApplicationWithURLFiltering(message.options);

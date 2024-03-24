@@ -17,6 +17,7 @@ try {
         <App json={jsonData} />,
         document.getElementById('rbrahul-awesome-json'),
     );
+    console.log("Hello app")
 } catch (e) {
     // console.error('JSON parsing failed');
 }

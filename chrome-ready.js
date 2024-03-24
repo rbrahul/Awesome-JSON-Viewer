@@ -1,7 +1,7 @@
-var exec = require('child_process').exec;
-var fs = require('fs').promises;
+const { execSync } = require('child_process');
+const { copyFile, readFile, writeFile } = require('fs/promises');
 
-exec(
+execSync(
     'mv ' +
         __dirname +
         '/build/static/js/main*.js ' +
@@ -16,7 +16,7 @@ exec(
     },
 );
 
-exec(
+execSync(
     'mv ' +
         __dirname +
         '/build/static/css/main*.css ' +
@@ -31,7 +31,7 @@ exec(
     },
 );
 
-exec('rm -rf ' + __dirname + '/build/static ', function (
+execSync('rm -rf ' + __dirname + '/build/static ', function (
     error,
     stdout,
     stderr,
@@ -44,7 +44,7 @@ exec('rm -rf ' + __dirname + '/build/static ', function (
 });
 
 ['asset-manifest.json'].forEach((file) => {
-    exec('rm -f ' + __dirname + '/build/' + file, function (
+    execSync('rm -f ' + __dirname + '/build/' + file, function (
         error,
         stdout,
         stderr,
@@ -60,15 +60,16 @@ exec('rm -rf ' + __dirname + '/build/static ', function (
 /** REMOVE HASH FROM INDEX.html from style.css and main.js */
 const indexHTMLInBuild = __dirname + '/build/index.html';
 
-fs.readFile(indexHTMLInBuild).then((data) => {
+(async () => {
+    const data = await readFile(indexHTMLInBuild);
     let text = data.toString();
     text = text.replace(/main\.(?:.)+\.(js|css)"/g, (_, $1) => {
         return `main.${$1}"`;
     });
-
     text = text.replace(/\/static/g, '');
 
-    fs.writeFile(indexHTMLInBuild, text).then(() => {
-        console.log('Removed file naming Hash from build/index.html');
-    });
-});
+    await writeFile(indexHTMLInBuild, text)
+    console.log('Removed file naming Hash from build/index.html');
+
+    await copyFile(indexHTMLInBuild, __dirname+'/public/index.html')
+})();

@@ -69,21 +69,24 @@ function notify(message, type, duration) {
     }, maxVisibleTime);
 }
 
-const saveOptions = (value) => {
+const saveOptions = async (value) => {
     const data = JSON.stringify(value);
     try {
-        localStorage.setItem(dbName, data);
+       await chrome.storage.local.set({
+            [dbName]: data
+        });
     } catch (e) {
-        console.error('Your browser support localStorage', e.message);
+        console.error("chrome storage api error:", e);
     }
 };
 
-const getOptions = (key) => {
+const getOptions = async (key) => {
     try {
-        const data = localStorage.getItem(key);
-        return JSON.parse(data);
+        const data = await chrome.storage.local.get([key]);
+        console.log("getOptions data:", data[key], typeof data[key]);
+        return JSON.parse(data[key]);
     } catch (e) {
-        console.error("Your browser doesn't support localStorage", e.message);
+        console.error("Your browser doesn't support localStorage", e);
     }
     return null;
 };
@@ -100,15 +103,16 @@ const initCodeMirror = () => {
     );
 };
 
-const initOptions = () => {
+const initOptions = async () => {
     if (!window.cssEditor) {
         initCodeMirror();
     }
-    if (!getOptions(dbName)) {
-        saveOptions(options);
+    const currentOptions = await getOptions(dbName);
+    if (!currentOptions) {
+        await saveOptions(options);
     }
 
-    const savedOptions = getOptions(dbName);
+    const savedOptions = await getOptions(dbName);
     document.getElementById('theme').value = savedOptions.theme;
     window.cssEditor.setValue(savedOptions.css);
     if (savedOptions.collapsed == 1) {

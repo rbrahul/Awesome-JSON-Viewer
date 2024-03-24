@@ -2,15 +2,15 @@
   "name": "JSON Viewer Pro",
   "short_name": "JSON Viewer",
   "offline_enabled": true,
-  "version": "1.0.2",
-  "manifest_version": 2,
+  "version": "1.0.3",
+  "manifest_version": 3,
   "icons": {
     "16": "images/icons/icon-16.png",
     "38": "images/icons/icon-32.png",
     "128": "images/icons/icon-128.png"
   },
   "background": {
-    "scripts":[ "/js/background.js"]
+    "service_worker":"/js/background.js"
   },
    "options_page": "options.html",
   "content_scripts": [
@@ -19,7 +19,8 @@
         "http://*/*",
         "https://*/*",
         "ftp://*/*",
-        "file:///*"
+        "file:///*",
+        "*://*/*"
       ],
       "js": [
         "/js/contentScript.js"
@@ -28,18 +29,27 @@
       "all_frames": true
     }
   ],
-  "browser_action": {
+
+  "action": {
     "default_icon": "images/icons/icon-16.png"
   },
   "permissions": [
-    "*://*/*",
-    "contextMenus"
+    "contextMenus",
+    "storage"
   ],
+  "host_permissions": ["*://*/*"],
   "web_accessible_resources": [
-    "/js/main.js",
-    "/css/main.css",
-    "/css/themes/mdn.css",
-    "options.html",
-    "images/icons/gear.png"
+    {
+        "resources": [
+            "/js/main.js",
+            "/css/main.css",
+            "/css/themes/mdn.css",
+            "options.html",
+            "images/icons/gear.png"
+        ],
+        "matches": [
+            "*://*/*"
+        ]
+    }
   ]
 }
