@@ -1,14 +1,10 @@
 'use strict';
 
-console.log("hello from Content Script!");
-
-
 const isJSONResponse = () => document.contentType === 'application/json';
 
-const initApplication = () => {
+const initApplication = (options={}) => {
     var styleTag = document.createElement('link');
     var customStyleTag = document.createElement('style');
-    var customScriptTag = document.createElement('script');
     customStyleTag.id = 'custom-css';
     var cssFilePath = chrome.runtime.getURL('/css/main.css');
     var jsFilePath = chrome.runtime.getURL('/js/main.js');
@@ -16,7 +12,6 @@ const initApplication = () => {
     styleTag.rel = 'stylesheet';
     styleTag.type = 'text/css';
     styleTag.id = 'main-css';
-    customScriptTag.id = 'custom-script';
     if (document.querySelector('head')) {
         document.querySelector('head').appendChild(styleTag);
     } else {
@@ -27,7 +22,6 @@ const initApplication = () => {
     }
     document.head.appendChild(styleTag);
     document.head.appendChild(customStyleTag);
-    document.head.appendChild(customScriptTag);
     var scriptTag = document.createElement('script');
     scriptTag.setAttribute('src', jsFilePath);
     if (document.querySelector('body')) {
@@ -36,7 +30,15 @@ const initApplication = () => {
         var body = document.createElement('body');
         document.querySelector('html').appendChild(body);
     }
+    injectOptionsAsMetaContent(options);
 };
+
+const injectOptionsAsMetaContent = (extensionOptions = {}) => {
+    const meta = document.createElement('meta');
+    meta.name = 'extension-options';
+    meta.content = JSON.stringify(window.extensionOptions, extensionOptions);
+    document.head.appendChild(meta);
+}
 
 const applyOptions = (options) => {
     const themes = {
@@ -44,7 +46,6 @@ const applyOptions = (options) => {
         mdn: 'mdn.css',
     };
     const styleNode = document.getElementById('main-css');
-    const customScriptNode = document.getElementById('custom-script');
     let cssURL = '';
     if (options.theme === 'default') {
         cssURL = chrome.runtime.getURL('/css/' + themes[options.theme]);
@@ -58,8 +59,7 @@ const applyOptions = (options) => {
         styleNode.setAttribute('href', cssURL);
     }
     document.getElementById('custom-css').innerHTML = options.css;
-    /*customScriptNode.innerHTML =
-        'window.extensionOptions = ' + JSON.stringify(options, null, 2);*/
+
     setTimeout(
         (options) => {
             if (!!document.getElementById('option-menu')) {
@@ -92,7 +92,6 @@ const renderApplicationWithURLFiltering = (options) => {
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
-        console.log("MESSAGE:", message);
        switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;

@@ -9,6 +9,8 @@ const content = document.body.textContent;
 try {
     const jsonData = JSON.parse(content.trim());
     window.json = jsonData;
+    const extensionOptionsAsJSON = document.querySelector('meta[name="extension-options"]').getAttribute('content');
+    window.extensionOptions = JSON.parse(extensionOptionsAsJSON);
     const root = document.createElement('div');
     root.setAttribute('id', 'rbrahul-awesome-json');
     document.body.innerHTML = '';
@@ -17,7 +19,6 @@ try {
         <App json={jsonData} />,
         document.getElementById('rbrahul-awesome-json'),
     );
-    console.log("Hello app")
 } catch (e) {
     // console.error('JSON parsing failed');
 }
