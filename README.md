@@ -61,5 +61,13 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 - Fixed bug for NextJS framework implemented sites and Twitter Cards.
 - Added support for *localhost (http://localhost:port)* sites blocking in Manage URL settings.
 
+### Version 1.0.2 on 27-03-2024
+
+**Improvements:**
+- Upgraded to Manifest v3
+- Fixed the issue with missing gear icon.
+- Fixed issue with the reloading all tabs when settings are saved or set to default.
+- Collapse nested items settings was not working once the extension was opened via clicking on the extension icon.
+- Minor UI improvements in Toast Message and Buttons on the Setting page.
 
 **Developed with ♥ using ReactJS, Jquery and D3**
