@@ -80,13 +80,9 @@ const getBackwardCompatibleOptions = async (key) => {
 
 const sendOptions = async () => {
     let options = await getBackwardCompatibleOptions(dbName);
-    console.log('BG options From Backward Compatible check:', options);
-
     if (!options) {
         options = {};
     }
-
-    console.log('BG options:', options);
 
     options = {
         ...{
@@ -101,17 +97,19 @@ const sendOptions = async () => {
     options.optionPageURL = chrome.runtime.getURL('options.html');
     options.optionIconURL = chrome.runtime.getURL('/images/icons/gear.png');
 
-    const [tab] = await chrome.tabs.query({
-        // make sure we really need to get the active tab
-        active: true,
-        lastFocusedWindow: true,
-    });
-    console.log('BG options before sending:', options);
-
-    await chrome.tabs.sendMessage(tab.id, {
-        action: 'options_received',
-        options: options,
-    });
+    try {
+        const tabs = await chrome.tabs.query({});
+        tabs.forEach(async (tab) => {
+            try {
+                await chrome.tabs.sendMessage(tab.id, {
+                    action: 'options_received',
+                    options: options,
+                });
+            } catch (error) {}
+        });
+    } catch (error) {
+        console.log('Error Found while sending options from background.js:', error);
+    }
 };
 
 chrome.runtime.onMessage.addListener(async (message) => {

@@ -107,7 +107,6 @@ const renderApplicationWithURLFiltering = (options) => {
 
 const messageReceiver = () => {
     chrome.runtime.onMessage.addListener((message) => {
-        console.log('Message from CS:', message);
         switch (message.action) {
             case 'options_received':
                 window.extensionOptions = message.options;

@@ -40,30 +40,20 @@ var selectors = {
 const dbName = 'rb-awesome-json-viewer-options';
 
 async function sendMessage(action, message) {
-    // TODO: FIXME: message is not being sent to the content script
-    const [tab] = await chrome.tabs.query({
-        // make sure we really need to get the active tab
-        active: true,
-        lastFocusedWindow: true,
-    });
-    if (tab) {
-        chrome.tabs.sendMessage(tab.id, {
-            action: action,
-            data: message,
-        });
-    }
-   /* chrome.tabs.query({}, (tabs) => {
-        tabs.forEach((tab) => {
-            const messageObj = {
-                action: action,
-            };
+    const messageObj = {
+        action: action,
+    };
 
-            if (message) {
-                messageObj.data = message;
-            }
-            chrome.tabs.sendMessage(tab.id, messageObj);
-        });
-    });*/
+    if (message) {
+        messageObj.data = message;
+    }
+
+    const tabs = await chrome.tabs.query({});
+    tabs.forEach(async (tab) => {
+        try {
+            await chrome.tabs.sendMessage(tab.id, messageObj);
+        } catch (error) {}
+    });
 }
 
 function notify(message, type, duration) {
@@ -73,11 +63,11 @@ function notify(message, type, duration) {
     ['success', 'error', 'info', 'warning'].forEach((className) => {
         tostMessageElement.classList.remove(className);
     });
-    tostMessageElement.querySelector('p.text').textContent = message;
+    tostMessageElement.querySelector('.text').textContent = message;
     tostMessageElement.classList.add(messageType, 'active');
 
     setTimeout(() => {
-        tostMessageElement.classList.remove('active');
+       tostMessageElement.classList.remove('active');
     }, maxVisibleTime);
 }
 
@@ -95,7 +85,6 @@ const migrateOptions = async () => {
     try {
         const data = await chrome.storage.local.get([dbName]);
         const existingData = data[dbName];
-        console.log('existingData:', existingData, typeof existingData);
         if (existingData && typeof existingData === 'string') {
             try {
                 const parsedData = JSON.parse(existingData);
@@ -114,7 +103,6 @@ const migrateOptions = async () => {
 const getOptions = async (key) => {
     try {
         const data = await chrome.storage.local.get([key]);
-        console.log("getOptions data:", data[key], typeof data[key]);
         return data[key];
     } catch (e) {
         console.error("Your browser doesn't support localStorage", e);
