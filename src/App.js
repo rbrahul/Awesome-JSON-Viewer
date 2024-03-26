@@ -18,12 +18,6 @@ class App extends Component {
         this.locationHashChanged = this.locationHashChanged.bind(this);
     }
 
-    sendJSONToContentScript() {
-        try {
-            //chrome.runtime.send
-        } catch (error) {}
-    }
-
     changeTabSelection(tab) {
         this.setState({ selectedTab: tab });
     }

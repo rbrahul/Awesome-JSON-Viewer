@@ -30,10 +30,6 @@ class Menus extends Component {
         });
     }
 
-    goToOptionPage() {
-        window.open(window.optionPageURL);
-    }
-
     render() {
         return (
             <div className="action-area">
@@ -75,7 +71,7 @@ class Menus extends Component {
                     </li>
                     <li className="">
                         <a
-                            href={window.optionPageURL || '/options.html'}
+                            href={(window.extensionOptions||{}).optionPageURL || '/options.html'}
                             target="_blank"
                             className="option-menu"
                             id="option-menu"
@@ -83,7 +79,7 @@ class Menus extends Component {
                         >
                             <img
                                 id="option-menu-icon"
-                                src={window.optionIconURL || OPTION_ICON_PATH}
+                                src={(window.extensionOptions||{}).optionIconURL || OPTION_ICON_PATH}
                             />
                         </a>
                     </li>
