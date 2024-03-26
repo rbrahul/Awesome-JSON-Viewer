@@ -1,6 +1,14 @@
-chrome.action.onClicked.addListener((tab) => {
+const dbName = 'rb-awesome-json-viewer-options';
+
+chrome.action.onClicked.addListener(async (tab) => {
+    const extensionOptions = await getBackwardCompatibleOptions(dbName);
+    let queryParam = '';
+    if (extensionOptions && extensionOptions.theme) {
+        queryParam = `?options=${encodeURIComponent(JSON.stringify(extensionOptions))}`;
+    }
+    const url = chrome.runtime.getURL('index.html');
     chrome.tabs.create(
-        { url: chrome.runtime.getURL('index.html') },
+        { url: queryParam ? url + queryParam : url},
         function (tab) {},
     );
 });
@@ -47,26 +55,59 @@ const createContextMenu = async () => {
     }
 };
 
-const dbName = 'rb-awesome-json-viewer-options';
+
+const getBackwardCompatibleOptions = async (key) => {
+    try {
+        const data = await chrome.storage.local.get([key]);
+        const existingData = data[key];
+        if (existingData && typeof existingData === 'string') {
+            try {
+                const parsedData = JSON.parse(existingData);
+                if (parsedData && Object.keys(parsedData).length > 0) {
+                    return parsedData
+                }
+            } catch (error) {
+                console.log('Error while parsing the existing options:', error);
+                return;
+            }
+        }
+        return existingData;
+    } catch (e) {
+        console.error("Your browser doesn't support chrome storage api", e);
+    }
+    return;
+};
+
 const sendOptions = async () => {
-    let result = await chrome.storage.local.get([dbName]);
-    var options = result[dbName];
+    let options = await getBackwardCompatibleOptions(dbName);
+    console.log('BG options From Backward Compatible check:', options);
 
     if (!options) {
         options = {};
-        options.theme = 'default';
-        options.css = '';
-        options.collapsed = 0;
-    } else {
-        options = JSON.parse(options);
     }
+
+    console.log('BG options:', options);
+
+    options = {
+        ...{
+            theme: 'default',
+            css: '',
+            collapsed: 0,
+            filteredURL: [],
+        },
+        ...options
+    };
+
     options.optionPageURL = chrome.runtime.getURL('options.html');
     options.optionIconURL = chrome.runtime.getURL('/images/icons/gear.png');
 
     const [tab] = await chrome.tabs.query({
+        // make sure we really need to get the active tab
         active: true,
         lastFocusedWindow: true,
     });
+    console.log('BG options before sending:', options);
+
     await chrome.tabs.sendMessage(tab.id, {
         action: 'options_received',
         options: options,
