@@ -2,7 +2,7 @@
   "name": "JSON Viewer Pro",
   "short_name": "JSON Viewer",
   "offline_enabled": true,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 3,
   "icons": {
     "16": "images/icons/icon-16.png",
@@ -48,7 +48,9 @@
             "images/icons/gear.png"
         ],
         "matches": [
-            "*://*/*"
+            "*://*/*",
+            "ftp://*/*",
+            "file:///*"
         ]
     }
   ]
