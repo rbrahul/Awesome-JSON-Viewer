@@ -70,4 +70,9 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 - Collapse nested items settings was not working once the extension was opened via clicking on the extension icon.
 - Minor UI improvements in Toast Message and Buttons on the Setting page.
 
+### Version 1.0.3 on 31-03-2024
+
+**Bug Fixes:**
+- JSON Viewer Pro doesn't recognize local JSON files once opened via browser.
+
 **Developed with ♥ using ReactJS, Jquery and D3**
