@@ -1,0 +1,51 @@
+{
+  "name": "d3-state-visualizer",
+  "version": "3.0.0",
+  "description": "Visualize your app state with a range of reusable charts",
+  "keywords": [
+    "d3",
+    "state",
+    "store",
+    "tree",
+    "visualization"
+  ],
+  "homepage": "https://github.com/reduxjs/redux-devtools/tree/master/packages/d3-state-visualizer",
+  "bugs": {
+    "url": "https://github.com/reduxjs/redux-devtools/issues"
+  },
+  "license": "MIT",
+  "author": "romseguy",
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reduxjs/redux-devtools.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "prepack": "pnpm run clean && pnpm run build",
+    "prepublish": "pnpm run lint"
+  },
+  "dependencies": {
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0",
+    "deepmerge": "^4.3.1",
+    "lodash-es": "^4.17.21",
+    "ramda": "^0.30.1"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.30.2",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.5.4"
+  }
+}

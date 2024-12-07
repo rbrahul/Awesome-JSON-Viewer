@@ -1,0 +1,45 @@
+{
+  "name": "d3tooltip",
+  "version": "4.0.0",
+  "description": "A highly configurable tooltip for d3",
+  "keywords": [
+    "d3",
+    "tooltip"
+  ],
+  "homepage": "https://github.com/reduxjs/redux-devtools/tree/master/packages/d3tooltip",
+  "bugs": {
+    "url": "https://github.com/reduxjs/redux-devtools/issues"
+  },
+  "license": "MIT",
+  "author": "romseguy",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reduxjs/redux-devtools.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "prepack": "pnpm run clean && pnpm run build",
+    "prepublish": "pnpm run lint"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.5.4"
+  },
+  "peerDependencies": {
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0"
+  }
+}
