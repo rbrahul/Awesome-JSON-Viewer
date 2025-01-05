@@ -55,6 +55,7 @@ const DEFAULT_CHART_OPTION = {
         styles: undefined,
     },
 };
+
 class ChartView extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +70,6 @@ class ChartView extends Component {
     }
 
     createValidPath(path) {
-        console.log('Path:', path);
         const arrayIndexBracketStartAt = path.lastIndexOf('[');
         const arrayIndexBracketEndAt = path.lastIndexOf(']');
         if (arrayIndexBracketStartAt > -1) {
@@ -83,71 +83,121 @@ class ChartView extends Component {
     }
 
     generateDataFromBreadcumb(breadcrumbs) {
-        let currentData = this.state.rootState;
-        breadcrumbs.forEach((item, index) => {
-            currentData = currentData[item];
-        });
-        return currentData;
+        return breadcrumbs.reduce(
+            (accum, curr) => {
+                return accum[curr];
+            },
+            { ...this.state.rootState },
+        );
     }
 
-    gotToChart(index) {
-        const chartData = this.generateDataFromBreadcumb(this.state.breadcrumbs);
+    gotToChart = (index) => () => {
+        let newBreadcrumbs = this.state.breadcrumbs;
+        if (this.state.breadcrumbs.length > 1) {
+            newBreadcrumbs = [...this.state.breadcrumbs].slice(1, index + 1);
+        }
+        const chartData = this.generateDataFromBreadcumb(newBreadcrumbs);
         let newNode = {};
-        if (index === 0) {
+        if (typeof chartData === 'object' || Array.isArray(chartData)) {
             newNode = { ...chartData };
+        }
+
+        this.setState(
+            (prevState) => {
+                return {
+                    breadcrumbs: [...prevState.breadcrumbs].slice(0, index + 1),
+                    chartData: newNode,
+                };
+            },
+            () => {
+                this.renderChartFn(this.state.chartData);
+            },
+        );
+    };
+
+    onNodeClick = (targetNode) => {
+        console.log('targetNode:', targetNode);
+        const data = targetNode.data;
+        let hirarchy;
+        let updateTargetPath = false;
+        let selectedNodeName = this.createValidPath(data.name); //data.value || data.object || data.children;
+        const lastBreadcrumbsItem =
+            this.state.breadcrumbs[this.state.breadcrumbs.length - 1];
+
+        if (lastBreadcrumbsItem !== data.name && targetNode.depth > 0) {
+            updateTargetPath = true;
+            hirarchy = [selectedNodeName];
+            let currentNode = { ...targetNode };
+            while (currentNode?.parent) {
+                if (
+                    ![undefined, null].includes(currentNode.parent?.data?.name)
+                ) {
+                    hirarchy.unshift(
+                        this.createValidPath(currentNode.parent.data.name),
+                    );
+                    currentNode = currentNode.parent;
+                } else {
+                    break;
+                }
+            }
+            hirarchy = [...this.state.breadcrumbs].concat(
+                [...hirarchy].slice(1),
+            );
+        } else if (
+            lastBreadcrumbsItem === data.name &&
+            targetNode.height == 0
+        ) {
+            return;
+        } else if (targetNode.parrent) {
+            hirarchy = this.state.breadcrumbs;
         } else {
-            newNode[this.state.breadcrumbs[this.state.breadcrumbs.length - 1]] = chartData;
+            hirarchy = ['response'];
+        }
+
+        const newNodeData = this.createNewNodeValue(hirarchy);
+        let newNode = {};
+
+        if (
+            newNodeData !== null &&
+            (typeof newNodeData === 'object' || Array.isArray(newNodeData))
+        ) {
+            newNode = { ...newNodeData };
+        } else {
+            newNode[selectedNodeName] = newNodeData;
         }
 
         this.setState({
-            breadcrumbs: this.state.breadcrumbs.slice(0, index + 1),
+            chartData: newNode,
+            breadcrumbs: hirarchy,
         });
-        this.props.changeTargetNodeOnChart(newNode);
+
+        console.log(
+            'hirarchy:',
+            hirarchy,
+            'breadcumbs',
+            this.state.breadcrumbs,
+            'updateTargetPath:',
+            updateTargetPath,
+        );
+    };
+
+    createNewNodeValue(depthPath) {
+        let pathSequence = [...depthPath];
+        if (pathSequence.length == 1) {
+            return this.state.rootState;
+        }
+        const nodeData = [...pathSequence].slice(1).reduce((accum, curr) => {
+            return accum[curr];
+        }, this.props.data);
+        return nodeData;
     }
 
-
-
     renderChart() {
-        console.log("Going to render chart:", this.state.chartData)
         const config = {
             state: this.state.chartData,
             rootKeyName: 'response',
             onClickText: (targetNode) => {
-                const lastPath = this.state.breadcrumbs[this.state.breadcrumbs.length - 1];
-                // already added to the breadcrumbs
-                if (targetNode.data.name === lastPath && targetNode.height === 0) {
-                    return;
-                }
-
-                // clicked on the root node
-                if (!targetNode.parent) {
-                    return this.setState({
-                        chartData: this.state.rootState,
-                        breadcrumbs: ['response']
-                    })
-                }
-
-                // retrive path index striping down brackets
-                let selectedNodeName = this.createValidPath(
-                    targetNode.data.name,
-                );
-
-                this.setState((prevState) => {
-                    let  newChartData = prevState.chartData;
-                    if (prevState.breadcrumbs.length > 1) {
-                        const lastPath = prevState.breadcrumbs[prevState.breadcrumbs.length - 1];
-                        newChartData = {[selectedNodeName]: prevState.chartData[lastPath][selectedNodeName]};
-                    } else {
-                        newChartData = {[selectedNodeName]: prevState.chartData[selectedNodeName]}
-                    }
-                    return {
-                        chartData: newChartData,
-                        breadcrumbs: [
-                            ...prevState.breadcrumbs,
-                            selectedNodeName,
-                        ]
-                    };
-                });
+                this.onNodeClick(targetNode);
             },
             id: 'treeExample',
             size: window.innerWidth - 100,
@@ -202,7 +252,6 @@ class ChartView extends Component {
 
     componentWillUpdate(prevProps, prevState) {
         if (prevState.chartData !== this.state.chartData) {
-            console.log('Component will update now. Render the ui', "prevChartdata:",prevState.chartData, "current state:",this.state.chartData);
             this.renderChartFn(prevState.chartData);
         }
     }
@@ -212,7 +261,6 @@ class ChartView extends Component {
     }
 
     render() {
-        console.log('breadcrumbs:', this.state.breadcrumbs);
         return (
             <div ref={this.wrapperRef}>
                 <div className="breadcumb">
@@ -231,10 +279,7 @@ class ChartView extends Component {
                         {this.state.breadcrumbs.map((item, i) => {
                             return (
                                 <li key={i}>
-                                    <a
-                                        href="#"
-                                        onClick={this.gotToChart.bind(this, i)}
-                                    >
+                                    <a href="#" onClick={this.gotToChart(i)}>
                                         {' '}
                                         {item}{' '}
                                     </a>
