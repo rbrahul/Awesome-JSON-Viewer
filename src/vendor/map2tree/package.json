@@ -2,19 +2,8 @@
   "name": "map2tree",
   "version": "4.0.0",
   "description": "Utility for mapping maps to trees",
-  "keywords": [
-    "map2tree",
-    "map-to-tree",
-    "mapToTree",
-    "map",
-    "tree"
-  ],
-  "homepage": "https://github.com/reduxjs/redux-devtools/tree/master/packages/map2tree",
-  "bugs": {
-    "url": "https://github.com/reduxjs/redux-devtools/issues"
-  },
+  "private": true,
   "license": "MIT",
-  "author": "romseguy",
   "files": [
     "lib",
     "src"
@@ -23,10 +12,7 @@
   "types": "lib/index.d.ts",
   "type": "module",
   "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/reduxjs/redux-devtools.git"
-  },
+
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib",

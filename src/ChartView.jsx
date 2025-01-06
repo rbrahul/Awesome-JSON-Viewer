@@ -2,6 +2,8 @@ window.this = window;
 
 import React, { Component } from 'react';
 import { tree } from './vendor/d3-state-visualizer';
+import { getAppliedTransformation } from './utils/chart';
+
 const DEFAULT_CHART_OPTION = {
     state: undefined,
     rootKeyName: 'state',
@@ -179,6 +181,7 @@ class ChartView extends Component {
             'updateTargetPath:',
             updateTargetPath,
         );
+        setTimeout(this.reposition, 1000)
     };
 
     createNewNodeValue(depthPath) {
@@ -204,7 +207,7 @@ class ChartView extends Component {
             aspectRatio: 0.8,
             isSorted: false,
             margin: {
-                top: 0,
+                top: 100,
                 left: 100,
             },
             widthBetweenNodesCoeff: 1.5,
@@ -253,6 +256,35 @@ class ChartView extends Component {
     componentWillUpdate(prevProps, prevState) {
         if (prevState.chartData !== this.state.chartData) {
             this.renderChartFn(prevState.chartData);
+        }
+    }
+
+     reposition() {
+        console.log("set post");
+        const chartContainer = document.querySelector("#treeExample > g")
+        const {width, height, top, left} = chartContainer.getBoundingClientRect();
+        const appliedTransforms = getAppliedTransformation(chartContainer);
+        console.log("appliedTransforms:", appliedTransforms);
+
+        const offsetX = 100;
+        const offsetY = 100;
+        const scaleValue = appliedTransforms.scaleValue ?? 1;
+        let translateX = appliedTransforms.translateX ?? offsetX;
+        let translateY = offsetY * scaleValue;
+
+        if (height > window.screen.availHeight) {
+            translateY = window.screen.availHeight - (height/2 + window.screen.availHeight/2);
+            console.log("newTranslateY:", translateY);
+        }
+
+        if (appliedTransforms.translateX < 0 || appliedTransforms.translateX > window.screen.availWidth){
+            translateX = offsetX * scaleValue;
+        }
+
+        if (appliedTransforms.translateX < 0 || appliedTransforms.translateY < 0) {
+            const newTransform = `translate(${translateX}, ${translateY}), ${appliedTransforms.scale}`;
+            console.log("newTransform:", newTransform);
+            chartContainer.setAttribute("transform", newTransform);
         }
     }
 
