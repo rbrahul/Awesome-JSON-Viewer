@@ -4,7 +4,6 @@ export const getAppliedTransformation = (
     const translateAttr = element.getAttribute('transform');
     const appliedTransforms:Record<string, string|number> = {};
     if (translateAttr) {
-        console.log('Checking translate:', translateAttr);
         const translatePattern =
             /translate\((-?\d+\.?\d*)+,\s*(-?\d+\.?\d*)+\)/;
         const scalePattern = /scale\((-?\d+\.?\d*)+\)/;

@@ -83,17 +83,6 @@ class Menus extends Component {
                             />
                         </a>
                     </li>
-                    <li className="">
-                    <a
-                            href="#"
-                            className='more-options'
-                            onClick={this.props.onExtensionMenuClick}
-                             data-tooltip="More extension"
-                             data-direction="bottom"
-                        >
-                             <img src='images/icons/star.svg'  className='sm-icon' />
-                        </a>
-                    </li>
                 </ul>
             </div>
         );

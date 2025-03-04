@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 
 import App from './App.jsx';
 
+//import toast from "./vendor/toast"
+//import "./vendor/toast/dist/style.css";
+
+
 /* Copied from the Options.js */
 
 const DEFAULT_OPTIONS = {

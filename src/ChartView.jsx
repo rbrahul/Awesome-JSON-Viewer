@@ -1,62 +1,6 @@
-window.this = window;
-
 import React, { Component } from 'react';
 import { tree } from './vendor/d3-state-visualizer';
 import { getAppliedTransformation } from './utils/chart';
-
-const DEFAULT_CHART_OPTION = {
-    state: undefined,
-    rootKeyName: 'state',
-    pushMethod: 'push',
-    tree: undefined,
-    id: 'd3svg',
-    chartStyles: {},
-    nodeStyleOptions: {
-        colors: {
-            default: '#ccc',
-            collapsed: 'lightsteelblue',
-            parent: 'white',
-        },
-        radius: 7,
-    },
-    textStyleOptions: {
-        colors: {
-            default: 'black',
-            hover: 'skyblue',
-        },
-    },
-    linkStyles: {
-        stroke: '#000',
-        fill: 'none',
-    },
-    size: 500,
-    aspectRatio: 1.0,
-    initialZoom: 1,
-    margin: {
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 50,
-    },
-    isSorted: false,
-    heightBetweenNodesCoeff: 2,
-    widthBetweenNodesCoeff: 1,
-    transitionDuration: 750,
-    blinkDuration: 100,
-    onClickText: () => {
-        // noop
-    },
-    tooltipOptions: {
-        disabled: false,
-        left: undefined,
-        top: undefined,
-        offset: {
-            left: 0,
-            top: 0,
-        },
-        styles: undefined,
-    },
-};
 
 class ChartView extends Component {
     constructor(props) {
@@ -67,7 +11,6 @@ class ChartView extends Component {
             breadcrumbs: ['response'],
             rootState: props.rootData,
             chartData: props.data,
-            positionTop: window.innerHeight / 2,
         };
     }
 
@@ -94,11 +37,17 @@ class ChartView extends Component {
     }
 
     gotToChart = (index) => () => {
+        const isRootOnly = index === 0 && this.state.breadcrumbs.length === 1;
+        const isLastOne = index === this.state.breadcrumbs.length - 1;
+        if (isRootOnly || isLastOne) {
+            return;
+        }
         let newBreadcrumbs = this.state.breadcrumbs;
+        let chartData = this.state.rootState;
         if (this.state.breadcrumbs.length > 1) {
             newBreadcrumbs = [...this.state.breadcrumbs].slice(1, index + 1);
+            chartData = this.generateDataFromBreadcumb(newBreadcrumbs);
         }
-        const chartData = this.generateDataFromBreadcumb(newBreadcrumbs);
         let newNode = {};
         if (typeof chartData === 'object' || Array.isArray(chartData)) {
             newNode = { ...chartData };
@@ -181,7 +130,7 @@ class ChartView extends Component {
             'updateTargetPath:',
             updateTargetPath,
         );
-        setTimeout(this.reposition, 1000)
+        setTimeout(this.reposition, 1000);
     };
 
     createNewNodeValue(depthPath) {
@@ -196,8 +145,15 @@ class ChartView extends Component {
     }
 
     renderChart() {
+        console.log('this.state.chartData:', this.state.chartData);
+        let chartState = this.state.chartData;
+        if (chartState && Array.isArray(chartState)) {
+            chartState = {
+                ...chartState,
+            };
+        }
         const config = {
-            state: this.state.chartData,
+            state: chartState,
             rootKeyName: 'response',
             onClickText: (targetNode) => {
                 this.onNodeClick(targetNode);
@@ -249,8 +205,12 @@ class ChartView extends Component {
                 },
             },
         };
-        this.renderChartFn = tree(this.wrapperRef.current, config);
-        this.renderChartFn();
+        const render = tree(this.wrapperRef.current, config);
+        this.renderChartFn = (data) => {
+            setTimeout(this.reposition, 1000);
+            return render(data);
+        };
+        render();
     }
 
     componentWillUpdate(prevProps, prevState) {
@@ -259,12 +219,11 @@ class ChartView extends Component {
         }
     }
 
-     reposition() {
-        console.log("set post");
-        const chartContainer = document.querySelector("#treeExample > g")
-        const {width, height, top, left} = chartContainer.getBoundingClientRect();
+    reposition() {
+        const chartContainer = document.querySelector('#treeExample > g');
+        const { height } = chartContainer.getBoundingClientRect();
         const appliedTransforms = getAppliedTransformation(chartContainer);
-        console.log("appliedTransforms:", appliedTransforms);
+        console.log('appliedTransforms:', appliedTransforms);
 
         const offsetX = 100;
         const offsetY = 100;
@@ -273,18 +232,25 @@ class ChartView extends Component {
         let translateY = offsetY * scaleValue;
 
         if (height > window.screen.availHeight) {
-            translateY = window.screen.availHeight - (height/2 + window.screen.availHeight/2);
-            console.log("newTranslateY:", translateY);
+            translateY =
+                window.screen.availHeight -
+                (height / 2 + window.screen.availHeight / 2);
         }
 
-        if (appliedTransforms.translateX < 0 || appliedTransforms.translateX > window.screen.availWidth){
+        if (
+            appliedTransforms.translateX < 0 ||
+            appliedTransforms.translateX > window.screen.availWidth
+        ) {
             translateX = offsetX * scaleValue;
         }
 
-        if (appliedTransforms.translateX < 0 || appliedTransforms.translateY < 0) {
+        if (
+            appliedTransforms.translateX < 0 ||
+            appliedTransforms.translateY < 0
+        ) {
             const newTransform = `translate(${translateX}, ${translateY}), ${appliedTransforms.scale}`;
-            console.log("newTransform:", newTransform);
-            chartContainer.setAttribute("transform", newTransform);
+            console.log('newTransform:', newTransform);
+            chartContainer.setAttribute('transform', newTransform);
         }
     }
 

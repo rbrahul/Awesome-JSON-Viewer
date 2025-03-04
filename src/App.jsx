@@ -4,7 +4,6 @@ import Tooltip from './vendor/tooltip';
 import TreeView from './TreeView.jsx';
 import ChartViews from './ChartView.jsx';
 import JSONInput from './JSONInput.jsx';
-import MoreExtensionsByDeveloperOverlay from './MoreExtensionsByDeveloperOverlay';
 //import './css/style.css';
 import './css/dark-pro.css';
 
@@ -84,7 +83,6 @@ class App extends Component {
 
     bodyClickHandler = (e) => {
         const target = e.target;
-        console.log("target:", target)
         if (!!target?.closest('.extension-list-overlay')) {
             return;
         }

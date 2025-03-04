@@ -5,6 +5,7 @@ class Tooltip {
     tooltipMessageId = "tooltip-msg";
     styleTagId = "tooltip-style";
     _allowedDirection = ['top','right','bottom','left'];
+    size='medium' // small | medium | large
 
     constructor(options={}) {
         if(options.container) {
@@ -16,6 +17,10 @@ class Tooltip {
 
         if (options.distance) {
             this.distance = options.distance;
+        }
+
+        if (options.size) {
+            this.size = options.size;
         }
 
         this.initialiseTooltip();
@@ -41,9 +46,14 @@ class Tooltip {
             max-width:300px;
         }
 
-        #tooltip-msg.sm {
+        #tooltip-msg.small {
              padding: 8px;
              font-size: 12px;
+        }
+
+        #tooltip-msg.medium {
+             padding: 10px;
+             font-size: 13px;
         }
 
         #tooltip-msg:before {
@@ -111,7 +121,7 @@ class Tooltip {
         const tooltip = document.createElement('div');
         const toolTipId = this.tooltipMessageId;
         tooltip.id =toolTipId;
-        tooltip.classList.add("hidden");
+        tooltip.classList.add("hidden", this.size || 'medium');
         if(!document.body.querySelector(`#${toolTipId}`)) {
             document.body.append(tooltip);
         }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 var jQuery = $;
-import { initPlugin } from './utils/json-viewer/jquery.json-viewer.js';
-import './utils/json-viewer/jquery.json-viewer.css';
+import { initPlugin } from './utils/json-viewer/json-viewer.js';
+import './utils/json-viewer/json-viewer.css';
 
 class TreeView extends Component {
     constructor(props) {
