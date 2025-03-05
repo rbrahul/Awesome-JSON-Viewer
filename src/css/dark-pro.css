@@ -213,9 +213,7 @@ body {
   }
 
   .json-input-section {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 80px;
+    width: 100%;
   }
 
   .json-input-section h1 {
@@ -398,4 +396,50 @@ body {
 
   text.nodeText{
     color: #fff;
+  }
+
+
+  .jv-btn {
+    border: 1px solid #111;
+    font-size: 15px;
+    border-radius: 4px;
+    background-color: #33354a;
+  }
+
+  .jv-btn-md {
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  .jv-btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+  .jv-btn-default {
+    background-color: #33354a;
+    color: #fff;
+  }
+
+  .jv-btn-primary {
+    background-color: #433387;
+    color: #fff;
+  }
+
+  .jv-align-start {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .jv-align-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .jv-width-half {
+    width: 50%;
   }

@@ -1,0 +1,28 @@
+.jv-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.jv-logo-icon {
+    background-color: #7c4bde;
+    margin: 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding-bottom:3px;
+    margin-right: 15px;
+  }
+
+  .jv-logo-title {
+      display: inline-block;
+      font-size:18px;
+      color:#fff;
+      line-height: 100%;
+  }

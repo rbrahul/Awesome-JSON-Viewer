@@ -228,24 +228,6 @@ textarea:focus {
   transition: background-color 0.4s ease-in;
 }
 
-.json-logo {
-  background-color: #7c4bde;
-  margin: 0 auto;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-  border: 2px solid #fff;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.json-logo span {
-    display: block;
-    font-size:30px;
-    color:#fff;
-    line-height: 100%;
-    margin-top:15px;
-}
 
 .save-btn-area{
     text-align: center;

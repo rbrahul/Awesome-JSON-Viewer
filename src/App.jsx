@@ -3,7 +3,7 @@ import Menus from './Menus.jsx';
 import Tooltip from './vendor/tooltip';
 import TreeView from './TreeView.jsx';
 import ChartViews from './ChartView.jsx';
-import JSONInput from './JSONInput.jsx';
+import Editor from './components/Editor';
 //import './css/style.css';
 import './css/dark-pro.css';
 
@@ -162,7 +162,7 @@ class App extends Component {
                         />
                     )}
                     {this.state.selectedTab === 'jsonInput' && (
-                        <JSONInput
+                        <Editor
                             json={this.state.json}
                             changeJSON={this.changeJSON.bind(this)}
                         />

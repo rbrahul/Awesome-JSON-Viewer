@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import { initPlugin } from './utils/json-viewer/json-viewer.js';
+import React, { Component, createRef } from 'react';
+import { json } from '@codemirror/lang-json';
+import { basicSetup, EditorView } from 'codemirror'
+import { githubLight, githubDark, githubDarkInit } from '@uiw/codemirror-theme-github';
+import Logo from '../Logo';
+import './style.css';
+import Toolbar from './Toolbar';
 
-class JSONInput extends Component {
+
+class Editor extends Component {
+    editorRef = null
+    codeMirror = null
     constructor(props) {
         super(props);
+        this.editorRef = createRef()
+        this.codeMirror = createRef()
         this.state = {
             errors: {
                 jsonParseFailed: {
@@ -24,7 +34,7 @@ class JSONInput extends Component {
         let rawJSON =
             initialJSON && typeof initialJSON === 'string'
                 ? initialJSON
-                : this.refs.rawJSON.value.trim();
+                : this.codeMirror.current.state.doc.toString().trim()
         if (!initialJSON) {
             if (!rawJSON) {
                 this.setState({
@@ -107,58 +117,77 @@ class JSONInput extends Component {
         });
     }
 
+ initCodeMirror = () => {
+    if(this.editorRef.current) {
+        this.codeMirror.current = new EditorView({
+        doc: this.state.json,
+        extensions: [
+            basicSetup,
+            githubDarkInit({ settings: {
+                background: "#070707",
+                gutterBackground: "#111111"
+            }
+            }),
+            json()
+        ],
+        parent: this.editorRef.current,
+        })
+      }
+      this.codeMirror.current.dom.style.height = "600px";
+};
+
+componentDidMount(){
+    this.initCodeMirror();
+}
+
     render() {
         return (
-            <div className="json-input-section">
-                <div className="json-logo">
-                    <span>{'{..}'}</span>
-                </div>
-                <h1>JSON formatted text</h1>
+            <>
+                <Logo />
+                <div className="jv-editor">
+                    <Toolbar onImportBtnClick={this.showFileDialog.bind(this)} onParseJson={this.parseJSON.bind(this)} />
+                    <div className="json-input-section">
+                        {this.state.errors.jsonParseFailed.status && (
+                            <div className="json-input-error-msg">
+                                {this.state.errors.jsonParseFailed.message}
+                            </div>
+                        )}
 
-                {this.state.errors.jsonParseFailed.status && (
-                    <div className="json-input-error-msg">
-                        {this.state.errors.jsonParseFailed.message}
-                    </div>
-                )}
+                        {this.state.errors.rawJSON.status && (
+                            <div className="json-input-error-msg">
+                                {this.state.errors.rawJSON.message}
+                            </div>
+                        )}
 
-                {this.state.errors.rawJSON.status && (
-                    <div className="json-input-error-msg">
-                        {this.state.errors.rawJSON.message}
+                        <div className="jv-code-editor" ref={this.editorRef}></div>
+                        <input
+                            className="d-none"
+                            onChange={this.handleFileInputChange.bind(this)}
+                            accept="application/json"
+                            type="file"
+                            id="fileInput"
+                        />
+                        <div className="form-input save-btn-area">
+                            <button
+                                type="button"
+                                className="btn btn-big btn-white"
+                                onClick={this.parseJSON.bind(this)}
+                            >
+                                Parse JSON
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-big btn-white"
+                                onClick={this.showFileDialog.bind(this)}
+                            >
+                                Load a file
+                            </button>
+                        </div>
                     </div>
-                )}
-                <div className="form-input">
-                    <textarea
-                        ref="rawJSON"
-                        defaultValue={this.state.json}
-                        className="json-input"
-                    ></textarea>
                 </div>
-                <input
-                    className="d-none"
-                    onChange={this.handleFileInputChange.bind(this)}
-                    accept="application/json"
-                    type="file"
-                    id="fileInput"
-                />
-                <div className="form-input save-btn-area">
-                    <button
-                        type="button"
-                        className="btn btn-big btn-white"
-                        onClick={this.parseJSON.bind(this)}
-                    >
-                        Parse JSON
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-big btn-white"
-                        onClick={this.showFileDialog.bind(this)}
-                    >
-                        Load a file
-                    </button>
-                </div>
-            </div>
+            </>
         );
     }
 }
 
-export default JSONInput;
+export default Editor;

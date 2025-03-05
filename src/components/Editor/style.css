@@ -1,0 +1,10 @@
+.jv-editor {
+    margin:0 auto;
+    margin-top: 80px;
+    width:  80%;
+}
+
+.jv-code-editor{
+    height: 500px;
+    box-sizing: border-box;
+}
