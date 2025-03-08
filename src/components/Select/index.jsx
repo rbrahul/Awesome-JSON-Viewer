@@ -23,45 +23,27 @@ const Select = ({
     items,
     ...props
 }) => {
-   // const [selectedLabel, setSelectedLabel] = useState(label);
-    const [value, setValue] = useState("");
     const [menuItems, setMenuItems] = useState(items);
 
     const onClick = useCallback((value) => {
-        setValue(value);
         onChange(value);
-    }, [onChange, setValue]);
+    }, [onChange]);
 
+    let selectedLabel = findSelectedLabel(label, menuItems);
 
-    useMemo(() => {
-        const items = menuItems.map(item => {
+    useEffect(() => {
+        const modifiedListeItems = items.map(item => {
             item.onClick = onClick;
-            if (item.label === value) {
+            if (item.label === label) {
                 item.selected = true;
             } else {
                 item.selected = false;
             }
             return item;
         });
-        setMenuItems(items);
-    }, [items, value]);
-
-    let selectedLabel = findSelectedLabel(label, menuItems);
-
-    useEffect(() => {
-            const items = menuItems.map(item => {
-                if (item.label === label) {
-                    item.selected = true;
-                } else {
-                    item.selected = false;
-                }
-                return item;
-            });
-            setMenuItems(items);
-            selectedLabel = findSelectedLabel(label, menuItems);
-    }, [label]);
-
-    console.log("selectedLabel:", selectedLabel);
+        setMenuItems(modifiedListeItems);
+        selectedLabel = findSelectedLabel(label, menuItems);
+    }, [label, items]);
 
     return <DropDown items={menuItems} label={selectedLabel}  {...props} />
 }
@@ -72,12 +54,15 @@ Select.propTypes = {
     className: PropTypes.string,
     labelIcon: PropTypes.node,
     hasCaretIcon: PropTypes.string,
+    open: PropTypes.string,
     label: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string,
         iconUrl: PropTypes.string,
         onClick: PropTypes.func
-    }))
+    })),
+    onChange: PropTypes.func,
+    onClose: PropTypes.func,
   };
 
 

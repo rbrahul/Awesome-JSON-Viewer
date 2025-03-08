@@ -2,13 +2,18 @@ import React, { Component, createRef } from 'react';
 import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
 import { xml } from '@codemirror/lang-xml';
-import {convertContent, convertToJsObject, trimXMLArrayRoot} from '../../utils/convertContent';
+import {
+    convertContent,
+    convertToJsObject,
+    trimXMLArrayRoot,
+} from '../../utils/convertContent';
 import { basicSetup, EditorView } from 'codemirror';
 import { githubDarkInit } from '@uiw/codemirror-theme-github';
-import { FiXCircle  } from 'react-icons/fi';
+import { FiXCircle } from 'react-icons/fi';
 
 import downloadFile from '../../utils/dowloadFile';
-import {currentDateTime} from '../../utils/datetime';
+import { currentDateTime } from '../../utils/datetime';
+import { calculateFileSize } from '../../utils/common';
 import Logo from '../Logo';
 import Toolbar from './Toolbar';
 import './style.css';
@@ -28,31 +33,34 @@ class Editor extends Component {
         this.codeMirror = createRef();
         this.state = {
             contentType: 'JSON',
-            validationError: "",
-            footerMessage: "",
+            validationError: '',
+            footerMessage: '',
             json: JSON.stringify(props.json, null, 4),
+            cursorPosition: { line: 1, col: 0 },
         };
     }
 
+    setCursorPosition = (selection) => {
+        //   const selection = this.codeMirror.current.state.selection;
+        console.log('Line Selection:', selection);
+        this.setState({
+            cursorPosition: selection,
+        });
+    };
+
     showParseError(contentType) {
         this.setState({
-            validationError: `Failed to parse the data as ${contentType}. Please check if you have entered valid data and matches with correct Content Type.`
+            validationError: `Failed to parse the data as ${contentType}. Please check if you have entered valid ${this.state.contentType}`,
         });
     }
 
     setFooterMessage(msg) {
         this.setState({
-            footerMessage: msg
+            footerMessage: msg,
         });
     }
 
     onContentTypeChange(contentType) {
-        this.resetErrors();
-        if(contentType === "XML") {
-            this.setFooterMessage(`Conversion between XML and JSON may lead to unexpected 'null' to empty string ("") or number to string type casting.`);
-        } else {
-            this.setFooterMessage('');
-        }
         if (this.state.contentType !== contentType) {
             const content = this.codeMirror.current.state.doc.toString().trim();
             if (!content) {
@@ -66,8 +74,10 @@ class Editor extends Component {
                 );
                 this.codeMirror.current.destroy();
                 this.initCodeMirror(result, contentType);
+                this.resetErrors();
             } catch (e) {
                 this.showParseError(contentType);
+                return;
             }
         }
         this.setState({
@@ -87,7 +97,7 @@ class Editor extends Component {
         const contentType = this.state.contentType ?? 'JSON';
         try {
             let json = convertToJsObject(content, contentType);
-            json = trimXMLArrayRoot(json)
+            json = trimXMLArrayRoot(json);
             this.props.changeJSON(json);
         } catch (e) {
             this.showParseError(contentType);
@@ -103,7 +113,11 @@ class Editor extends Component {
 
     saveEditorContentAsFile() {
         const fileExtension = this.state.contentType.toLowerCase();
-        downloadFile(this.codeMirror.current.state.doc.toString().trim(), 'text/'+fileExtension, `data-${currentDateTime()}.${fileExtension}`)
+        downloadFile(
+            this.codeMirror.current.state.doc.toString().trim(),
+            'text/' + fileExtension,
+            `data-${currentDateTime()}.${fileExtension}`,
+        );
     }
 
     handleFileInputChange(event) {
@@ -129,7 +143,7 @@ class Editor extends Component {
 
     resetErrors() {
         this.setState({
-            validationError: ""
+            validationError: '',
         });
     }
 
@@ -149,10 +163,25 @@ class Editor extends Component {
                         },
                     }),
                     editorLanguageParser(),
+                    EditorView.updateListener.of((update) => {
+                        if (update.docChanged) {
+                            //console.log("editor updated", update);
+                        }
+                        const position = update.view.state.doc.lineAt(
+                            update.view.state.selection.main.head,
+                        );
+                        this.setCursorPosition({
+                            line: position.number,
+                            col:
+                                update.view.state.selection.main.head -
+                                position.from,
+                        });
+                    }),
                 ],
                 parent: this.editorRef.current,
             });
         }
+
         this.codeMirror.current.dom.style.height = '600px';
     };
 
@@ -160,8 +189,20 @@ class Editor extends Component {
         this.initCodeMirror(this.state.json);
     }
 
+    componentWillUpdate(prevProps, nextState) {
+        if (nextState.contentType === 'XML' && !this.state.footerMessage) {
+            this.setFooterMessage(
+                `Conversion between XML and JSON may lead to unexpected 'null' to empty string ("") or number to string type casting.`,
+            );
+        } else if(nextState.contentType !== 'XML' && this.state.footerMessage) {
+                this.setFooterMessage('');
+        }
+    }
+
     render() {
-        const totalNumberOfBytes = new Blob([this.codeMirror?.current?.state?.doc?.toString()?.trim() ?? ""]).size;
+        const totalNumberOfBytes = new Blob([
+            this.codeMirror?.current?.state?.doc?.toString()?.trim() ?? '',
+        ]).size;
         return (
             <>
                 <Logo />
@@ -178,10 +219,14 @@ class Editor extends Component {
                     <div className="json-input-section">
                         {this.state.validationError && (
                             <div className="json-input-error-msg">
-                               <span>{this.state.validationError}</span>
-                               <button type="btn" onClick={this.resetErrors.bind(this)} className='alert-close-btn'>
-                                <FiXCircle />
-                               </button>
+                                <span>{this.state.validationError}</span>
+                                <button
+                                    type="button"
+                                    onClick={this.resetErrors.bind(this)}
+                                    className="alert-close-btn"
+                                >
+                                    <FiXCircle />
+                                </button>
                             </div>
                         )}
 
@@ -196,9 +241,21 @@ class Editor extends Component {
                             type="file"
                             id="fileInput"
                         />
-                        <div className='editor-footer'>
-                            <div className="message-area"><span className='msg-icon'></span>{this.state.footerMessage}</div>
-                            <div className="info-area"><span>Number of Bytes: {totalNumberOfBytes}</span></div>
+                        <div className="editor-footer">
+                            <div className="message-area">
+                                <span className="msg-icon"></span>
+                                {this.state.footerMessage}
+                            </div>
+                            <div className="info-area">
+                                <span className="cursor-position-info">
+                                    Line {this.state.cursorPosition.line}, Col{' '}
+                                    {this.state.cursorPosition.col}
+                                </span>{' '}
+                                <span>
+                                    Total Bytes:{' '}
+                                    {calculateFileSize(totalNumberOfBytes)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

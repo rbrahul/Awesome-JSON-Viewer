@@ -120,7 +120,15 @@ class TreeView extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
+        if (prevProps.data !== this.props.data) {
+            console.log("Re Rending");
+            this.cleanUpEventListeners();
+            this.renderJSONTree();
+        }
+    }
+
+    renderJSONTree() {
         window.json = this.props.data;
         this.$node = $(this.refs.jsonRenderer);
 
@@ -145,9 +153,17 @@ class TreeView extends Component {
         }
     }
 
-    componentWillUnmount() {
+    componentDidMount() {
+      this.renderJSONTree();
+    }
+
+    cleanUpEventListeners() {
         $(document).off("click", "span.property", this.changeCopyIconLocation);
         $(document).off("click", "a.json-toggle", this.toggleSection);
+    }
+
+    componentWillUnmount() {
+        this.cleanUpEventListeners();
     }
 
     render() {

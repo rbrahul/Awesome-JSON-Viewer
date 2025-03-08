@@ -1,9 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import { FiCheck, FiChevronDown } from 'react-icons/fi';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import './style.scss';
-
 
 const DropDown = ({
     labelIcon,
@@ -11,9 +10,12 @@ const DropDown = ({
     items,
     className = '',
     hasCaretIcon = true,
+    isButtonVisible = true,
+    open=false,
+    onClose
 }) => {
-    console.log("ITEMS:", items)
-    const [isExpanded, setIsExpanded] = useState(false);
+    const expandedRef = useRef(open);
+    const [isExpanded, setIsExpanded] = useState(open);
     const onChangeHandler = useCallback(
         (cb, value) => (_) => {
             cb(value);
@@ -36,6 +38,9 @@ const DropDown = ({
                 return;
             }
             setIsExpanded(false);
+            if (typeof onClose === 'function') {
+                onClose();
+            }
         },
         [isExpanded],
     );
@@ -45,34 +50,44 @@ const DropDown = ({
         return () => {
             document.body.removeEventListener('click', bodyClickHandler, false);
         };
-    }, [isExpanded]);
+    }, []);
 
+    useEffect(() => {
+        console.log("listen open:", open, "isExpanded:", isExpanded);
+
+        if (expandedRef.current !== open && isExpanded !== open) {
+            console.log("setting open:", open);
+            setIsExpanded(open);
+            expandedRef.current = open;
+        }
+    },[isExpanded, open])
 
     return (
         <div
             className={clsx('dropdown', className, { expanded: isExpanded })}
             onClick={onClickHandler}
         >
-            <div className="dropdown-btn row-inline">
-                {labelIcon && (
-                    <span className="sm-btn-icon">{labelIcon}</span>
-                )}
-                {label && <span className="selected-label">{label}</span>}
-                {hasCaretIcon && (
-                    <span className="dropdown-caret-bottom-icon">
-                        <FiChevronDown />
-                    </span>
-                )}
-            </div>
+            {isButtonVisible && (
+                <div className="dropdown-btn row-inline">
+                    {labelIcon && <span className="sm-btn-icon">{labelIcon}</span>}
+                    {label && <span className="selected-label">{label}</span>}
+                    {hasCaretIcon && (
+                        <span className="dropdown-caret-bottom-icon">
+                            <FiChevronDown />
+                        </span>
+                    )}
+                </div>
+            )}
             <ul className="list-items dropdown-list-items">
-                {items.map(({ label, iconUrl, onClick, selected }, index) => (
+                {
+                items.map(({ label, iconUrl, onClick, selected }, index) => (
                     <li onClick={onChangeHandler(onClick, label)} key={index}>
                         {iconUrl && (
                             <img src={iconUrl} alt="" className="icon" />
                         )}
                         <span>{label}</span>
                         {selected && (
-                            <span className="selected-icon">{<FiCheck />}</span>
+                            <span className="selected-icon"><FiCheck /></span>
                         )}
                     </li>
                 ))}
@@ -85,7 +100,8 @@ DropDown.propTypes = {
     size: PropTypes.string,
     className: PropTypes.string,
     labelIcon: PropTypes.node,
-    hasCaretIcon: PropTypes.string,
+    hasCaretIcon: PropTypes.bool,
+    open: PropTypes.bool,
     label: PropTypes.string,
     items: PropTypes.arrayOf(
         PropTypes.shape({
@@ -94,6 +110,8 @@ DropDown.propTypes = {
             onClick: PropTypes.func,
         }),
     ),
+    onChange: PropTypes.func,
+    onClose: PropTypes.func,
 };
 
 export default DropDown;

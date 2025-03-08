@@ -8,7 +8,7 @@ class ChartView extends Component {
         this.wrapperRef = React.createRef();
         this.renderChartFn = null;
         this.state = {
-            breadcrumbs: ['response'],
+            breadcrumbs: ['ROOT'],
             rootState: props.rootData,
             chartData: props.data,
         };
@@ -102,7 +102,7 @@ class ChartView extends Component {
         } else if (targetNode.parrent) {
             hirarchy = this.state.breadcrumbs;
         } else {
-            hirarchy = ['response'];
+            hirarchy = ['ROOT'];
         }
 
         const newNodeData = this.createNewNodeValue(hirarchy);
@@ -145,7 +145,6 @@ class ChartView extends Component {
     }
 
     renderChart() {
-        console.log('this.state.chartData:', this.state.chartData);
         let chartState = this.state.chartData;
         if (chartState && Array.isArray(chartState)) {
             chartState = {
@@ -154,7 +153,7 @@ class ChartView extends Component {
         }
         const config = {
             state: chartState,
-            rootKeyName: 'response',
+            rootKeyName: 'ROOT',
             onClickText: (targetNode) => {
                 this.onNodeClick(targetNode);
             },
@@ -213,9 +212,9 @@ class ChartView extends Component {
         render();
     }
 
-    componentWillUpdate(prevProps, prevState) {
-        if (prevState.chartData !== this.state.chartData) {
-            this.renderChartFn(prevState.chartData);
+    componentWillUpdate(_, nextState) {
+        if (nextState.chartData !== this.state.chartData) {
+            this.renderChartFn(nextState.chartData);
         }
     }
 

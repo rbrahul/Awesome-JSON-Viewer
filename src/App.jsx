@@ -19,15 +19,17 @@ class App extends Component {
             selectedTab: 'tree',
             json: props.json,
             selectedJSON: props.json,
-            isExtensionPopupVisible: false,
             isSearchBarVisible: false,
         };
         this.showLogInConsole();
         this.locationHashChanged = this.locationHashChanged.bind(this);
         this.showSearchBar = this.showSearchBar.bind(this);
         this.hideSearchBar = this.hideSearchBar.bind(this);
+        this.changeJSON = this.changeJSON.bind(this);
+        this.restoreOriginalJSON = this.restoreOriginalJSON.bind(this);
         this.tooltip = React.createRef();
         this.intervalIdRef = React.createRef();
+        this.originalJSONRef = React.createRef(props.json);
     }
 
     changeTabSelection(tab) {
@@ -42,15 +44,7 @@ class App extends Component {
         this.setState({ isSearchBarVisible: false });
     }
 
-    onExtensionMenuClick =(e) => {
-        console.log("E:",e)
-        e.stopPropagation();
-        this.setState((prevState) => {
-            return { isExtensionPopupVisible: !prevState.isExtensionPopupVisible }
-        });
-    };
-
-    changeJSON(json) {
+    changeJSON(json, openTreeView=true) {
         this.setState(
             {
                 json,
@@ -58,9 +52,15 @@ class App extends Component {
             },
             () => {
                 window.json = json;
-                this.changeTabSelection('tree');
+                if (openTreeView) {
+                    this.changeTabSelection('tree');
+                }
             },
         );
+    }
+
+    restoreOriginalJSON() {
+        this.changeJSON(this.originalJSONRef.current, false);
     }
 
     changeTargetNodeOnChart(json) {
@@ -82,23 +82,11 @@ class App extends Component {
         downloadFile(JSON.stringify(window.json, null, 2), 'text/json', `data-${currentDateTime()}.json`)
     }
 
-    bodyClickHandler = (e) => {
-        const target = e.target;
-        if (!!target?.closest('.extension-list-overlay')) {
-            return;
+    componentDidMount() {
+        if (this.props.json !== this.originalJSONRef.current) {
+            this.originalJSONRef.current = this.props.json;
         }
 
-        this.setState((prevState) => {
-            if (prevState.isExtensionPopupVisible) {
-                console.log("hiding");
-                return { isExtensionPopupVisible: false };
-            }
-        });
-    };
-
-
-
-    componentDidMount() {
         if (!this.tooltip.current) {
             this.tooltip.current = new Tooltip();
         } else {
@@ -110,18 +98,12 @@ class App extends Component {
         }, 3_000);
 
         window.addEventListener('hashchange', this.locationHashChanged, false);
-        document.body.addEventListener('click', this.bodyClickHandler, false);
     }
 
     componentWillUnmount() {
         window.removeEventListener(
             'hashchange',
             this.locationHashChanged,
-            false,
-        );
-        document.body.removeEventListener(
-            'click',
-            this.bodyClickHandler,
             false,
         );
 
@@ -147,7 +129,6 @@ class App extends Component {
                 <Menus
                     changeTabSelection={this.changeTabSelection.bind(this)}
                     selectedTab={this.state.selectedTab}
-                    onExtensionMenuClick={this.onExtensionMenuClick}
                     showSearchBar={this.showSearchBar}
                     hideSearchBar={this.hideSearchBar}
                     isSearchBarVisible={this.state.isSearchBarVisible}
@@ -172,10 +153,7 @@ class App extends Component {
                         />
                     )}
                 </div>
-                {this.state.isExtensionPopupVisible && (
-                    <MoreExtensionsByDeveloperOverlay />
-                )}
-                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar />}
+                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar json={this.state.json} originalJSON={this.originalJSONRef.current} renderJSON={this.changeJSON.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON} />}
             </div>
         );
     }
