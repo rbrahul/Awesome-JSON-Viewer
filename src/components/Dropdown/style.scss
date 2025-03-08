@@ -1,0 +1,121 @@
+
+.dropdown {
+    --bg-primary: #33354a;
+    --primary-light: #43455d;
+    --primary-dark-20: #222;
+
+
+    display: inline-block;
+    background-color: var(--bg-primary);
+    position: relative;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+
+    &-btn {
+      position: relative;
+      padding: 5px;
+      font-size: 14px;
+
+      .dropdown-caret-bottom-icon {
+        padding-left:10px;
+        display: inline;
+        align-content: flex-end;
+        float: right;
+      }
+    }
+
+    img.selected-icon {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .selected-label {
+      width: 100%;
+    }
+
+    ul.list-items {
+      width: 100%;
+      position: absolute;
+      top: 38px;
+      right: 0px;
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+      background: var(--primary-light);
+      border: 1px solid var(--primary-dark-20);
+      border-radius: 4px;
+      display: none;
+      z-index: 99;
+      box-shadow: 0px 3px 6px rgba($color: #000000, $alpha: 0.6);
+
+      li {
+        padding: 10px 15px;
+        border-bottom: 1px solid var(--primary-dark-20);
+        cursor: pointer;
+        font-size: 15px;
+        background: var(--primary-light);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: var(--bg-primary);
+
+        .icon {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
+        }
+        .selected-icon {
+            display: inline-block;
+            width: 16px;
+            margin-left: 10px;
+        }
+      }
+
+      li:hover {
+        background: var(--bg-primary);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
+
+    &.expanded {
+      .select-icon {
+        transform: rotate(180deg);
+      }
+
+      ul.list-items {
+        display: block;
+      }
+    }
+  }
+
+
+  body.rb-rwt-dark-theme {
+      .dropdown {
+          img {
+              filter: invert(1);
+              opacity: 1 !important;
+          }
+          ul.list-items{
+              border-top: 1px solid var(--primary-light-30) !important;
+              background: var(--primary-dark);
+
+              li {
+                  background: var(--primary-dark);
+              }
+
+              li:hover, li.selected {
+                  background: var(--primary-light);
+              }
+          }
+          ul.list-items::before {
+              background-color: var(--primary-dark);
+          }
+      }
+      .selected-label {
+          color: #fff;
+      }
+  }

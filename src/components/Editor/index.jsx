@@ -1,78 +1,85 @@
 import React, { Component, createRef } from 'react';
 import { json } from '@codemirror/lang-json';
-import { basicSetup, EditorView } from 'codemirror'
-import { githubLight, githubDark, githubDarkInit } from '@uiw/codemirror-theme-github';
-import Logo from '../Logo';
-import './style.css';
-import Toolbar from './Toolbar';
+import { yaml } from '@codemirror/lang-yaml';
+import { xml } from '@codemirror/lang-xml';
+import {convertContent, convertToJsObject, trimXMLArrayRoot} from '../../utils/convertContent';
+import { basicSetup, EditorView } from 'codemirror';
+import { githubDarkInit } from '@uiw/codemirror-theme-github';
+import { FiXCircle  } from 'react-icons/fi';
 
+import downloadFile from '../../utils/dowloadFile';
+import {currentDateTime} from '../../utils/datetime';
+import Logo from '../Logo';
+import Toolbar from './Toolbar';
+import './style.css';
+
+const editorLangMap = {
+    json,
+    xml,
+    yaml,
+};
 
 class Editor extends Component {
-    editorRef = null
-    codeMirror = null
+    editorRef = null;
+    codeMirror = null;
     constructor(props) {
         super(props);
-        this.editorRef = createRef()
-        this.codeMirror = createRef()
+        this.editorRef = createRef();
+        this.codeMirror = createRef();
+        this.previousContentType = createRef('JSON');
         this.state = {
-            errors: {
-                jsonParseFailed: {
-                    status: false,
-                    message: 'Failed to parse invalid JSON format',
-                },
-                rawJSON: {
-                    status: false,
-                    message: "Field shouldn't be empty",
-                },
-            },
+            contentType: 'JSON',
+            validationError: "",
             json: JSON.stringify(props.json, null, 4),
         };
     }
 
-    parseJSON(initialJSON = null) {
+    showParseError(contentType) {
+        this.setState({
+            validationError: `Failed to parse the data as ${contentType}. Please check if you have entered valid data and matches with correct Content Type.`
+        });
+    }
+
+    onContentTypeChange(contentType) {
         this.resetErrors();
-        let rawJSON =
-            initialJSON && typeof initialJSON === 'string'
-                ? initialJSON
-                : this.codeMirror.current.state.doc.toString().trim()
-        if (!initialJSON) {
-            if (!rawJSON) {
-                this.setState({
-                    errors: {
-                        ...this.state.errors,
-                        ...{
-                            ...this.state.errors,
-                            rawJSON: {
-                                ...this.state.errors.rawJSON,
-                                ...{
-                                    status: true,
-                                },
-                            },
-                        },
-                    },
-                });
+        if (this.state.contentType !== contentType) {
+            const content = this.codeMirror.current.state.doc.toString().trim();
+            if (!content) {
                 return;
             }
+            try {
+                const result = convertContent(
+                    content,
+                    this.state.contentType,
+                    contentType,
+                );
+                this.codeMirror.current.destroy();
+                this.initCodeMirror(result, contentType);
+            } catch (e) {
+                this.showParseError(contentType);
+            }
         }
+        this.setState({
+            contentType,
+        });
+    }
 
+    parseJSON(initialJSON = null) {
+        this.resetErrors();
+        let content =
+            initialJSON && typeof initialJSON === 'string'
+                ? initialJSON
+                : this.codeMirror.current.state.doc.toString().trim();
+        if (!content) {
+            return;
+        }
+        const contentType = this.state.contentType ?? 'JSON';
         try {
-            const json = JSON.parse(rawJSON);
+            let json = convertToJsObject(content, contentType);
+            json = trimXMLArrayRoot(json)
             this.props.changeJSON(json);
         } catch (e) {
-            this.setState({
-                errors: {
-                    ...this.state.errors,
-                    ...{
-                        ...this.state.errors,
-                        jsonParseFailed: {
-                            ...this.state.errors.jsonParseFailed,
-                            ...{
-                                status: true,
-                            },
-                        },
-                    },
-                },
-            });
+            this.showParseError(contentType);
         }
     }
 
@@ -83,106 +90,100 @@ class Editor extends Component {
         }
     }
 
+    saveEditorContentAsFile() {
+        const fileExtension = this.state.contentType.toLowerCase();
+        downloadFile(this.codeMirror.current.state.doc.toString().trim(), 'text/'+fileExtension, `data-${currentDateTime()}.${fileExtension}`)
+    }
+
     handleFileInputChange(event) {
         const { files } = event.target;
         if (files.length) {
             var reader = new FileReader();
+            const fileToRead = files[0];
+            let contentType = fileToRead.type.split('/')?.[1]?.toLowerCase();
+            if (['x-yaml', 'yml'].includes(contentType)) {
+                contentType = 'yaml';
+            }
             reader.onload = (file) => {
-                this.parseJSON(file.target.result);
+                this.codeMirror.current.destroy();
+                this.initCodeMirror(file.target.result, contentType);
+
+                this.setState({
+                    contentType: contentType.toUpperCase(),
+                });
             };
-            reader.readAsText(files[0]);
+            reader.readAsText(fileToRead);
         }
     }
 
     resetErrors() {
         this.setState({
-            errors: {
-                ...this.state.errors,
-                ...{
-                    ...this.state.errors,
-                    jsonParseFailed: {
-                        ...this.state.errors.jsonParseFailed,
-                        ...{
-                            status: false,
-                        },
-                    },
-                    rawJSON: {
-                        ...this.state.errors.rawJSON,
-                        ...{
-                            status: false,
-                        },
-                    },
-                },
-            },
+            validationError: ""
         });
     }
 
- initCodeMirror = () => {
-    if(this.editorRef.current) {
-        this.codeMirror.current = new EditorView({
-        doc: this.state.json,
-        extensions: [
-            basicSetup,
-            githubDarkInit({ settings: {
-                background: "#070707",
-                gutterBackground: "#111111"
-            }
-            }),
-            json()
-        ],
-        parent: this.editorRef.current,
-        })
-      }
-      this.codeMirror.current.dom.style.height = "600px";
-};
+    initCodeMirror = (data, contentType = 'JSON') => {
+        const contentTypeInLowerCase = contentType.toLowerCase();
+        const editorLanguageParser =
+            editorLangMap[contentTypeInLowerCase] ?? json;
+        if (this.editorRef.current) {
+            this.codeMirror.current = new EditorView({
+                doc: data,
+                extensions: [
+                    basicSetup,
+                    githubDarkInit({
+                        settings: {
+                            background: '#070707',
+                            gutterBackground: '#111111',
+                        },
+                    }),
+                    editorLanguageParser(),
+                ],
+                parent: this.editorRef.current,
+            });
+        }
+        this.codeMirror.current.dom.style.height = '600px';
+    };
 
-componentDidMount(){
-    this.initCodeMirror();
-}
+    componentDidMount() {
+        this.initCodeMirror(this.state.json);
+    }
 
     render() {
         return (
             <>
                 <Logo />
                 <div className="jv-editor">
-                    <Toolbar onImportBtnClick={this.showFileDialog.bind(this)} onParseJson={this.parseJSON.bind(this)} />
+                    <Toolbar
+                        onImportBtnClick={this.showFileDialog.bind(this)}
+                        onParseJson={this.parseJSON.bind(this)}
+                        onContentTypeChange={this.onContentTypeChange.bind(
+                            this,
+                        )}
+                        contentType={this.state.contentType ?? 'JSON'}
+                        onSaveBtnClick={this.saveEditorContentAsFile.bind(this)}
+                    />
                     <div className="json-input-section">
-                        {this.state.errors.jsonParseFailed.status && (
+                        {this.state.validationError && (
                             <div className="json-input-error-msg">
-                                {this.state.errors.jsonParseFailed.message}
+                               <span>{this.state.validationError}</span>
+                               <button type="btn" onClick={this.resetErrors.bind(this)} className='alert-close-btn'>
+                                <FiXCircle />
+                               </button>
                             </div>
                         )}
 
-                        {this.state.errors.rawJSON.status && (
-                            <div className="json-input-error-msg">
-                                {this.state.errors.rawJSON.message}
-                            </div>
-                        )}
-
-                        <div className="jv-code-editor" ref={this.editorRef}></div>
+                        <div
+                            className="jv-code-editor"
+                            ref={this.editorRef}
+                        ></div>
                         <input
                             className="d-none"
                             onChange={this.handleFileInputChange.bind(this)}
-                            accept="application/json"
+                            accept="application/json,application/yaml,application/x-yaml,text/yaml,application/xml,text/xml"
                             type="file"
                             id="fileInput"
                         />
-                        <div className="form-input save-btn-area">
-                            <button
-                                type="button"
-                                className="btn btn-big btn-white"
-                                onClick={this.parseJSON.bind(this)}
-                            >
-                                Parse JSON
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-big btn-white"
-                                onClick={this.showFileDialog.bind(this)}
-                            >
-                                Load a file
-                            </button>
-                        </div>
                     </div>
                 </div>
             </>

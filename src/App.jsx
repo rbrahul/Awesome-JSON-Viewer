@@ -4,6 +4,9 @@ import Tooltip from './vendor/tooltip';
 import TreeView from './TreeView.jsx';
 import ChartViews from './ChartView.jsx';
 import Editor from './components/Editor';
+import downloadFile from './utils/dowloadFile';
+import {currentDateTime} from './utils/datetime';
+
 //import './css/style.css';
 import './css/dark-pro.css';
 
@@ -64,21 +67,7 @@ class App extends Component {
     }
 
     downloadAsJSON() {
-        const date = new Date();
-        const downloadBtn = document.createElement('a');
-        downloadBtn.id = 'rb-download-json';
-        downloadBtn.download = `data-${date.getFullYear()}${date.getMonth()}${
-            date.getDate() + 1
-        }${date.getHours()}${date.getMinutes()}${date.getSeconds()}.json`;
-        downloadBtn.style = 'display:none;';
-        downloadBtn.href =
-            'data:text/json;charset=utf-8,' +
-            encodeURIComponent(JSON.stringify(window.json, null, 2));
-        document.body.appendChild(downloadBtn);
-        downloadBtn.click();
-        setTimeout(() => {
-            document.body.removeChild(downloadBtn);
-        }, 200);
+        downloadFile(JSON.stringify(window.json, null, 2), 'text/json', `data-${currentDateTime()}.json`)
     }
 
     bodyClickHandler = (e) => {
@@ -171,6 +160,14 @@ class App extends Component {
                 {this.state.isExtensionPopupVisible && (
                     <MoreExtensionsByDeveloperOverlay />
                 )}
+                <div className='jv-debug-bar'>
+                    <div className="search-input-container">
+                        <input placeholder="$." type="text" className="search-input" name="search-input" id="" />
+                        <div>
+                            <span className="jv-path-input">JSON Path</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

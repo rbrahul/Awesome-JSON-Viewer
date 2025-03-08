@@ -8,3 +8,12 @@
     height: 500px;
     box-sizing: border-box;
 }
+
+.alert-close-btn{
+    float: right;
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 20px;
+}

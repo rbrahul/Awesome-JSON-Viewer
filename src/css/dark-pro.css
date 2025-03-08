@@ -159,7 +159,6 @@ body {
   a.more-options img, a.option-menu img {
     width: 100%;
     max-width: 34px;
-    opacity: 0.6;
   }
 
   ul.json-dict li {
@@ -303,14 +302,13 @@ body {
   }
 
   .json-input-error-msg{
-      color:#fff;
-      padding:20px;
-      background-color: #DE1509;
-      margin: 0 auto;
-      margin-bottom: 20px;
-      box-shadow: 0 7px 7px 0 #111;
+    color: #fff;
+    padding: 15px;
+    background-color: #2e0906;
+    margin: 0 auto;
+    box-shadow: 0 7px 7px 0 #111;
+    border: 1px solid red;
   }
-
 
   .copier {
     background: #2ecc71;
@@ -442,4 +440,58 @@ body {
 
   .jv-width-half {
     width: 50%;
+  }
+
+  .jv-debug-bar {
+    width: 450px;
+    position: fixed;
+    height: 40px;
+    background-color: rgba(29, 27, 61, 1);
+    top:15px;
+    right: 50%;
+    transform: translateX(50%);
+    border-top: 1px solid #111111;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .search-input-container{
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .search-input{
+    background-color: #000000;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #222;
+    color:#fff;
+    font-size: 16px;
+    width: 300px;
+  }
+
+  .jv-path-input{
+    border: 1px solid #342c59;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin-left: 10px;
+    font-size: 13px;
+  }
+
+  .debug-cmd{
+    font-size: 16px;
+    margin: 5px;
+    margin-left: 15px;
+  }
+
+  .sm-btn-icon {
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .inline-flex {
+    display: inline-flex;
+    align-items: center;
   }

@@ -11,4 +11,17 @@
 
 .jv-toolbar .jv-btn {
     margin-right: 8px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jv-content-type-menu{
+    width: 115px;
+    margin-right: 10px;
+}
+
+.jv-content-type-btn{
+    padding: 6px 8px;
+    box-sizing: border-box;
 }
