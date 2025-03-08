@@ -1,6 +1,6 @@
 
 .dropdown {
-    --bg-primary: #33354a;
+    --bg-primary: #1A1B28;
     --primary-light: #43455d;
     --primary-dark-20: #222;
 
@@ -92,6 +92,9 @@
     }
   }
 
+  .dropdown-btn{
+    overflow: hidden;
+  }
 
   body.rb-rwt-dark-theme {
       .dropdown {

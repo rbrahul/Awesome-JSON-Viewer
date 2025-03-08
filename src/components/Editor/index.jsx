@@ -26,10 +26,10 @@ class Editor extends Component {
         super(props);
         this.editorRef = createRef();
         this.codeMirror = createRef();
-        this.previousContentType = createRef('JSON');
         this.state = {
             contentType: 'JSON',
             validationError: "",
+            footerMessage: "",
             json: JSON.stringify(props.json, null, 4),
         };
     }
@@ -40,8 +40,19 @@ class Editor extends Component {
         });
     }
 
+    setFooterMessage(msg) {
+        this.setState({
+            footerMessage: msg
+        });
+    }
+
     onContentTypeChange(contentType) {
         this.resetErrors();
+        if(contentType === "XML") {
+            this.setFooterMessage(`Conversion between XML and JSON may lead to unexpected 'null' to empty string ("") or number to string type casting.`);
+        } else {
+            this.setFooterMessage('');
+        }
         if (this.state.contentType !== contentType) {
             const content = this.codeMirror.current.state.doc.toString().trim();
             if (!content) {
@@ -150,6 +161,7 @@ class Editor extends Component {
     }
 
     render() {
+        const totalNumberOfBytes = new Blob([this.codeMirror?.current?.state?.doc?.toString()?.trim() ?? ""]).size;
         return (
             <>
                 <Logo />
@@ -184,6 +196,10 @@ class Editor extends Component {
                             type="file"
                             id="fileInput"
                         />
+                        <div className='editor-footer'>
+                            <div className="message-area"><span className='msg-icon'></span>{this.state.footerMessage}</div>
+                            <div className="info-area"><span>Number of Bytes: {totalNumberOfBytes}</span></div>
+                        </div>
                     </div>
                 </div>
             </>

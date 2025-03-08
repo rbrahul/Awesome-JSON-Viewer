@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { FiSearch, FiX } from 'react-icons/fi';
+
 const OPTION_ICON_PATH = '/images/icons/gear.png';
 
 class Menus extends Component {
@@ -32,13 +34,39 @@ class Menus extends Component {
         return (
             <div className="action-area">
                 <ul className="menus">
+                    {this.state.selectedPan !== 'jsonInput' && (
+                        <li>
+                            {!this.props.isSearchBarVisible && (
+                                <a
+                                    href="#"
+                                    onClick={this.props.showSearchBar}
+                                    className="search-icon-btn"
+                                >
+                                    <FiSearch />
+                                </a>
+                            )}
+                            {this.props.isSearchBarVisible && (
+                                <a
+                                    href="#"
+                                    onClick={this.props.hideSearchBar}
+                                    className="search-icon-btn"
+                                >
+                                    <FiX />
+                                </a>
+                            )}
+                        </li>
+                    )}
                     <li
                         className={
                             this.state.selectedPan === 'tree' ? 'active' : ''
                         }
                     >
                         <a href="#" onClick={this.setActive.bind(this, 'tree')}>
-                           <img src='images/icons/tree.svg'  className='sm-icon' /> <span className='menu-label'>Tree</span>
+                            <img
+                                src="images/icons/tree.svg"
+                                className="sm-icon"
+                            />{' '}
+                            <span className="menu-label">Tree</span>
                         </a>
                     </li>
                     <li
@@ -50,7 +78,11 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'chart')}
                         >
-                             <img src='images/icons/branch.svg'  className='sm-icon rotate-270' /> <span className='menu-label'>Chart</span>
+                            <img
+                                src="images/icons/branch.svg"
+                                className="sm-icon rotate-270"
+                            />{' '}
+                            <span className="menu-label">Chart</span>
                         </a>
                     </li>
                     <li
@@ -64,22 +96,32 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'jsonInput')}
                         >
-                             <img src='images/icons/brackets.svg'  className='sm-icon' /> <span className='menu-label'>JSON Editor</span>
+                            <img
+                                src="images/icons/brackets.svg"
+                                className="sm-icon"
+                            />{' '}
+                            <span className="menu-label">JSON Editor</span>
                         </a>
                     </li>
                     <li className="">
                         <a
-                            href={(window.extensionOptions||{}).optionPageURL || '/options.html'}
+                            href={
+                                (window.extensionOptions || {}).optionPageURL ||
+                                '/options.html'
+                            }
                             target="_blank"
                             className="option-menu"
                             id="option-menu"
                             title="Options"
-                             data-tooltip="Settings"
-                             data-direction="bottom"
+                            data-tooltip="Settings"
+                            data-direction="bottom"
                         >
                             <img
                                 id="option-menu-icon"
-                                src={(window.extensionOptions||{}).optionIconURL || OPTION_ICON_PATH}
+                                src={
+                                    (window.extensionOptions || {})
+                                        .optionIconURL || OPTION_ICON_PATH
+                                }
                             />
                         </a>
                     </li>

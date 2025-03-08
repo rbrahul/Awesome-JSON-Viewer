@@ -9,6 +9,7 @@ import {currentDateTime} from './utils/datetime';
 
 //import './css/style.css';
 import './css/dark-pro.css';
+import SearchBar from './components/Searchbar/index.jsx';
 
 class App extends Component {
     constructor(props) {
@@ -19,15 +20,26 @@ class App extends Component {
             json: props.json,
             selectedJSON: props.json,
             isExtensionPopupVisible: false,
+            isSearchBarVisible: false,
         };
         this.showLogInConsole();
         this.locationHashChanged = this.locationHashChanged.bind(this);
+        this.showSearchBar = this.showSearchBar.bind(this);
+        this.hideSearchBar = this.hideSearchBar.bind(this);
         this.tooltip = React.createRef();
         this.intervalIdRef = React.createRef();
     }
 
     changeTabSelection(tab) {
         this.setState({ selectedTab: tab });
+    }
+
+    showSearchBar() {
+        this.setState({ isSearchBarVisible: true });
+    }
+
+    hideSearchBar() {
+        this.setState({ isSearchBarVisible: false });
     }
 
     onExtensionMenuClick =(e) => {
@@ -136,6 +148,9 @@ class App extends Component {
                     changeTabSelection={this.changeTabSelection.bind(this)}
                     selectedTab={this.state.selectedTab}
                     onExtensionMenuClick={this.onExtensionMenuClick}
+                    showSearchBar={this.showSearchBar}
+                    hideSearchBar={this.hideSearchBar}
+                    isSearchBarVisible={this.state.isSearchBarVisible}
                 />
                 <div className="tab-container">
                     {this.state.selectedTab === 'tree' && (
@@ -160,14 +175,7 @@ class App extends Component {
                 {this.state.isExtensionPopupVisible && (
                     <MoreExtensionsByDeveloperOverlay />
                 )}
-                <div className='jv-debug-bar'>
-                    <div className="search-input-container">
-                        <input placeholder="$." type="text" className="search-input" name="search-input" id="" />
-                        <div>
-                            <span className="jv-path-input">JSON Path</span>
-                        </div>
-                    </div>
-                </div>
+                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar />}
             </div>
         );
     }

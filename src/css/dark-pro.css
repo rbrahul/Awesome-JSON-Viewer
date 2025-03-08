@@ -303,11 +303,12 @@ body {
 
   .json-input-error-msg{
     color: #fff;
-    padding: 15px;
-    background-color: #2e0906;
+    padding: 12px 15px;
+    /* background-color: #2e0906; */
+    background-color: #1f0604;
     margin: 0 auto;
     box-shadow: 0 7px 7px 0 #111;
-    border: 1px solid red;
+    border: 1px solid rgb(201, 9, 9);
   }
 
   .copier {
@@ -417,7 +418,7 @@ body {
   }
 
   .jv-btn-default {
-    background-color: #33354a;
+    background-color: #1A1B28;
     color: #fff;
   }
 
@@ -442,43 +443,6 @@ body {
     width: 50%;
   }
 
-  .jv-debug-bar {
-    width: 450px;
-    position: fixed;
-    height: 40px;
-    background-color: rgba(29, 27, 61, 1);
-    top:15px;
-    right: 50%;
-    transform: translateX(50%);
-    border-top: 1px solid #111111;
-    border-radius: 10px;
-    padding: 10px;
-  }
-
-  .search-input-container{
-    display: inline-flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .search-input{
-    background-color: #000000;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid #222;
-    color:#fff;
-    font-size: 16px;
-    width: 300px;
-  }
-
-  .jv-path-input{
-    border: 1px solid #342c59;
-    border-radius: 6px;
-    padding: 6px 8px;
-    margin-left: 10px;
-    font-size: 13px;
-  }
-
   .debug-cmd{
     font-size: 16px;
     margin: 5px;
@@ -494,4 +458,11 @@ body {
   .inline-flex {
     display: inline-flex;
     align-items: center;
+  }
+
+  .search-icon-btn{
+    font-size: 20px !important;
+    padding:8px !important;
+    text-align: center;
+    box-sizing: border-box;
   }

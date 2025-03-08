@@ -1,10 +1,16 @@
 import React from 'react';
 import Select from '../../Select';
-import { FiUploadCloud, FiFileText, FiPlay, FiSave  } from 'react-icons/fi';
+import { FiUploadCloud, FiFileText, FiPlay, FiSave } from 'react-icons/fi';
 
 import './style.css';
 
-const Toolbar = ({ onImportBtnClick, onParseJson, onContentTypeChange, onSaveBtnClick, contentType }) => {
+const Toolbar = ({
+    onImportBtnClick,
+    onParseJson,
+    onContentTypeChange,
+    onSaveBtnClick,
+    contentType,
+}) => {
     const contentTypMenuItems = {
         size: 'small',
         label: contentType,
@@ -24,11 +30,12 @@ const Toolbar = ({ onImportBtnClick, onParseJson, onContentTypeChange, onSaveBtn
             },
         ],
     };
-    console.log("Toolbar contentType:", contentType)
     return (
         <div className="jv-toolbar">
             <div className="jv-align-left jv-width-half inline-flex">
-                <div className="jv-content-type-menu">
+                <div
+                    className="jv-content-type-menu"
+                >
                     <Select
                         {...contentTypMenuItems}
                         labelIcon={<FiFileText />}
@@ -52,7 +59,7 @@ const Toolbar = ({ onImportBtnClick, onParseJson, onContentTypeChange, onSaveBtn
                     onClick={onImportBtnClick}
                 >
                     <span className="sm-btn-icon">
-                    <FiUploadCloud />
+                        <FiUploadCloud />
                     </span>
                     Import File
                 </button>
@@ -64,8 +71,9 @@ const Toolbar = ({ onImportBtnClick, onParseJson, onContentTypeChange, onSaveBtn
                     onClick={onParseJson}
                 >
                     <span className="sm-btn-icon">
-                    <FiPlay />
-                    </span>Parse as JSON
+                        <FiPlay />
+                    </span>
+                    Parse as JSON
                 </button>
             </div>
         </div>

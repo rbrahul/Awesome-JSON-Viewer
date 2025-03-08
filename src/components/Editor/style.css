@@ -1,11 +1,12 @@
 .jv-editor {
+    position:relative;
     margin:0 auto;
     margin-top: 80px;
     width:  80%;
 }
 
 .jv-code-editor{
-    height: 500px;
+    height: 600px;
     box-sizing: border-box;
 }
 
@@ -16,4 +17,33 @@
     outline: none;
     color: #fff;
     font-size: 20px;
+}
+
+.editor-footer{
+    position: absolute;
+    bottom:-20px;
+    right: 0px;
+    left: 0px;
+    background-color: #111;
+    color:#868585;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 13px;
+    padding: 5px 10px;
+    border: 1px solid #222;
+}
+
+.message-area{
+    box-sizing: border-box;
+    padding: 0px 10px;
+    width: 80%;
+}
+
+.info-area{
+    box-sizing: border-box;
+    width: 20%;
+    border-left: 1px solid #222;
+    padding: 0px 10px;
 }
