@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FiSearch, FiX } from 'react-icons/fi';
+import { FiTerminal, FiX } from 'react-icons/fi';
 
 const OPTION_ICON_PATH = '/images/icons/gear.png';
 
@@ -30,19 +30,29 @@ class Menus extends Component {
         });
     }
 
+    showSearchBar(){
+        this.props.showSearchBar();
+        if (this.props.tooltip?.hideTooltip) {
+            this.props.tooltip?.hideTooltip();
+        }
+    }
+
     render() {
         return (
             <div className="action-area">
                 <ul className="menus">
                     {this.state.selectedPan !== 'jsonInput' && (
-                        <li>
+                        <li
+                            data-tooltip="Find by JSON Path"
+                            data-direction="bottom"
+                        >
                             {!this.props.isSearchBarVisible && (
                                 <a
                                     href="#"
-                                    onClick={this.props.showSearchBar}
+                                    onClick={this.showSearchBar.bind(this)}
                                     className="search-icon-btn"
                                 >
-                                    <FiSearch />
+                                    <FiTerminal />
                                 </a>
                             )}
                             {this.props.isSearchBarVisible && (

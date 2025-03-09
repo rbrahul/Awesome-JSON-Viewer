@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef, useRef } from 'react';
 import $ from 'jquery';
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/json-viewer.js';
@@ -14,6 +14,7 @@ class TreeView extends Component {
             value: null,
             data: props.data,
         };
+        this.jsonRenderer = createRef();
         this.changeCopyIconLocation = this.changeCopyIconLocation.bind(this);
         this.toggleSection = this.toggleSection.bind(this);
     }
@@ -122,15 +123,15 @@ class TreeView extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            console.log("Re Rending");
             this.cleanUpEventListeners();
             this.renderJSONTree();
+            window.scrollTo(0, 0);
         }
     }
 
     renderJSONTree() {
         window.json = this.props.data;
-        this.$node = $(this.refs.jsonRenderer);
+        this.$node = $(this.jsonRenderer.current);
 
         if ($) {
             const pluginOptions = {
@@ -176,7 +177,7 @@ class TreeView extends Component {
                         <li><a onClick={this.copy.bind(this, event, 'value')}>Copy Value</a></li>
                     </ul>
                 </a>
-                <pre ref="jsonRenderer" id="json-rb">
+                <pre ref={this.jsonRenderer} id="json-rb">
                 </pre>
             </div>
         );

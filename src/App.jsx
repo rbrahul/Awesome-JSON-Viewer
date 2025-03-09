@@ -63,6 +63,13 @@ class App extends Component {
         this.changeJSON(this.originalJSONRef.current, false);
     }
 
+    // Becareful with this as ORIGINAL JSON is getting mutated.
+    // No way to get back to the initial JSON
+    overwriteOriginalJSONAndRender(json) {
+        this.originalJSONRef.current = json;
+        this.changeJSON(json);
+    }
+
     changeTargetNodeOnChart(json) {
         this.setState({
             selectedJSON: json,
@@ -132,6 +139,7 @@ class App extends Component {
                     showSearchBar={this.showSearchBar}
                     hideSearchBar={this.hideSearchBar}
                     isSearchBarVisible={this.state.isSearchBarVisible}
+                    tooltip={this.tooltip.current}
                 />
                 <div className="tab-container">
                     {this.state.selectedTab === 'tree' && (
@@ -148,12 +156,12 @@ class App extends Component {
                     )}
                     {this.state.selectedTab === 'jsonInput' && (
                         <Editor
-                            json={this.state.json}
-                            changeJSON={this.changeJSON.bind(this)}
+                            json={this.originalJSONRef.current}
+                            renderJSON={this.overwriteOriginalJSONAndRender.bind(this)}
                         />
                     )}
                 </div>
-                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar json={this.state.json} originalJSON={this.originalJSONRef.current} renderJSON={this.changeJSON.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON} />}
+                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar json={this.state.json} renderJSON={this.changeJSON.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON} />}
             </div>
         );
     }

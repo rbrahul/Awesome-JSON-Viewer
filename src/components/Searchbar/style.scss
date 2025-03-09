@@ -3,7 +3,7 @@
 .searchbar {
     display: flex;
     flex-direction: column;
-    width: 510px;
+    width: 350px;
     position: fixed;
     background-color: rgba(29, 27, 61, 1);
     top:15px;
@@ -36,8 +36,10 @@
     padding: 8px 10px;
     border-radius: 6px;
     border: 1px solid #222;
-    color:#fff;
-    font-size: 14px;
+    // color:#a798e5;
+    color:#50dee5;
+    font-size: 15px;
+    font-weight: bold;
     width: 350px;
     padding-right: 50px;
     box-sizing: border-box;

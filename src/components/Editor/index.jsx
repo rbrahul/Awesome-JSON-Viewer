@@ -98,7 +98,7 @@ class Editor extends Component {
         try {
             let json = convertToJsObject(content, contentType);
             json = trimXMLArrayRoot(json);
-            this.props.changeJSON(json);
+            this.props.renderJSON(json);
         } catch (e) {
             this.showParseError(contentType);
         }
