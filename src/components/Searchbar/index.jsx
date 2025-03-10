@@ -21,7 +21,6 @@ const makeListItem = (items, searchFlag) => {
 };
 
 const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
-    const originalJSON = useRef(json);
     const searchInputRef = useRef();
     const [searchText, setSearchText] = useState('');
     const [searchInfo, setSearchInfo] = useState('');
@@ -29,14 +28,10 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [isJsonModified, setIsJsonModified] = useState(false);
 
-    const onPathOptionChange = (pathOption) => {
-        console.log('pathOption:', pathOption);
-    };
-
     const parseViaJSONPath = (path) => {
         const result = JSONPath({
             path,
-            json: originalJSON.current,
+            json,
             eval: false,
         });
         if (result && Array.isArray(result) && result.length > 0) {
@@ -112,6 +107,10 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                     'Failed to retrieve value from the Path you provided',
                 );
             }
+        }
+        if (e.which === 40 || e.which === 38) {
+            e.preventDefault();
+           // e.target.blur();
         }
     };
 

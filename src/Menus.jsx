@@ -32,16 +32,13 @@ class Menus extends Component {
 
     showSearchBar(){
         this.props.showSearchBar();
-        if (this.props.tooltip?.hideTooltip) {
-            this.props.tooltip?.hideTooltip();
-        }
     }
 
     render() {
         return (
             <div className="action-area">
                 <ul className="menus">
-                    {this.state.selectedPan !== 'jsonInput' && (
+                    {this.state.selectedPan === 'tree' && (
                         <li
                             data-tooltip="Find by JSON Path"
                             data-direction="bottom"

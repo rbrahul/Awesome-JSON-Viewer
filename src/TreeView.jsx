@@ -2,6 +2,7 @@ import React, { Component, createRef, useRef } from 'react';
 import $ from 'jquery';
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/json-viewer.js';
+import SearchBar from './components/Searchbar/index.jsx';
 import './utils/json-viewer/json-viewer.css';
 
 class TreeView extends Component {
@@ -65,7 +66,7 @@ class TreeView extends Component {
             if (index === 0) {
                 path = path.concat(item);
             } else {
-                if (item.indexOf('-') > -1) {
+                if (item.indexOf('-') > -1 || item.indexOf(' ') > -1) {
                     path = `${path}['${item}']`
                 } else if (isNaN(item) === false) {
                     path = `${path}[${item}]`
@@ -78,8 +79,7 @@ class TreeView extends Component {
     }
 
     findPath(self, e) {
-        var keys = [];
-        //   e.preventDefault();
+        let keys = [];
         let keyValueString = $(e.target).parents("li").first().text();
         let firstIndexOfColone = keyValueString.indexOf(':');
         let value = keyValueString.substring(firstIndexOfColone + 1);
@@ -123,22 +123,29 @@ class TreeView extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            this.cleanUpEventListeners();
-            this.renderJSONTree();
-            window.scrollTo(0, 0);
+            this.reRenderTree();
         }
     }
 
-    renderJSONTree() {
-        window.json = this.props.data;
-        this.$node = $(this.jsonRenderer.current);
+    reRenderTree(json) {
+        this.cleanUpEventListeners();
+        this.renderJSONTree(json);
+        window.scrollTo(0, 0);
+    }
 
+    restoreOriginalJSON(){
+        this.reRenderTree(this.props.data);
+    }
+
+    renderJSONTree(json) {
+        const data = json ?? this.props.data;
+        this.$node = $(this.jsonRenderer.current);
         if ($) {
             const pluginOptions = {
                 collapsed: 0,
                 withQuotes: true
             };
-            initPlugin(this.$node, $, this.props.data, pluginOptions);
+            initPlugin(this.$node, $, data, pluginOptions);
             $(document).on("click", "span.property", this.changeCopyIconLocation);
             $(document).on("click", "a.json-toggle", this.toggleSection);
 
@@ -155,7 +162,7 @@ class TreeView extends Component {
     }
 
     componentDidMount() {
-      this.renderJSONTree();
+       this.renderJSONTree();
     }
 
     cleanUpEventListeners() {
@@ -179,6 +186,7 @@ class TreeView extends Component {
                 </a>
                 <pre ref={this.jsonRenderer} id="json-rb">
                 </pre>
+                {this.props.isSearchBarVisible && <SearchBar json={this.props.data} renderJSON={this.reRenderTree.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON.bind(this)} />}
             </div>
         );
     }

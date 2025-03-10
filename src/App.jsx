@@ -9,7 +9,6 @@ import {currentDateTime} from './utils/datetime';
 
 //import './css/style.css';
 import './css/dark-pro.css';
-import SearchBar from './components/Searchbar/index.jsx';
 
 class App extends Component {
     constructor(props) {
@@ -61,13 +60,6 @@ class App extends Component {
 
     restoreOriginalJSON() {
         this.changeJSON(this.originalJSONRef.current, false);
-    }
-
-    // Becareful with this as ORIGINAL JSON is getting mutated.
-    // No way to get back to the initial JSON
-    overwriteOriginalJSONAndRender(json) {
-        this.originalJSONRef.current = json;
-        this.changeJSON(json);
     }
 
     changeTargetNodeOnChart(json) {
@@ -139,11 +131,10 @@ class App extends Component {
                     showSearchBar={this.showSearchBar}
                     hideSearchBar={this.hideSearchBar}
                     isSearchBarVisible={this.state.isSearchBarVisible}
-                    tooltip={this.tooltip.current}
                 />
                 <div className="tab-container">
                     {this.state.selectedTab === 'tree' && (
-                        <TreeView data={this.state.json} />
+                        <TreeView data={this.state.json} isSearchBarVisible={this.state.isSearchBarVisible}/>
                     )}
                     {this.state.selectedTab === 'chart' && (
                         <ChartViews
@@ -157,11 +148,10 @@ class App extends Component {
                     {this.state.selectedTab === 'jsonInput' && (
                         <Editor
                             json={this.originalJSONRef.current}
-                            renderJSON={this.overwriteOriginalJSONAndRender.bind(this)}
+                            renderJSON={this.changeJSON.bind(this)}
                         />
                     )}
                 </div>
-                {this.state.isSearchBarVisible && this.state.selectedTab !== 'jsonInput' && <SearchBar json={this.state.json} renderJSON={this.changeJSON.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON} />}
             </div>
         );
     }

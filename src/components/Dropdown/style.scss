@@ -3,6 +3,7 @@
     --bg-primary: #1A1B28;
     --primary-light: #43455d;
     --primary-dark-20: #222;
+    --primary-light-50: #252847;
 
 
     display: inline-block;
@@ -77,9 +78,9 @@
         }
       }
 
-      li:hover {
-        background: var(--bg-primary);
-        transition: all 0.3s ease-in-out;
+      li:hover, li.active {
+        background: var(--primary-light);
+        // transition: all 0.3s ease-in-out;
       }
     }
 
@@ -91,6 +92,9 @@
 
       ul.list-items {
         display: block;
+      }
+      ul.list-items:focus {
+        outline: none;
       }
     }
   }
@@ -113,7 +117,7 @@
                   background: var(--primary-dark);
               }
 
-              li:hover, li.selected {
+              li:hover, li.selected, li.active {
                   background: var(--primary-light);
               }
           }
