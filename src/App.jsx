@@ -58,6 +58,11 @@ class App extends Component {
         );
     }
 
+    mutateOriginalJSONAndRender(json) {
+        this.originalJSONRef.current = json;
+        this.changeJSON(this.originalJSONRef.current);
+    }
+
     restoreOriginalJSON() {
         this.changeJSON(this.originalJSONRef.current, false);
     }
@@ -148,7 +153,7 @@ class App extends Component {
                     {this.state.selectedTab === 'jsonInput' && (
                         <Editor
                             json={this.originalJSONRef.current}
-                            renderJSON={this.changeJSON.bind(this)}
+                            renderJSON={this.mutateOriginalJSONAndRender.bind(this)}
                         />
                     )}
                 </div>

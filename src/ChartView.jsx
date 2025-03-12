@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import toast from 'honey-toast';
 import { tree } from './vendor/d3-state-visualizer';
 import { getAppliedTransformation } from './utils/chart';
+import 'honey-toast/dist/style.css';
+import clsx from 'clsx';
+
+const ROOT_NODE_LABEL = 'ROOT';
+const TREE_NODE_ID = 'json-viewer-pro-tree';
+
+const isInt = (text) => /^\d+$/.test(text)
 
 class ChartView extends Component {
     constructor(props) {
@@ -8,13 +16,13 @@ class ChartView extends Component {
         this.wrapperRef = React.createRef();
         this.renderChartFn = null;
         this.state = {
-            breadcrumbs: ['ROOT'],
+            breadcrumbs: [ROOT_NODE_LABEL],
             rootState: props.rootData,
             chartData: props.data,
         };
     }
 
-    createValidPath(path) {
+    createValidPath = (path) => {
         const arrayIndexBracketStartAt = path.lastIndexOf('[');
         const arrayIndexBracketEndAt = path.lastIndexOf(']');
         if (arrayIndexBracketStartAt > -1) {
@@ -25,16 +33,16 @@ class ChartView extends Component {
             return indexPart; // return 10 from xyz[10]
         }
         return path;
-    }
+    };
 
-    generateDataFromBreadcumb(breadcrumbs) {
+    generateDataFromBreadcumb = (breadcrumbs) => {
         return breadcrumbs.reduce(
             (accum, curr) => {
                 return accum[curr];
             },
             { ...this.state.rootState },
         );
-    }
+    };
 
     gotToChart = (index) => () => {
         const isRootOnly = index === 0 && this.state.breadcrumbs.length === 1;
@@ -66,8 +74,44 @@ class ChartView extends Component {
         );
     };
 
+    buildsonPathFromArray = (items) => {
+        return items.reduce((accum, current, index) => {
+            if (current.includes(' ') || current.includes('-')) {
+                accum += `['${current}']`;
+            } else if (isInt(current)) {
+                accum += `[${current}]`;
+            } else {
+                accum += `${index > 0 ? '.': ''}${current}`;
+            }
+            return accum;
+        }, '');
+    };
+
+    onCopy = () => {
+        const pathToCopy = this.buildsonPathFromArray(this.state.breadcrumbs.slice(1));
+        navigator.clipboard
+            .writeText(pathToCopy)
+            .then(() => {
+                toast.notify('Path has been copied', {
+                    type: 'success',
+                    theme: 'dark', // todo make it configurable
+                    position: 'top-center',
+                    animation: 'slide',
+                    duration: 2000,
+                });
+            })
+            .catch(() => {
+                toast.notify('Failed to copy path', {
+                    type: 'error',
+                    theme: 'dark', // todo make it configurable
+                    position: 'top-center',
+                    animation: 'slide',
+                    duration: 2000,
+                });
+            });
+    };
+
     onNodeClick = (targetNode) => {
-        console.log('targetNode:', targetNode);
         const data = targetNode.data;
         let hirarchy;
         let updateTargetPath = false;
@@ -102,7 +146,7 @@ class ChartView extends Component {
         } else if (targetNode.parrent) {
             hirarchy = this.state.breadcrumbs;
         } else {
-            hirarchy = ['ROOT'];
+            hirarchy = [ROOT_NODE_LABEL];
         }
 
         const newNodeData = this.createNewNodeValue(hirarchy);
@@ -133,7 +177,7 @@ class ChartView extends Component {
         setTimeout(this.reposition, 1000);
     };
 
-    createNewNodeValue(depthPath) {
+    createNewNodeValue = (depthPath) => {
         let pathSequence = [...depthPath];
         if (pathSequence.length == 1) {
             return this.state.rootState;
@@ -142,9 +186,9 @@ class ChartView extends Component {
             return accum[curr];
         }, this.props.data);
         return nodeData;
-    }
+    };
 
-    renderChart() {
+    renderChart = () => {
         let chartState = this.state.chartData;
         if (chartState && Array.isArray(chartState)) {
             chartState = {
@@ -153,11 +197,11 @@ class ChartView extends Component {
         }
         const config = {
             state: chartState,
-            rootKeyName: 'ROOT',
+            rootKeyName: ROOT_NODE_LABEL,
             onClickText: (targetNode) => {
                 this.onNodeClick(targetNode);
             },
-            id: 'treeExample',
+            id: TREE_NODE_ID,
             size: window.innerWidth - 100,
             aspectRatio: 0.8,
             isSorted: false,
@@ -210,16 +254,16 @@ class ChartView extends Component {
             return render(data);
         };
         render();
-    }
+    };
 
-    componentWillUpdate(_, nextState) {
+    componentWillUpdate = (_, nextState) => {
         if (nextState.chartData !== this.state.chartData) {
             this.renderChartFn(nextState.chartData);
         }
-    }
+    };
 
-    reposition() {
-        const chartContainer = document.querySelector('#treeExample > g');
+    reposition = () => {
+        const chartContainer = document.querySelector(`#${TREE_NODE_ID} > g`);
         const { height } = chartContainer.getBoundingClientRect();
         const appliedTransforms = getAppliedTransformation(chartContainer);
         console.log('appliedTransforms:', appliedTransforms);
@@ -248,27 +292,27 @@ class ChartView extends Component {
             appliedTransforms.translateY < 0
         ) {
             const newTransform = `translate(${translateX}, ${translateY}), ${appliedTransforms.scale}`;
-            console.log('newTransform:', newTransform);
             chartContainer.setAttribute('transform', newTransform);
         }
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.renderChart();
-    }
+    };
 
     render() {
         return (
             <div ref={this.wrapperRef}>
                 <div className="breadcumb">
                     <div
-                        className="copy-breadcumb-btn"
+                        className={clsx('copy-breadcumb-btn',{'disabled-btn': this.state.breadcrumbs.length===1})}
                         data-tooltip="Copy"
                         data-direction="bottom"
+                        onClick={this.onCopy}
                     >
                         <img
                             src="images/icons/copy.svg"
-                            className="sm-icon"
+                            className="sm-icon path-copy-icon"
                             alt=""
                         />
                     </div>
@@ -277,8 +321,7 @@ class ChartView extends Component {
                             return (
                                 <li key={i}>
                                     <a href="#" onClick={this.gotToChart(i)}>
-                                        {' '}
-                                        {item}{' '}
+                                        {item}
                                     </a>
                                 </li>
                             );

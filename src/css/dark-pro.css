@@ -21,6 +21,7 @@ body {
     background-color: #1A1B28;
     border-radius: 3px;
     padding: 0px;
+    user-select: none;
   }
 
   .breadcumb > ul {
@@ -466,3 +467,14 @@ body {
     text-align: center;
     box-sizing: border-box;
   }
+
+  .path-copy-icon{
+    user-select: none;
+  }
+
+  .disabled-btn {
+    user-select: none;
+    -moz-user-select: none;
+    pointer-events: none;
+  }
+

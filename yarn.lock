@@ -1347,6 +1347,11 @@ hasown@^2.0.0, hasown@^2.0.1, hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
+honey-toast@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/honey-toast/-/honey-toast-1.0.2.tgz"
+  integrity sha512-svYPzVtZMJLdKZoUAUbzyatpE7RKQ08qXLFdLqbxWqlsoT9z/40uKZlwa7YpO8cqNhIaSmaI3uIi0Sti50szQw==
+
 ignore@^5.2.0:
   version "5.3.2"
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.3.2.tgz"
