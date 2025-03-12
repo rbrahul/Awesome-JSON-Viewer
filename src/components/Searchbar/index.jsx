@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { JSONPath } from 'jsonpath-plus';
 
 import './style.scss';
@@ -10,9 +10,7 @@ const JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION = /(\.|\[|\"|\'|\[")/;
 const makeListItem = (items, searchFlag) => {
     let filteredList = items;
     if (searchFlag.length > 0) {
-        filteredList = items.filter((item) =>
-            item.startsWith(searchFlag),
-        );
+        filteredList = items.filter((item) => item.startsWith(searchFlag));
     }
     return filteredList.map((listItem) => ({
         label: listItem,
@@ -25,6 +23,7 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
     const [searchText, setSearchText] = useState('');
     const [searchInfo, setSearchInfo] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [isJsonModified, setIsJsonModified] = useState(false);
 
@@ -46,12 +45,23 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         }
         setSearchText(path);
         setShowSuggestion(true);
+        setSearchInfo('');
         try {
-            if (path === ".") {
+            if (path === '.') {
                 path = '$.';
             }
-            const matchedDelemeterParts = path.endsWith(".") || path.endsWith("'") || path.endsWith('"') ||path.endsWith("[") || path.endsWith('["');
-            console.log("PATH:",path, "matchedDelemeterParts:", matchedDelemeterParts)
+            const matchedDelemeterParts =
+                path.endsWith('.') ||
+                path.endsWith("'") ||
+                path.endsWith('"') ||
+                path.endsWith('[') ||
+                path.endsWith('["');
+            console.log(
+                'PATH:',
+                path,
+                'matchedDelemeterParts:',
+                matchedDelemeterParts,
+            );
             if (!matchedDelemeterParts) {
                 return;
             }
@@ -66,11 +76,10 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                         .map((_, i) => String(i));
                 }
                 setSuggestions(suggestions);
+            } else {
+                setSuggestions([]);
             }
-            console.log(
-                'Result Resolved:',
-                resolvedPathValue,
-            );
+            console.log('Result Resolved:', resolvedPathValue);
             setSearchInfo('');
         } catch (e) {
             console.error('failed to parse json path:', e);
@@ -80,66 +89,106 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         }
     };
 
-    const onkeyDown = (e) => {
-        if (e.which === 13) {
-            if (showSuggestion) {
-                setShowSuggestion(false);
+    const onkeyDown = useCallback(
+        (e) => {
+            // tab key press
+            if (e.which === 9 && showSuggestion) {
+                e.preventDefault();
+                return;
             }
+            if (e.which === 13) {
+                console.log('Source :', e);
 
-            try {
-                const resolvedPathValue = parseViaJSONPath(searchText);
-                if (typeof resolvedPathValue === 'undefined') {
-                    setSearchInfo(
-                        'Failed to retrieve value from the Path you provided',
+                if (!!e.target?.closest('.search-input')) {
+                    console.log('I am inside search input');
+                    // return;
+                }
+
+                if (showSuggestion && filteredSuggestions.length > 0) {
+                    console.log('suggestions', filteredSuggestions);
+                    console.log(
+                        'Suggestion open, not execution allowed on ènter',
                     );
                     return;
                 }
-                const newJsonToRender = {
-                    [searchText]: resolvedPathValue,
-                };
-                if (typeof renderJSON === 'function') {
-                    renderJSON(newJsonToRender);
-                    setIsJsonModified(true);
+
+                try {
+                    const resolvedPathValue = parseViaJSONPath(searchText);
+                    if (typeof resolvedPathValue === 'undefined') {
+                        setSearchInfo(
+                            'Failed to retrieve value from the Path you provided',
+                        );
+                        return;
+                    }
+                    const newJsonToRender = {
+                        [searchText]: resolvedPathValue,
+                    };
+                    if (typeof renderJSON === 'function') {
+                        renderJSON(newJsonToRender);
+                        setIsJsonModified(true);
+                    }
+                } catch (error) {
+                    console.log('Rending JSON path error:', error);
+                    setSearchInfo(
+                        'Failed to retrieve value from the Path you provided',
+                    );
                 }
-            } catch (error) {
-                console.log('Rending JSON path error:', error);
-                setSearchInfo(
-                    'Failed to retrieve value from the Path you provided',
-                );
             }
-        }
-        if (e.which === 40 || e.which === 38) {
-            e.preventDefault();
-           // e.target.blur();
-        }
-    };
+            if (e.which === 40 || e.which === 38) {
+                e.preventDefault();
+            }
+        },
+        [showSuggestion, filteredSuggestions, searchText, renderJSON],
+    );
+
+    useEffect(() => {
+        const searchParts = searchText.split(
+            JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION,
+        );
+        const searchFlag =
+            searchParts && searchParts.length > 0
+                ? searchParts[searchParts.length - 1].trim()
+                : '';
+        const filteredSuggestedItems = makeListItem(suggestions, searchFlag);
+        setFilteredSuggestions(filteredSuggestedItems);
+    }, [suggestions, searchText]);
 
     const onSuggestionSelected = (value) => {
         const delemeterCompletionPairs = {
             "'": "'",
             '"': '"',
-            "[": "]",
-            ".": "",
+            '[': ']',
+            '.': '',
         };
         const searchParts = searchText.split(
             JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION,
         );
-        console.log("searchParts", searchParts)
+        console.log('searchParts', searchParts);
         if (searchParts && searchParts.length > 1) {
             let pathTillPathDelimeter = searchText.substring(
                 0,
                 searchText.length - searchParts[searchParts.length - 1].length,
             );
-            if (pathTillPathDelimeter === ".") {
+            if (pathTillPathDelimeter === '.') {
                 pathTillPathDelimeter = '$.';
             }
             const startingDelemeter = searchParts[searchParts.length - 2];
-            const closingDelemeter = startingDelemeter && startingDelemeter in delemeterCompletionPairs ? delemeterCompletionPairs[startingDelemeter] : '';
+            const closingDelemeter =
+                startingDelemeter &&
+                startingDelemeter in delemeterCompletionPairs
+                    ? delemeterCompletionPairs[startingDelemeter]
+                    : '';
             const completePathWithAutoSuggestionApplied = `${pathTillPathDelimeter}${value}${closingDelemeter}`;
-            // console.log("searchParts:",searchParts,"pathTillPathDelimeter:",pathTillPathDelimeter, "completePathWithAutoSuggestionApplied:", completePathWithAutoSuggestionApplied);
             setSearchText(completePathWithAutoSuggestionApplied);
             searchInputRef.current.focus();
-            searchInputRef.current.setSelectionRange(completePathWithAutoSuggestionApplied.length, completePathWithAutoSuggestionApplied.length);
+            searchInputRef.current.scroll(
+                searchInputRef.current.scrollWidth,
+                0,
+            );
+            searchInputRef.current.setSelectionRange(
+                completePathWithAutoSuggestionApplied.length,
+                completePathWithAutoSuggestionApplied.length,
+            );
         }
     };
 
@@ -174,28 +223,14 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         },
     ];
 
-    useEffect(() => {
-        return () => {
-            console.log('Unmounting searchbar!');
-            restoreOriginalJSON();
-        };
-    }, []);
+    useEffect(() => restoreOriginalJSON, []);
 
-    const searchParts = searchText.split(
-        JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION,
-    );
-    const searchFlag =
-        searchParts &&
-        searchParts.length > 0
-            ? searchParts[searchParts.length - 1].trim()
-            : '';
-    const suggestedItems = makeListItem(suggestions, searchFlag);
     return (
         <div className="searchbar">
             <div className="search-input-container">
                 <input
                     ref={searchInputRef}
-                    placeholder="$."
+                    placeholder="Type . to start or paste Path"
                     type="text"
                     className="search-input"
                     name="search-input"
@@ -211,6 +246,8 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                     <div
                         className="search-clear-btn"
                         onClick={onSearchTextClear}
+                        data-tooltip="Reset to initial state"
+                        data-direction="bottom"
                     >
                         <FiDelete />
                     </div>
@@ -224,12 +261,12 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                     </div> */}
                 </div>
 
-                {suggestedItems &&
-                    suggestedItems.length > 0 &&
+                {filteredSuggestions &&
+                    filteredSuggestions.length > 0 &&
                     showSuggestion && (
                         <div className="path-suggestions">
                             <Select
-                                items={suggestedItems}
+                                items={filteredSuggestions}
                                 onChange={onSuggestionSelected}
                                 className="path-autocompletion"
                                 isButtonVisible={false}

@@ -110,11 +110,12 @@ const DropDown = ({
                 });
             }
 
-            if (e.which === 13) {
+            if ([9, 13].includes(e.which)) {
                 const selectedItem = items[selectedIndex];
                 const onClickHandler = selectedItem?.onClick;
                 setIsExpanded(!isExpanded);
                 onClickHandler?.(selectedItem?.label);
+                onClose();
             }
         },
         [items, selectedIndex, isExpanded],

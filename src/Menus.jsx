@@ -40,7 +40,7 @@ class Menus extends Component {
                 <ul className="menus">
                     {this.state.selectedPan === 'tree' && (
                         <li
-                            data-tooltip="Find by JSON Path"
+                            data-tooltip={!this.props.isSearchBarVisible ? "Find by JSON Path": "Close Search bar"}
                             data-direction="bottom"
                         >
                             {!this.props.isSearchBarVisible && (
