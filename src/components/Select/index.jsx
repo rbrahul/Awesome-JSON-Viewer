@@ -54,7 +54,7 @@ Select.propTypes = {
     className: PropTypes.string,
     labelIcon: PropTypes.node,
     hasCaretIcon: PropTypes.string,
-    open: PropTypes.string,
+    open: PropTypes.bool,
     label: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string,

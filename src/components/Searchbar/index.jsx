@@ -28,8 +28,14 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
     const [isJsonModified, setIsJsonModified] = useState(false);
 
     const parseViaJSONPath = (path) => {
+        let jsonPath = path;
+        if (jsonPath.startsWith('[')) {
+            jsonPath = `$.${jsonPath}`;
+        } else if(jsonPath.startsWith('.')){
+            jsonPath = `\$${jsonPath}`;
+        }
         const result = JSONPath({
-            path,
+            path: jsonPath,
             json,
             eval: false,
         });
@@ -40,28 +46,20 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
 
     const onInputChange = (e) => {
         let path = e.target.value;
-        if (path.length == 0) {
+        if (path.length === 0) {
             onSearchTextClear();
         }
         setSearchText(path);
         setShowSuggestion(true);
         setSearchInfo('');
         try {
-            if (path === '.') {
-                path = '$.';
-            }
             const matchedDelemeterParts =
                 path.endsWith('.') ||
                 path.endsWith("'") ||
                 path.endsWith('"') ||
                 path.endsWith('[') ||
                 path.endsWith('["');
-            console.log(
-                'PATH:',
-                path,
-                'matchedDelemeterParts:',
-                matchedDelemeterParts,
-            );
+
             if (!matchedDelemeterParts) {
                 return;
             }
@@ -79,7 +77,6 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
             } else {
                 setSuggestions([]);
             }
-            console.log('Result Resolved:', resolvedPathValue);
             setSearchInfo('');
         } catch (e) {
             console.error('failed to parse json path:', e);
@@ -97,18 +94,9 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                 return;
             }
             if (e.which === 13) {
-                console.log('Source :', e);
 
-                if (!!e.target?.closest('.search-input')) {
-                    console.log('I am inside search input');
-                    // return;
-                }
-
-                if (showSuggestion && filteredSuggestions.length > 0) {
-                    console.log('suggestions', filteredSuggestions);
-                    console.log(
-                        'Suggestion open, not execution allowed on ènter',
-                    );
+                const isSuggestionDropDownMenuActive = showSuggestion && filteredSuggestions.length > 0;
+                if (searchText.length === '' || isSuggestionDropDownMenuActive) {
                     return;
                 }
 
@@ -163,15 +151,11 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         const searchParts = searchText.split(
             JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION,
         );
-        console.log('searchParts', searchParts);
         if (searchParts && searchParts.length > 1) {
             let pathTillPathDelimeter = searchText.substring(
                 0,
                 searchText.length - searchParts[searchParts.length - 1].length,
             );
-            if (pathTillPathDelimeter === '.') {
-                pathTillPathDelimeter = '$.';
-            }
             const startingDelemeter = searchParts[searchParts.length - 2];
             const closingDelemeter =
                 startingDelemeter &&
@@ -190,6 +174,7 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                 completePathWithAutoSuggestionApplied.length,
             );
         }
+        setShowSuggestion(false);
     };
 
     const onSuggestionDropdownClosed = () => {
