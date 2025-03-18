@@ -15,7 +15,7 @@
     background: none;
     border: none;
     outline: none;
-    color: #fff;
+    color: var(--primary-text-color);
     font-size: 20px;
     padding:0px;
     margin:0px;
@@ -26,15 +26,15 @@
     bottom:-20px;
     right: 0px;
     left: 0px;
-    background-color: #111;
-    color:#868585;
+    background-color: var(--editor-footer-bg-color);
+    color:var(--editor-footer-text-color);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     font-size: 12px;
     padding: 5px 10px;
-    border: 1px solid #222;
+    border: 1px solid var(--editor-footer-border-color);
 }
 
 .message-area{
@@ -46,7 +46,7 @@
 .info-area{
     box-sizing: border-box;
     width: 25%;
-    border-left: 1px solid #222;
+    border-left: 1px solid var(--editor-footer-border-color);
     padding: 0px 10px;
 }
 

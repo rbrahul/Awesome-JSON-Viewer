@@ -1,13 +1,7 @@
 
 .dropdown {
-    --bg-primary: #1A1B28;
-    --primary-light: #43455d;
-    --primary-dark-20: #222;
-    --primary-light-50: #252847;
-
-
     display: inline-block;
-    background-color: var(--bg-primary);
+    background-color: var(--dropdown-bg-primary);
     position: relative;
     width: 100%;
     border-radius: 4px;
@@ -45,8 +39,8 @@
       list-style: none;
       margin: 0px;
       padding: 0px;
-      background: var(--primary-light);
-      border: 1px solid var(--primary-dark-20);
+      background: var(--dropdown-menu-item-bg);
+      border: 1px solid var(--dropdown-menu-item-border-color);
       border-radius: 4px;
       display: none;
       z-index: 99;
@@ -57,14 +51,13 @@
 
       li {
         padding: 10px 15px;
-        border-bottom: 1px solid var(--primary-dark-20);
+        border-bottom: 1px solid var(--dropdown-menu-item-border-color);
         cursor: pointer;
         font-size: 15px;
-        background: var(--primary-light);
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        background-color: var(--bg-primary);
+        background-color: var(--dropdown-bg-primary);
 
         .icon {
           width: 18px;
@@ -79,8 +72,7 @@
       }
 
       li:hover, li.active {
-        background: var(--primary-light);
-        // transition: all 0.3s ease-in-out;
+        background: var(--dropdown-menu-item-bg);
       }
     }
 
@@ -103,29 +95,3 @@
     overflow: hidden;
   }
 
-  body.rb-rwt-dark-theme {
-      .dropdown {
-          img {
-              filter: invert(1);
-              opacity: 1 !important;
-          }
-          ul.list-items{
-              border-top: 1px solid var(--primary-light-30) !important;
-              background: var(--primary-dark);
-
-              li {
-                  background: var(--primary-dark);
-              }
-
-              li:hover, li.selected, li.active {
-                  background: var(--primary-light);
-              }
-          }
-          ul.list-items::before {
-              background-color: var(--primary-dark);
-          }
-      }
-      .selected-label {
-          color: #fff;
-      }
-  }

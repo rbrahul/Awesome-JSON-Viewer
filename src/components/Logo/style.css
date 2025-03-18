@@ -10,7 +10,7 @@
     width: 36px;
     height: 36px;
     border-radius: 100%;
-    border: 2px solid #fff;
+    border: 2px solid var(--primary-text-color);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -23,6 +23,6 @@
   .jv-logo-title {
       display: inline-block;
       font-size:18px;
-      color:#fff;
+      color:var(--primary-text-color);
       line-height: 100%;
   }

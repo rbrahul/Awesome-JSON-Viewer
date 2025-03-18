@@ -1,10 +1,71 @@
+:root{
+    --bg-color:#11101E;
+    --primary-text-color: #fff;
+    --primary-font-family: sans-serif;
+    --breadcumb-border-color: rgb(45, 42, 57);
+    --breadcumb-bg-color: #1A1B28;
+    --base-font-size: 16px;
+    --breadcumb-item-hover-color: #4fdee5;
+    --breadcumb-arrow-color: #01ff70;
+    --menu-item-border-color: #292938;
+    --menu-item-bg-color: #1A1B28;
+    --menu-item-active-border-color: rgb(105 75 226);
+    --menu-item-active-bg-color: #433387;
+    --copyable-property-bg-color: rgba(33, 47, 61, 0.8);
+    --copyable-property-border-color: #5d6d7e;
+    --btn-bg-color: #33354a;
+    --btn-border-color: #111;
+    --btn-default-bg-color: #1A1B28;
+    --btn-primary-bg-color: #433387;
+
+    /* JSON Tree Color Scheme*/
+    --property-color: #4fdee5;
+    --json-literal-numeric: #f5b041;
+    --json-literal-string: #01ff70;
+    --json-literal-url: #0184ff;
+    --json-literal-and-boolean: #af7ac5;
+    --copier-bg-color: #2ecc71;
+    --copier-text-color: #2ecc71;
+
+    /* chart view*/
+    --json-chart-circle-bg: #01ff70;
+
+    /* editor */
+    --json-input-bg-color: #17202a;
+    --json-input-border-color: #363537;
+    --error-msg-bg-color: #1f0604;
+    --editor-footer-bg-color: #111;
+    --editor-footer-text-color: #868585;
+    --editor-footer-border-color: #222;
+
+    /* dropdown */
+    --dropdown-bg-primary: #1A1B28;
+    --dropdown-menu-item-bg: #43455d;
+    --dropdown-menu-item-border-color: #222;
+
+    /* json path search bar */
+    --searchbar-bg-color:rgba(29, 27, 61, 1);
+    --searchbar-border-color:#111111;
+    --searchbar-box-shadow-color:rgba(6, 6, 6, 0.7);
+    --searchbar-text-input-bg-color: #000000;
+    --searchbar-text-input-border-color: #222;
+    --searchbar-text-input-text-color: #01ff70;
+    --searchbar-text-input-focus-outline-color: #4a4173;
+    --search-clear-btn-text-color: #4a4173;
+    --search-clear-btn-bg-color: #000000;
+
+    /* common */
+    --toolbar-bg-color: #000;
+    --toolbar-border-color: #222;
+}
+
 body {
-    background-color: #11101E;
-    color: #fff;
-    font-size: 16px;
+    background-color: var(--bg-color);
+    color: var(--primary-text-color);
+    font-size: var(--base-font-size);
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: var(--primary-font-family);
   }
 
   .tab-container {
@@ -17,8 +78,8 @@ body {
     top: 20px;
     left: 20px;
     display: inline-flex;
-    border: 1px solid rgb(45, 42, 57);
-    background-color: #1A1B28;
+    border: 1px solid var(--breadcumb-border-color);
+    background-color: var(--breadcumb-bg-color);
     border-radius: 3px;
     padding: 0px;
     user-select: none;
@@ -40,7 +101,7 @@ body {
     padding: 10px;
     padding-right:0px;
     text-decoration: none;
-    color: #fff;
+    color: var(--primary-text-color);
     width: auto;
     border-right: none;
     font-size: 14px;
@@ -50,7 +111,7 @@ body {
   }
 
   .breadcumb > ul > li > a:hover {
-    color: #4fdee5;
+    color: var(--breadcumb-item-hover-color);
   }
 
   .breadcumb > ul > li:last-child > a {
@@ -63,7 +124,7 @@ body {
 
   .breadcumb > ul > li > a::after {
     content: "\276F"; /* left arrow */
-    color: #01ff70;
+    color: var(--breadcumb-arrow-color);
     cursor: auto;
     margin-left: 7px;
   }
@@ -77,7 +138,7 @@ body {
     align-items: center;
     display: flex;
     padding: 0 7px;
-    border-right: 1px solid rgb(45, 42, 57);
+    border-right: 1px solid var(--breadcumb-border-color);
     cursor: pointer;
   }
 
@@ -105,14 +166,14 @@ body {
     display: inline-flex;
     padding: 10px;
     text-decoration: none;
-    color: #ccc;
+    color: var(--primary-text-color);
     width: auto;
     border-right: none;
     font-size: 12px;
     font-weight: bold;
     align-items: center;
-    border: 1px solid #292938;
-    background-color: #1A1B28;
+    border: 1px solid var(--menu-item-border-color);
+    background-color: var(--menu-item-bg-color);
     border-radius: 6px;
   }
 
@@ -137,8 +198,8 @@ body {
 
 
   .action-area > ul.menus > li.active > a {
-    border: 1px solid rgb(105 75 226);
-    background-color: #433387;
+    border: 1px solid var(--menu-item-active-border-color);
+    background-color: var(--menu-item-active-bg-color);
   }
 
   .action-area > ul.menus > li > a.option-menu {
@@ -169,9 +230,9 @@ body {
   }
 
   .copyable {
-    background: rgba(33, 47, 61, 0.8);
+    background: var(--copyable-property-bg-color);
     width: auto;
-    border: 1px dotted #5d6d7e;
+    border: 1px dotted var(--copyable-property-border-color);
   }
 
   .copyable > ul.json-dict,
@@ -180,32 +241,32 @@ body {
   }
 
   .property {
-    color: #4fdee5; /*#3DAAE0;*/
+    color: var(--property-color); /*#3DAAE0;*/
     line-height: 160%;
     font-weight: bold;
   }
 
   .json-literal-numeric {
-    color: #f5b041;
+    color: var(--json-literal-numeric);
   }
 
   .json-literal-string {
-    color: #01ff70;
+    color: var(--json-literal-string);
     white-space: normal;
   }
 
   .json-literal-url {
-    color: #0184ff;
+    color: var(--json-literal-url);
     white-space: normal;
   }
 
   .json-literal-boolean,
   .json-literal {
-    color: #af7ac5;
+    color: var(--json-literal-and-boolean);
   }
 
   .nodeCircle {
-    fill: #01ff70;
+    fill: var(--json-chart-circle-bg);
   }
 
   .chart-holder {
@@ -217,82 +278,13 @@ body {
   }
 
   .json-input-section h1 {
-    color: #fff;
+    color: var(--primary-text-color);
     font-size: 30px;
     font-weight: 100;
     line-height: 110%;
     text-align: center;
   }
 
-  .form-input {
-    margin-bottom: 20px;
-  }
-
-  .json-input {
-    box-sizing: border-box;
-    width: 100%;
-    height: 450px;
-    background-color: #17202a;
-    border: none;
-    border-bottom: 1px solid #363537;
-    color: #43d397;
-    padding: 20px;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.8;
-    font-family: monospace;
-  }
-
-  .btn {
-    margin: 0 auto;
-    padding: 10px;
-    font-size: 14px;
-    text-align: center;
-    border: none;
-  }
-
-  .btn-white {
-    border-color: #fff;
-    background-color: transparent;
-    color: #fff;
-  }
-
-  .btn-big {
-    font-weight: bold;
-    font-size: 18px;
-    padding: 15px 20px;
-    background-color: #7c4bde;
-  }
-
-  textarea:focus {
-    border: none;
-    outline: none;
-    border-bottom: 2px solid #7c4bde;
-  }
-
-  .btn:hover {
-    background-color: #be70f4;
-    transition: background-color 0.4s ease-in;
-  }
-
-  .json-logo {
-    background-color: #7c4bde;
-    margin: 0 auto;
-    width: 70px;
-    height: 70px;
-    border-radius: 100%;
-    border: 2px solid #fff;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .json-logo span {
-      display: block;
-      font-size:30px;
-      color:#fff;
-      line-height: 100%;
-      margin-top:15px;
-  }
 
   .save-btn-area{
       text-align: center;
@@ -303,17 +295,16 @@ body {
   }
 
   .json-input-error-msg{
-    color: #fff;
+    color: var(--primary-text-color);
     padding: 12px 15px;
-    /* background-color: #2e0906; */
-    background-color: #1f0604;
+    background-color: var(--error-msg-bg-color);
     margin: 0 auto;
     box-shadow: 0 7px 7px 0 #111;
     border: 1px solid rgb(201, 9, 9);
   }
 
   .copier {
-    background: #2ecc71;
+    background: var(--copier-bg-color);
     padding: 5px;
     display: none;
     background-image: url("../../public/images/icons/copy.png");
@@ -325,7 +316,7 @@ body {
     position: absolute;
     z-index: 1001;
     background-size: contain;
-    border: 3px solid #2ecc71;
+    border: 3px solid var(--copier-bg-color);
   }
 
   ul.copyMenu {
@@ -336,7 +327,7 @@ body {
     position: absolute;
     z-index: 1001;
     display: none;
-    border: 1px solid #222;
+    border: 1px solid var(--dropdown-menu-item-border-color);
   }
 
   .copier:hover > ul.copyMenu {
@@ -348,12 +339,12 @@ body {
     height: 20px;
     content: "";
     transform: rotate(45deg);
-    background: #111;
+    background: var(--dropdown-bg-primary);
     position: absolute;
     top: 4px;
     left: -10px;
     z-index: -100;
-    border: 1px solid #222;
+    border: 1px solid var(--dropdown-menu-item-border-color);
   }
 
   ul.copyMenu {
@@ -361,13 +352,13 @@ body {
   }
 
   ul.copyMenu > li > a {
-    background: #111;
-    color: #2ecc71;
+    background: var(--dropdown-bg-primary);
+    color: var(--primary-text-color);
     font-size: 12px;
     font-weight: bold;
     width: 100px;
     padding: 6px 8px;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid var(--dropdown-menu-item-border-color);
     display: block;
     cursor: pointer;
   }
@@ -385,8 +376,8 @@ body {
   }
 
   ul.copyMenu > li > a:hover {
-    background: #2ecc71;
-    color: #111;
+    background: var(--dropdown-menu-item-bg);
+    color: var(--primary-text-color);
   }
 
   .d-none {
@@ -395,15 +386,14 @@ body {
 
 
   text.nodeText{
-    color: #fff;
+    color: var(--primary-text-color);
   }
 
-
   .jv-btn {
-    border: 1px solid #111;
+    border: 1px solid var(--btn-border-color);
     font-size: 15px;
     border-radius: 4px;
-    background-color: #33354a;
+    background-color: var(--btn-bg-color);
   }
 
   .jv-btn-md {
@@ -419,13 +409,13 @@ body {
   }
 
   .jv-btn-default {
-    background-color: #1A1B28;
-    color: #fff;
+    background-color: var(--btn-default-bg-color);
+    color: var(--primary-text-color);
   }
 
   .jv-btn-primary {
-    background-color: #433387;
-    color: #fff;
+    background-color: var(--btn-primary-bg-color);
+    color: var(--primary-text-color);
   }
 
   .jv-align-start {

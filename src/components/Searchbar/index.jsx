@@ -199,15 +199,6 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         }
     };
 
-    const pathOptions = [
-        {
-            label: 'JSON Path',
-        },
-        {
-            label: 'JQ (JSON Query)',
-        },
-    ];
-
     useEffect(() => restoreOriginalJSON, []);
 
     return (
@@ -236,14 +227,6 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                     >
                         <FiDelete />
                     </div>
-                    {/* <div className="path-input">
-                        <Select
-                            hasCaretIcon
-                            onChange={onPathOptionChange}
-                            items={pathOptions}
-                            className="path-filter-options"
-                        />
-                    </div> */}
                 </div>
 
                 {filteredSuggestions &&
