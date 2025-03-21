@@ -160,6 +160,9 @@ class Editor extends Component {
                         settings: {
                             background: '#070707',
                             gutterBackground: '#111111',
+
+                            // background: '#fff',
+                            // gutterBackground: '#efefef',
                         },
                     }),
                     editorLanguageParser(),

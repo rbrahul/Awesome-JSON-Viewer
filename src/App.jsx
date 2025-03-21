@@ -8,7 +8,8 @@ import downloadFile from './utils/dowloadFile';
 import {currentDateTime} from './utils/datetime';
 
 //import './css/style.css';
-import './css/dark-pro.css';
+//import './css/dark-pro.css';
+import './css/style.scss';
 
 class App extends Component {
     constructor(props) {

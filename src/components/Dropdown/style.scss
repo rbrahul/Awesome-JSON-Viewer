@@ -2,6 +2,7 @@
 .dropdown {
     display: inline-block;
     background-color: var(--dropdown-bg-primary);
+    border: 1px solid var(--dropdown-menu-border-color);
     position: relative;
     width: 100%;
     border-radius: 4px;
