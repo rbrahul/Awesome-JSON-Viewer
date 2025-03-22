@@ -1,6 +1,5 @@
 
-//@use './color-schemes/dark-pro.scss';
-@use './color-themes/mdn-light.scss';
+@use './color-themes/dark-pro.css';
 
 body {
     background-color: var(--bg-color);
@@ -167,7 +166,7 @@ body {
 
   a.more-options img, a.option-menu img {
     width: 100%;
-    max-width: 34px;
+    max-width: 32px;
   }
 
 

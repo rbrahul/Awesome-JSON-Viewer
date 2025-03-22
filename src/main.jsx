@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import App from './App.jsx';
 
@@ -75,18 +75,19 @@ const getOptions = async () => {
 
 (async () => {
     try {
-        const content = document.body.textContent;
-        const jsonData = JSON.parse(content.trim());
+        let content = document.body?.textContent;
+        console.log("RAW Content:", content);
+        content = content?.trim();
+        console.log("trimed content:", content);
+        const jsonData = JSON.parse(content);
         window.json = jsonData;
         window.extensionOptions = await getOptions();
-        const root = document.createElement('div');
-        root.setAttribute('id', 'rbrahul-awesome-json');
+        const rootElement = document.createElement('div');
+        rootElement.setAttribute('id', 'rbrahul-awesome-json');
         document.body.innerHTML = '';
-        document.body.appendChild(root);
-        ReactDOM.render(
-            <App json={jsonData} />,
-            document.getElementById('rbrahul-awesome-json'),
-        );
+        document.body.appendChild(rootElement);
+        const root = createRoot(rootElement);
+        root.render(<App json={jsonData} />);
     } catch (e) {
         console.error('Something went wrong at Awesome JSON Viewer Pro', e);
     }

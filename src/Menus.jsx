@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { FiTerminal, FiX } from 'react-icons/fi';
+import TreeIcon from '../images/icons/tree.svg';
+import ChartIcon from '../images/icons/branch.svg';
+import JSONIcon from '../images/icons/brackets.svg';
+import GearIcon from '../images/icons/gear.svg';
 
 const OPTION_ICON_PATH = '/images/icons/gear.png';
 
@@ -70,7 +74,7 @@ class Menus extends Component {
                     >
                         <a href="#" onClick={this.setActive.bind(this, 'tree')}>
                             <img
-                                src="images/icons/tree.svg"
+                                src={TreeIcon}
                                 className="sm-icon"
                             />{' '}
                             <span className="menu-label">Tree</span>
@@ -86,7 +90,7 @@ class Menus extends Component {
                             onClick={this.setActive.bind(this, 'chart')}
                         >
                             <img
-                                src="images/icons/branch.svg"
+                                src={ChartIcon}
                                 className="sm-icon rotate-270"
                             />{' '}
                             <span className="menu-label">Chart</span>
@@ -104,7 +108,7 @@ class Menus extends Component {
                             onClick={this.setActive.bind(this, 'jsonInput')}
                         >
                             <img
-                                src="images/icons/brackets.svg"
+                                src={JSONIcon}
                                 className="sm-icon"
                             />{' '}
                             <span className="menu-label">JSON Editor</span>
@@ -125,10 +129,7 @@ class Menus extends Component {
                         >
                             <img
                                 id="option-menu-icon"
-                                src={
-                                    (window.extensionOptions || {})
-                                        .optionIconURL || OPTION_ICON_PATH
-                                }
+                                src={GearIcon}
                             />
                         </a>
                     </li>

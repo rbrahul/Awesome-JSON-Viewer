@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSON Viewer Pro</title>
+    <!--<link rel="stylesheet" href="static/css/options.css"> -->
+    <link rel="stylesheet" href="css/options.css">
+    <link rel="stylesheet" href="code-mirror/codemirror.css">
+    <link rel="stylesheet" href="code-mirror/hint/show-hint.css">
+    <link rel="stylesheet" href="code-mirror/theme/dracula.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <img class="icon" src="/images/icons/icon-32.png" alt=""><a href="#!" class="brand-logo"><span>JSON Viewer Pro</span></a>
+        </div>
+    </nav>
+
+    <div class="container m8 center">
+        <div class="row">
+            <div class="col m3">
+                <ul class="menu">
+                    <li><a href="#ui-settings" class="tab-action-btn"><img class="icon"
+                                src="/images/icons/interface.png" alt=""><span>UI Settings</span></a></li>
+                    <li><a href="#url-manager" class="tab-action-btn"> <img class="icon"
+                                src="/images/icons/seo-and-web.png" alt=""><span>Manage URL</span></a></li>
+                    <li><a href="https://www.paypal.com/donate?hosted_button_id=VQLQGCRJAAF3L"
+                            target="_blank"> <img class="icon" src="/images/icons/organizer.png" alt="">Donate with a coffee</a></li>
+                </ul>
+            </div>
+            <div class="col s12 m9">
+                <div class="card" data-tab-view="ui-settings">
+                    <div class="card-content">
+                        <h3 class="title">UI Settings</h3>
+                        <div class="form-item">
+                            <label>Select Theme:</label>
+                            <select class="form-control" id="theme">
+                                <option value="" disabled selected>Choose your theme</option>
+                                <option value="default">Default (Dark)</option>
+                                <option value="mdn">MDN Like(Light)</option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-item">
+                            <label>Custom CSS:</label>
+                            <textarea class="form-control" id="code">/*You may write your own css here */
+                                /**Write your CSS style **/
+                                .property{
+                                    /*color:#994c9e;*/
+                                 }
+
+                                .json-literal-numeric{
+                                    /*color:#F5B041;*/
+                                 }
+
+                                 .json-literal-url {
+                                    /*color: #34a632;*/
+                                 }
+
+                                 .json-literal-string{
+                                    /*color:#0642b0;*/
+                                 }
+
+                                 .json-literal-boolean{
+                                    /*color: #f23ebb;*/
+                                 }`
+</textarea>
+                        </div>
+                        <div class="form-item">
+                            <label>Collapse nested items: <input type="checkbox" id="collapsed" /></label>
+                        </div>
+
+                        <div class="form-item">
+                            <a href="" id="save-options" class="btn info">Save Changes</a>
+                            <a href="" id="reset-options" class="btn default">Restore Default</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card hidden" data-tab-view="url-manager">
+                    <div class="card-content">
+                        <h3 class="title">Manage URL</h3>
+                        <div class="row">
+                            <div class="m12 note">
+                                <p>You can disable the <b>JSON Viewer Pro</b> extension in specific websites. Just make a list of URLs that you want to avoid. No wild card (/*) supported.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="m10">
+                                <div class="form-item">
+                                    <input placeholder="Enter the URL to Disable extension" type="url" class="form-control" id="url" />
+                                </div>
+                            </div>
+                            <div class="m2">
+                                <button type="button" class="btn url-input-btn info" id="url-save-btn">Save URL</button>
+                            </div>
+                        </div>
+
+                        <div class="row col">
+                            <div class="no-urls-msg m12">
+                                <p>You have 0 URLs in the filtered list</p>
+                            </div>
+                            <div class="url-items ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tost-message">
+       <span class="info-icon">i</span> <span class="text">Settings have been saved.</span>
+    </div>
+    <script src="code-mirror/codemirror.js"></script>
+    <script src="code-mirror/mode/css/css.js"></script>
+    <script src="code-mirror/hint/show-hint.js"></script>
+    <script src="code-mirror/hint/css-hint.js"></script>
+    <script src="js/options.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+@use './dark-pro.scss';
+
+:root{
+    --bg-color:#fff;
+    --primary-text-color: #111;
+    --breadcumb-border-color: rgb(165, 164, 167);
+    --breadcumb-bg-color: #f6f6f6;
+    --copy-path-btn-img-filter: invert(1);
+    --menu-item-img-filter: invert(1);
+
+    --menu-item-border-color: #ccc;
+    --menu-item-bg-color: #f6f6f6;
+    --menu-item-active-border-color: #796cd9;
+    --menu-item-active-bg-color: #E9EDFE;
+    --breadcumb-item-hover-color: #796cd9;
+    --breadcumb-arrow-color: #796cd9;
+
+    --copyable-property-bg-color: rgba(231, 232, 233, 0.8);
+    --copyable-property-border-color: #5d6d7e;
+    --btn-bg-color: #fff;
+    --btn-border-color: #ccc;
+    --btn-default-bg-color: #fff;
+    --btn-primary-bg-color: #433387;
+
+    /* JSON Tree Color Scheme*/
+    --property-color: #994c9e;
+    --json-literal-numeric: #f5b041;
+    --json-literal-url: #34a632;
+    --json-literal-string: #0642b0;
+    --json-literal-and-boolean: #f23ebb;
+
+    --copier-bg-color: #fff;
+    --copier-text-color: #2ecc71;
+
+    /* chart view*/
+    --json-chart-circle-bg: #01ff70;
+
+    /* editor */
+    --json-input-bg-color: white;
+    --json-input-border-color: #ccc;
+    --error-msg-bg-color: #1f0604;
+    --editor-footer-bg-color: #efefef;
+    --editor-footer-text-color: #868585;
+    --editor-footer-border-color: #ccc;
+
+    /* dropdown */
+    --dropdown-bg-primary: #fff;
+    --dropdown-menu-item-bg: #efefef;
+    --dropdown-menu-item-border-color: #ccc;
+    --dropdown-menu-border-color: #ccc;
+
+    /* json path search bar */
+    --searchbar-bg-color:#ffffff;
+    --searchbar-border-color:#ccc;
+    --searchbar-box-shadow-color:rgba(135, 133, 133, 0.4);
+    --searchbar-text-input-bg-color: #efefef;
+    --searchbar-text-input-border-color: #ccc;
+    --searchbar-text-input-text-color: #994c9e;
+    --searchbar-text-input-focus-outline-color: #ccc;
+    --search-clear-btn-text-color: var(--primary-text-color);
+    --search-clear-btn-bg-color: transparent;
+
+    /* common */
+    --toolbar-bg-color: #efefef;
+    --toolbar-border-color: #ccc;
+}
