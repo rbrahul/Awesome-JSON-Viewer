@@ -4,9 +4,11 @@
     "private": true,
     "devDependencies": {
         "@eslint/js": "^9.16.0",
+        "@rollup/plugin-terser": "^0.4.4",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
         "@vitejs/plugin-react": "^4.3.4",
+        "autoprefixer": "^10.4.21",
         "eslint": "^9.16.0",
         "eslint-plugin-react": "^7.37.2",
         "eslint-plugin-react-hooks": "^5.0.0",
@@ -37,7 +39,8 @@
     },
     "scripts": {
         "start": "vite",
-        "build": "NODE_ENV=production vite build && make package",
+        "build": "NODE_ENV=production vite build",
+        "package": "npm run build && make package",
         "lint": "eslint .",
         "preview": "vite preview"
     }

@@ -42,7 +42,7 @@
     {
         "resources": [
             "/js/main.js",
-            "/css/main.css",
+            "/css/style.css",
             "/css/themes/mdn.css",
             "options.html",
             "images/icons/gear.png"
