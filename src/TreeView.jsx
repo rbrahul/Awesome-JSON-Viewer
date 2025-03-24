@@ -3,6 +3,7 @@ import $ from 'jquery';
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/json-viewer.js';
 import SearchBar from './components/Searchbar/index.jsx';
+import CopyIcon from './components/Icons/Copy';
 import './utils/json-viewer/json-viewer.css';
 
 class TreeView extends Component {
@@ -179,6 +180,7 @@ class TreeView extends Component {
         return (
             <div>
                 <a className="copier" style={{ top: this.state.top, display: this.state.showCopier ? 'block' : 'none' }}>
+                    <CopyIcon className="sm-icon copy-btn"/>
                     <ul className="copyMenu">
                         <li><a onClick={this.copy.bind(this, event, 'path')}>Copy path</a></li>
                         <li><a onClick={this.copy.bind(this, event, 'value')}>Copy Value</a></li>

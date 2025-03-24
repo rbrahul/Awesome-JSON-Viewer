@@ -7,8 +7,7 @@ import Editor from './components/Editor';
 import downloadFile from './utils/dowloadFile';
 import {currentDateTime} from './utils/datetime';
 
-//import './css/style.css';
-//import './css/dark-pro.css';
+import './vendor/tooltip/style.css';
 import './css/style.scss';
 
 class App extends Component {
@@ -61,6 +60,7 @@ class App extends Component {
 
     mutateOriginalJSONAndRender(json) {
         this.originalJSONRef.current = json;
+        window.json = json;
         this.changeJSON(this.originalJSONRef.current);
     }
 

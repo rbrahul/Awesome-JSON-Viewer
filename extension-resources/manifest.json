@@ -43,7 +43,9 @@
         "resources": [
             "/js/main.js",
             "/css/style.css",
-            "/css/themes/mdn.css",
+            "/css/color-themes/dark-pro.css",
+            "/css/color-themes/mdn-light.css",
+            "/css/codemirror.css",
             "options.html",
             "images/icons/gear.png"
         ],

@@ -109,7 +109,7 @@ body {
 
         > a {
             display: inline-flex;
-            padding: 10px;
+            padding: 8px 10px;
             text-decoration: none;
             color: var(--primary-text-color);
             width: auto;
@@ -141,12 +141,14 @@ body {
     height: 20px;
   }
 
-  .action-area > ul.menus > li > a > img.sm-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
+  .sm-icon:has(+span.menu-label) {
+     margin-right: 5px;
   }
 
+  .sm-icon.option-icon{
+    width: 24px;
+    height: 24px;
+  }
 
   .action-area > ul.menus > li.active > a {
     border: 1px solid var(--menu-item-active-border-color);
@@ -154,27 +156,9 @@ body {
   }
 
   .action-area > ul.menus > li > a.option-menu {
-    padding: 2px !important;
-    height: 100%;
-    vertical-align: middle;
+    padding: 6px !important;
   }
 
-  a.more-options{
-    padding: 2px !important;
-  }
-
-
-  a.more-options img, a.option-menu img {
-    width: 100%;
-    max-width: 32px;
-  }
-
-
-  a.more-options img.sm-icon{
-    width: 30px !important;
-    height: 30px !important;
-    margin-right: 0px !important;
-  }
 
   ul.json-dict li {
     width: auto;
@@ -258,22 +242,22 @@ body {
 
   .copier {
     background: var(--copier-bg-color);
-    padding: 5px;
+    padding: 0px 3px;
     display: none;
-    background-image: url("../../public/images/icons/copy.png");
-    background-repeat: no-repeat;
     top: 10px;
     left: 10px;
-    width: 10px;
-    height: 10px;
     position: absolute;
     z-index: 1001;
-    background-size: contain;
-    border: 3px solid var(--copier-bg-color);
+    box-sizing: border-box;
+  }
+
+  .copy-btn {
+    width: 24px;
+    height: auto;
   }
 
   ul.copyMenu {
-    left: 30px;
+    left: 40px;
     top: -20px;
     padding: 0;
     list-style: none;

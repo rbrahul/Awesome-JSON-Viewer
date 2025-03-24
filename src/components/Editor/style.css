@@ -8,6 +8,7 @@
 .jv-code-editor{
     height: 600px;
     box-sizing: border-box;
+    overflow:hidden;
 }
 
 .alert-close-btn{

@@ -2,6 +2,9 @@ const options = {
     theme: 'default',
     collapsed: 0,
     css: `/**Write your CSS style **/
+    .json-rb{
+        font-size: 15px;
+    }
   .property{
       /*color:#994c9e;*/
    }
@@ -52,7 +55,8 @@ async function sendMessage(action, message) {
     tabs.forEach(async (tab) => {
         try {
             await chrome.tabs.sendMessage(tab.id, messageObj);
-        } catch (error) {}
+        } catch (error) {
+        }
     });
 }
 
@@ -111,15 +115,16 @@ const getOptions = async (key) => {
 };
 
 const initCodeMirror = () => {
-    window.cssEditor = CodeMirror.fromTextArea(
-        document.getElementById('code'),
-        {
-            lineNumbers: true,
-            mode: 'css',
-            extraKeys: { 'Ctrl-Space': 'autocomplete' },
-            theme: 'dracula',
-        },
-    );
+
+    // window.cssEditor = CodeMirror.fromTextArea(
+    //     document.getElementById('code'),
+    //     {
+    //         lineNumbers: true,
+    //         mode: 'css',
+    //         extraKeys: { 'Ctrl-Space': 'autocomplete' },
+    //         theme: 'dracula',
+    //     },
+    // );
 };
 
 const initOptions = async () => {
@@ -142,7 +147,7 @@ const initOptions = async () => {
 
     const savedOptions = await getOptions(dbName);
     document.getElementById('theme').value = savedOptions.theme;
-    window.cssEditor.setValue(savedOptions.css);
+   // window.cssEditor.setValue(savedOptions.css);
     if (savedOptions.collapsed == 1) {
         document.getElementById('collapsed').setAttribute('checked', 'checked');
     } else {
@@ -160,7 +165,8 @@ const initOptions = async () => {
             if (theme) {
                 newOption.theme = theme;
             }
-            newOption.css = window.cssEditor.getValue();
+           // newOption.css = window.cssEditor.getValue();
+            newOption.css = '';
             newOption.collapsed = document.getElementById('collapsed').checked ? 1 : 0;
             await saveOptions(newOption);
             await sendMessage('settings_updated');
@@ -177,7 +183,7 @@ const initOptions = async () => {
             await sendMessage('settings_updated');
             document.getElementById('theme').value = options.theme;
             document.getElementById('code').value = options.css;
-            window.cssEditor.setValue(options.css);
+          //  window.cssEditor.setValue(options.css);
             document.getElementById('collapsed').checked = false;
             notify('Default settings have been saved', 'info', 2000);
         },

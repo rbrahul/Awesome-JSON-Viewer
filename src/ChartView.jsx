@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import toast from 'honey-toast';
 import { tree } from './vendor/d3-state-visualizer';
 import { getAppliedTransformation } from './utils/chart';
+import { FiCopy } from 'react-icons/fi';
+
 import 'honey-toast/dist/style.css';
 import clsx from 'clsx';
 
@@ -310,11 +312,7 @@ class ChartView extends Component {
                         data-direction="bottom"
                         onClick={this.onCopy}
                     >
-                        <img
-                            src="images/icons/copy.svg"
-                            className="sm-icon path-copy-icon"
-                            alt=""
-                        />
+                        <FiCopy className="sm-icon path-copy-icon"/>
                     </div>
                     <ul className="breadcumb-items">
                         {this.state.breadcrumbs.map((item, i) => {

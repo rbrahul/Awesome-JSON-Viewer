@@ -1,14 +1,20 @@
 'use strict';
 
-const isJSONResponse = () => document.contentType === 'application/json';
-const isJsonViewerLoaded = () => !!document.querySelector('rbrahul-awesome-json');
+const BASE_STYLE_LINK_TAG_ID = 'main-css';
+const COLOR_THEME_LINK_TAG_ID = 'color-theme-css';
+const CUSTOM_CSS_STYLE_TAG_ID = 'custom-css';
+const MAINJS_SCRIPT_TAG_ID = 'main-script';
 
-const addBodyTagIfMissing  = () => {
+const isJSONResponse = () => document.contentType === 'application/json';
+const isJsonViewerLoaded = () =>
+    !!document.querySelector('rbrahul-awesome-json');
+
+const addBodyTagIfMissing = () => {
     if (!document.querySelector('body')) {
         const body = document.createElement('body');
         document.querySelector('html').appendChild(body);
     }
-}
+};
 
 const addHeadTagIfMissing = () => {
     if (!document.querySelector('head')) {
@@ -17,28 +23,45 @@ const addHeadTagIfMissing = () => {
             .querySelector('html')
             .insertBefore(headNode, document.querySelector('body'));
     }
-}
+};
 
-const injectCssUrlAndStyleTag = () => {
+
+const injectStyleSheet = (stylesheetUrl, idSelector) => {
     const styleTag = document.createElement('link');
-    const cssFilePath = chrome.runtime.getURL('/css/main.css');
-    styleTag.setAttribute('href', cssFilePath);
+    styleTag.setAttribute('href', stylesheetUrl);
     styleTag.rel = 'stylesheet';
     styleTag.type = 'text/css';
-    styleTag.id = 'main-css';
+    styleTag.id = idSelector;
     document.head.appendChild(styleTag);
+    return styleTag;
+};
+
+
+const injectCssUrlAndStyleTag = () => {
+    if (!!document.getElementById(BASE_STYLE_LINK_TAG_ID)){
+        return;
+    }
+    const baseStyleCssFilePath = chrome.runtime.getURL('/css/style.css');
+    injectStyleSheet(baseStyleCssFilePath, BASE_STYLE_LINK_TAG_ID);
+
+    const colorThemeCssFilePath = chrome.runtime.getURL('/css/color-themes/dark-pro.css');
+    injectStyleSheet(colorThemeCssFilePath, COLOR_THEME_LINK_TAG_ID);
 
     const customStyleTag = document.createElement('style');
-    customStyleTag.id = 'custom-css';
+    customStyleTag.id = CUSTOM_CSS_STYLE_TAG_ID;
     document.head.appendChild(customStyleTag);
-}
+};
 
 const injectScriptTag = () => {
+    if (!!document.getElementById(MAINJS_SCRIPT_TAG_ID)){
+        return;
+    }
     const scriptTag = document.createElement('script');
+    scriptTag.id=MAINJS_SCRIPT_TAG_ID;
     const jsFilePath = chrome.runtime.getURL('/js/main.js');
     scriptTag.setAttribute('src', jsFilePath);
     document.querySelector('body').appendChild(scriptTag);
-}
+};
 
 // In Manifest V3 we can't use inline scripts so as a work around we pass options by exposing into meta content
 const injectOptionsAsMetaContent = (extensionOptions = {}) => {
@@ -56,24 +79,20 @@ const initApplication = (options = {}) => {
     injectOptionsAsMetaContent(options);
 };
 
-
 const applyOptions = (options) => {
     const themes = {
-        default: 'main.css',
-        mdn: 'mdn.css',
+        default: 'dark-pro.css',
+        mdn: 'color-themes/mdn-light.css',
     };
-    const styleNode = document.getElementById('main-css');
-    let cssURL = '';
-    if (options.theme === 'default') {
-        cssURL = chrome.runtime.getURL('/css/' + themes[options.theme]);
-    } else {
-        cssURL = chrome.runtime.getURL('/css/themes/' + themes[options.theme]);
-    }
+    const styleNode = document.getElementById(COLOR_THEME_LINK_TAG_ID);
+    const colorThemeStylesheetUrl = themes[options.theme] || themes['default'];
+    const cssURL = chrome.runtime.getURL('/css/' + colorThemeStylesheetUrl);
 
-    if (styleNode.href.indexOf(themes[options.theme] < 0)) {
+
+    if (styleNode.href.indexOf(colorThemeStylesheetUrl) < 0) {
         styleNode.setAttribute('href', cssURL);
     }
-    document.getElementById('custom-css').innerHTML = options.css;
+    document.getElementById('custom-css').textContent = options.css || '';
 
     setTimeout(
         (options) => {
@@ -81,11 +100,6 @@ const applyOptions = (options) => {
                 document
                     .getElementById('option-menu')
                     .setAttribute('href', options.optionPageURL);
-                document
-                    .getElementById('option-menu-icon')
-                    .setAttribute('src', options.optionIconURL);
-                document.getElementById('option-menu-icon').style.display =
-                    'block';
             }
         },
         1 * 1000,

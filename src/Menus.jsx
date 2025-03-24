@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { FiTerminal, FiX } from 'react-icons/fi';
-import TreeIcon from '../images/icons/tree.svg';
-import ChartIcon from '../images/icons/branch.svg';
-import JSONIcon from '../images/icons/brackets.svg';
-import GearIcon from '../images/icons/gear.svg';
-
-const OPTION_ICON_PATH = '/images/icons/gear.png';
+import Tree from './components/Icons/Tree';
+import Branch from './components/Icons/Branch';
+import Brackets from './components/Icons/Brackets';
+import Gear from './components/Icons/Gear';
 
 class Menus extends Component {
     constructor(props) {
@@ -34,7 +32,7 @@ class Menus extends Component {
         });
     }
 
-    showSearchBar(){
+    showSearchBar() {
         this.props.showSearchBar();
     }
 
@@ -44,7 +42,11 @@ class Menus extends Component {
                 <ul className="menus">
                     {this.state.selectedPan === 'tree' && (
                         <li
-                            data-tooltip={!this.props.isSearchBarVisible ? "Find by JSON Path": "Close Search bar"}
+                            data-tooltip={
+                                !this.props.isSearchBarVisible
+                                    ? 'Find by JSON Path'
+                                    : 'Close Search bar'
+                            }
                             data-direction="bottom"
                         >
                             {!this.props.isSearchBarVisible && (
@@ -73,10 +75,7 @@ class Menus extends Component {
                         }
                     >
                         <a href="#" onClick={this.setActive.bind(this, 'tree')}>
-                            <img
-                                src={TreeIcon}
-                                className="sm-icon"
-                            />{' '}
+                            <Tree className="sm-icon" />
                             <span className="menu-label">Tree</span>
                         </a>
                     </li>
@@ -89,10 +88,7 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'chart')}
                         >
-                            <img
-                                src={ChartIcon}
-                                className="sm-icon rotate-270"
-                            />{' '}
+                            <Branch className="sm-icon rotate-270" />
                             <span className="menu-label">Chart</span>
                         </a>
                     </li>
@@ -107,18 +103,14 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'jsonInput')}
                         >
-                            <img
-                                src={JSONIcon}
-                                className="sm-icon"
-                            />{' '}
+                           <Brackets className="sm-icon"/>
                             <span className="menu-label">JSON Editor</span>
                         </a>
                     </li>
                     <li className="">
                         <a
                             href={
-                                (window.extensionOptions || {}).optionPageURL ||
-                                '/options.html'
+                                window.extensionOptions?.optionPageURL ?? '/options.html'
                             }
                             target="_blank"
                             className="option-menu"
@@ -127,10 +119,7 @@ class Menus extends Component {
                             data-tooltip="Settings"
                             data-direction="bottom"
                         >
-                            <img
-                                id="option-menu-icon"
-                                src={GearIcon}
-                            />
+                            <Gear className="sm-icon option-icon"/>
                         </a>
                     </li>
                 </ul>

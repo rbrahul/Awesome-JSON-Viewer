@@ -18,6 +18,10 @@ import Logo from '../Logo';
 import Toolbar from './Toolbar';
 import './style.css';
 
+import {
+    CSP_NONCE
+} from '../../constants/common';
+
 const editorLangMap = {
     json,
     xml,
@@ -167,9 +171,6 @@ class Editor extends Component {
                     }),
                     editorLanguageParser(),
                     EditorView.updateListener.of((update) => {
-                        if (update.docChanged) {
-                            //console.log("editor updated", update);
-                        }
                         const position = update.view.state.doc.lineAt(
                             update.view.state.selection.main.head,
                         );
@@ -180,6 +181,7 @@ class Editor extends Component {
                                 position.from,
                         });
                     }),
+                    EditorView.cspNonce.of(CSP_NONCE),
                 ],
                 parent: this.editorRef.current,
             });
@@ -197,8 +199,11 @@ class Editor extends Component {
             this.setFooterMessage(
                 `Conversion between XML and JSON may lead to unexpected 'null' to empty string ("") or number to string type casting.`,
             );
-        } else if(nextState.contentType !== 'XML' && this.state.footerMessage) {
-                this.setFooterMessage('');
+        } else if (
+            nextState.contentType !== 'XML' &&
+            this.state.footerMessage
+        ) {
+            this.setFooterMessage('');
         }
     }
 
