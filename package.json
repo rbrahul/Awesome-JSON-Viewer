@@ -1,6 +1,6 @@
 {
     "name": "json-viewer-pro",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "private": true,
     "devDependencies": {
         "@eslint/js": "^9.16.0",
