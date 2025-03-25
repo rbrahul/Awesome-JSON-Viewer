@@ -7,7 +7,7 @@ const MAINJS_SCRIPT_TAG_ID = 'main-script';
 
 const isJSONResponse = () => document.contentType === 'application/json';
 const isJsonViewerLoaded = () =>
-    !!document.querySelector('rbrahul-awesome-json');
+    !!document.getElementById('rbrahul-awesome-json');
 
 const addBodyTagIfMissing = () => {
     if (!document.querySelector('body')) {
@@ -25,7 +25,6 @@ const addHeadTagIfMissing = () => {
     }
 };
 
-
 const injectStyleSheet = (stylesheetUrl, idSelector) => {
     const styleTag = document.createElement('link');
     styleTag.setAttribute('href', stylesheetUrl);
@@ -36,15 +35,16 @@ const injectStyleSheet = (stylesheetUrl, idSelector) => {
     return styleTag;
 };
 
-
 const injectCssUrlAndStyleTag = () => {
-    if (!!document.getElementById(BASE_STYLE_LINK_TAG_ID)){
+    if (!!document.getElementById(BASE_STYLE_LINK_TAG_ID)) {
         return;
     }
     const baseStyleCssFilePath = chrome.runtime.getURL('/css/style.css');
     injectStyleSheet(baseStyleCssFilePath, BASE_STYLE_LINK_TAG_ID);
 
-    const colorThemeCssFilePath = chrome.runtime.getURL('/css/color-themes/dark-pro.css');
+    const colorThemeCssFilePath = chrome.runtime.getURL(
+        '/css/color-themes/dark-pro.css',
+    );
     injectStyleSheet(colorThemeCssFilePath, COLOR_THEME_LINK_TAG_ID);
 
     const customStyleTag = document.createElement('style');
@@ -53,11 +53,11 @@ const injectCssUrlAndStyleTag = () => {
 };
 
 const injectScriptTag = () => {
-    if (!!document.getElementById(MAINJS_SCRIPT_TAG_ID)){
+    if (!!document.getElementById(MAINJS_SCRIPT_TAG_ID)) {
         return;
     }
     const scriptTag = document.createElement('script');
-    scriptTag.id=MAINJS_SCRIPT_TAG_ID;
+    scriptTag.id = MAINJS_SCRIPT_TAG_ID;
     const jsFilePath = chrome.runtime.getURL('/js/main.js');
     scriptTag.setAttribute('src', jsFilePath);
     document.querySelector('body').appendChild(scriptTag);
@@ -87,7 +87,6 @@ const applyOptions = (options) => {
     const styleNode = document.getElementById(COLOR_THEME_LINK_TAG_ID);
     const colorThemeStylesheetUrl = themes[options.theme] || themes['default'];
     const cssURL = chrome.runtime.getURL('/css/' + colorThemeStylesheetUrl);
-
 
     if (styleNode.href.indexOf(colorThemeStylesheetUrl) < 0) {
         styleNode.setAttribute('href', cssURL);

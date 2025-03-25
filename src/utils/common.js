@@ -10,3 +10,9 @@ export const calculateFileSize = (size) => {
     }
     return size;
 };
+
+export const iconFillColor = (isDarkMode) => {
+    return {
+        fillColor: isDarkMode ? '#FFFFFF' : '#000000',
+    };
+};

@@ -1,3 +1,7 @@
+:root{
+    --primary-text-color: white;
+}
+
 body {
   color: #fefefe;
   margin: 0;
@@ -34,9 +38,10 @@ nav {
   margin: 0;
   padding: 0;
 }
+
 nav div.nav-wrapper {
-  background: #4a148c;
-  padding: 15px 15px;
+  background: #5e47e5;
+  padding: 10px 15px;
 }
 
 nav div.nav-wrapper img.icon {
@@ -106,6 +111,10 @@ select {
   padding: 15px !important;
 }
 
+.wrapper{
+    margin-top:20px !important;
+}
+
 .m1 {
   box-sizing: border-box;
   width: calc((100% / 12) * 1);
@@ -153,6 +162,10 @@ select {
 .m10 {
   box-sizing: border-box;
   width: calc((100% / 12) * 10);
+}
+
+.no-margin{
+    margin: 0 !important;
 }
 
 .card {
@@ -233,6 +246,11 @@ a.btn {
   background: #039be5;
 }
 
+.primary {
+  color: #fff;
+  background: #5e47e5;
+}
+
 a.info:hover,
 button.info:hover {
   transition: ease-in 0.2s;
@@ -307,6 +325,7 @@ ul.menu > li > a:hover {
   border-bottom-left-radius: 0;
   text-align: center;
   width: 100%;
+  border: 1px solid #039be5;
 }
 
 .url-items {
@@ -384,15 +403,15 @@ img.icon.sm {
   top: -100px;
   position: absolute;
   left: calc(100% / 2 - 160px);
-  width: 320px;
-  padding: 12px 15px;
+  width: 260px;
+  padding: 8px 10px;
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 6px;
   display: block;
-  box-shadow: 0px 3px 6px 3px rgba(160, 160, 160, .5);
-  border: 2px solid white;
+  box-shadow: 0px 3px 6px 3px rgba(12, 12, 12, 0.4);
+  border: 1px solid white;
 }
 
 .tost-message.active{
@@ -402,18 +421,18 @@ img.icon.sm {
 }
 
 .info-icon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: table-cell;
     border-radius: 50%;
     background: white;
     text-align: center;
     vertical-align: middle;
     content: 'i';
-    font-size: 18px;
+    font-size: 16px;
     color:#09b61d;
     font-weight: bold;
-    border:2px solid #99f1a4;
+    border:1px solid #99f1a4;
 }
 
 .tost-message > .text {
@@ -423,7 +442,6 @@ img.icon.sm {
     vertical-align: middle;
     padding-left: 20px;
 }
-
 
 .col {
     flex-direction: column;
@@ -441,3 +459,36 @@ img.icon.sm {
 #save-options{
     margin-right: 20px;
 }
+
+.jv-logo {
+    box-sizing: border-box;
+    padding-top:3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.jv-logo-icon {
+    border:3px solid #fff;
+    background-color: #5e47e5;
+    margin: 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: 2px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding-bottom:3px;
+    margin-right: 15px;
+    color: white;
+  }
+
+  .jv-logo-title {
+      display: inline-block;
+      font-size:18px;
+      color:var(--primary-text-color);
+      line-height: 100%;
+  }

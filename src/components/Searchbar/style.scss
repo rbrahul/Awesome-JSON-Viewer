@@ -1,78 +1,76 @@
-
 .searchbar {
     display: flex;
     flex-direction: column;
     width: 350px;
     position: fixed;
     background-color: var(--searchbar-bg-color);
-    top:15px;
+    top: 15px;
     right: 390px;
     border-top: 1px solid var(--searchbar-border-color);
     border-radius: 10px;
     padding: 6px;
     box-shadow: 1px 9px 30px 7px var(--searchbar-box-shadow-color);
-  }
+}
 
-  .search-input-container{
+.search-input-container {
     width: 100%;
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
-    position:relative;
-  }
+    position: relative;
+}
 
-  .search-info-container{
+.search-info-container {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 10px;
     font-size: 14px;
-  }
+    color: var(--searchbar-info-text-color);
+}
 
-  .search-input{
+.search-input {
     background-color: var(--searchbar-text-input-bg-color);
     padding: 8px 10px;
     border-radius: 6px;
     border: 1px solid var(--searchbar-text-input-border-color);
-    color:var(--searchbar-text-input-text-color);
+    color: var(--searchbar-text-input-text-color);
     font-size: 14px;
     font-weight: bold;
     width: 350px;
     padding-right: 50px;
     box-sizing: border-box;
     font-family: monospace;
-  }
+}
 
-  .search-input:focus{
+.search-input:focus {
     outline: 1px solid var(--searchbar-text-input-focus-outline-color);
-  }
+}
 
-
-  .search-clear-btn {
-    padding: 0px 8px;
-    // padding-top: 4px;
+.search-clear-btn {
+    padding: 4px 4px 0px 4px;
     color: var(--search-clear-btn-text-color);
-    margin-left: -45px;
+    margin-left: -34px;
     border-radius: 6px;
     box-sizing: border-box;
     border-left: none;
     font-size: 22px;
     background-color: var(--search-clear-btn-bg-color);
     cursor: pointer;
-  }
+}
 
-  .path-suggestions {
+.path-suggestions {
     position: absolute;
     width: 280px;
     top: 40px;
-    left:40px;
+    left: 40px;
 
     .path-autocompletion {
         .dropdown-list-items {
-            top:0px;
+            top: 0px;
             font-family: monospace;
             max-height: 240px;
         }
     }
-  }
+}

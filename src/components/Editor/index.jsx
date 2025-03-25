@@ -1,14 +1,15 @@
 import React, { Component, createRef } from 'react';
+import { basicSetup, EditorView } from 'codemirror';
+import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
 import { xml } from '@codemirror/lang-xml';
+
 import {
     convertContent,
     convertToJsObject,
     trimXMLArrayRoot,
 } from '../../utils/convertContent';
-import { basicSetup, EditorView } from 'codemirror';
-import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { FiXCircle } from 'react-icons/fi';
 
 import downloadFile from '../../utils/dowloadFile';
@@ -18,9 +19,7 @@ import Logo from '../Logo';
 import Toolbar from './Toolbar';
 import './style.css';
 
-import {
-    CSP_NONCE
-} from '../../constants/common';
+import { CSP_NONCE } from '../../constants/common';
 
 const editorLangMap = {
     json,

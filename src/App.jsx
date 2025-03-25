@@ -5,7 +5,7 @@ import TreeView from './TreeView.jsx';
 import ChartViews from './ChartView.jsx';
 import Editor from './components/Editor';
 import downloadFile from './utils/dowloadFile';
-import {currentDateTime} from './utils/datetime';
+import { currentDateTime } from './utils/datetime';
 
 import './vendor/tooltip/style.css';
 import './css/style.scss';
@@ -43,7 +43,7 @@ class App extends Component {
         this.setState({ isSearchBarVisible: false });
     }
 
-    changeJSON(json, openTreeView=true) {
+    changeJSON(json, openTreeView = true) {
         this.setState(
             {
                 json,
@@ -84,7 +84,11 @@ class App extends Component {
     }
 
     downloadAsJSON() {
-        downloadFile(JSON.stringify(window.json, null, 2), 'text/json', `data-${currentDateTime()}.json`)
+        downloadFile(
+            JSON.stringify(window.json, null, 2),
+            'text/json',
+            `data-${currentDateTime()}.json`,
+        );
     }
 
     componentDidMount() {
@@ -137,10 +141,15 @@ class App extends Component {
                     showSearchBar={this.showSearchBar}
                     hideSearchBar={this.hideSearchBar}
                     isSearchBarVisible={this.state.isSearchBarVisible}
+                    isDarkMode={this.props.isDarkMode}
                 />
                 <div className="tab-container">
                     {this.state.selectedTab === 'tree' && (
-                        <TreeView data={this.state.json} isSearchBarVisible={this.state.isSearchBarVisible}/>
+                        <TreeView
+                            data={this.state.json}
+                            isSearchBarVisible={this.state.isSearchBarVisible}
+                            isDarkMode={this.props.isDarkMode}
+                        />
                     )}
                     {this.state.selectedTab === 'chart' && (
                         <ChartViews
@@ -154,7 +163,9 @@ class App extends Component {
                     {this.state.selectedTab === 'jsonInput' && (
                         <Editor
                             json={this.originalJSONRef.current}
-                            renderJSON={this.mutateOriginalJSONAndRender.bind(this)}
+                            renderJSON={this.mutateOriginalJSONAndRender.bind(
+                                this,
+                            )}
                         />
                     )}
                 </div>

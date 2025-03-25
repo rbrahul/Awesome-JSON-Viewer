@@ -14,8 +14,9 @@ package:
 		@mkdir ${chrome_build_dir}/css/color-themes
 		@cp -r ./src/css/color-themes/ ${chrome_build_dir}/css/color-themes
 		@cp -r ./src/css/codemirror.css ${chrome_build_dir}/css/codemirror.css
-		@cp -r ./src/options/js/ ${chrome_build_dir}/js/
+		@cp -r ./dist-options-page/options.js ${chrome_build_dir}/js/
 		@cp -r ./src/options/css/ ${chrome_build_dir}/css/
+		@cp -r ./src/options/options.html ${chrome_build_dir}/
 		@cp -r ./src/scripts/ ${chrome_build_dir}/js/
 		@cd $(chrome_build_dir); \
 		zip -r chrome-extension.zip .
