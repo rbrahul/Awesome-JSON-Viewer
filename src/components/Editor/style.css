@@ -6,6 +6,7 @@
 }
 
 .jv-code-editor{
+    background-color: var(--json-input-bg-color);
     height: 600px;
     box-sizing: border-box;
     overflow:hidden;

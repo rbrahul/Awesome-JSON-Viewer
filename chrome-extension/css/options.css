@@ -1,16 +1,14 @@
-:root{
-    --primary-text-color: white;
-}
-
 body {
-  color: #fefefe;
+  color: #333;
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #222;
   width: 100%;
+  background: #fff;
 }
+
 h1,
 h2,
 h3,
@@ -21,15 +19,19 @@ h6 {
   margin: 10px 0px;
   color: #464a4c;
 }
+
 h1 {
   font-size: 34px;
 }
+
 h2 {
   font-size: 30px;
 }
+
 h3 {
   font-size: 26px;
 }
+
 h4 {
   font-size: 22px;
 }
@@ -164,6 +166,16 @@ select {
   width: calc((100% / 12) * 10);
 }
 
+.m11 {
+  box-sizing: border-box;
+  width: calc((100% / 12) * 11);
+}
+
+.m12 {
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .no-margin{
     margin: 0 !important;
 }
@@ -193,29 +205,22 @@ label {
   display: block;
   margin-bottom: 10px;
 }
+
 .form-item {
   margin-bottom: 30px;
   display: block;
 }
 
-textarea {
-  padding: 10px;
-  box-sizing: border-box;
-  font-size: 14px;
-  min-height: 200px;
-}
-
 .btn {
-  padding: 15px 20px;
+  padding: 12px 15px;
   width: auto;
   display: inline-block;
-  border-radius: 3px;
+  border-radius: 4px;
   text-align: center;
   text-decoration: none;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -226,7 +231,6 @@ textarea {
   text-align: center;
   text-decoration: none;
   outline: none;
-  text-transform: uppercase;
   padding: 5px 10px;
   font-size: 10px;
   font-weight: 300;
@@ -234,6 +238,11 @@ textarea {
 
 a.btn {
   text-decoration: none;
+}
+
+.btn-sm.url-delete {
+    font-size: 12px;
+    padding: 8px 12px;
 }
 
 .success {
@@ -335,19 +344,21 @@ ul.menu > li > a:hover {
 }
 
 .url-item {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   border: 1px solid #eeeff0;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 1px 3px 1px rgba(160, 160, 160, 0.1);
 }
 
 .url-item .action-menu {
-  padding: 2px;
+  padding: 0;
+  text-align: right;
+  padding-right: 12px;
 }
 
 .url {
@@ -365,9 +376,6 @@ ul.menu > li > a:hover {
   color: #222;
 }
 
-.url-item .action-menu {
-  padding: 0;
-}
 
 img.icon.sm {
   width: 20px;
@@ -402,9 +410,9 @@ img.icon.sm {
 .tost-message {
   top: -100px;
   position: absolute;
-  left: calc(100% / 2 - 160px);
+  left: calc(100% / 2 - 130px);
   width: 260px;
-  padding: 8px 10px;
+  padding: 10px;
   color: #fff;
   font-size: 15px;
   font-weight: bold;
@@ -421,8 +429,8 @@ img.icon.sm {
 }
 
 .info-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     display: table-cell;
     border-radius: 50%;
     background: white;
@@ -453,7 +461,8 @@ img.icon.sm {
     background-color: #cee4fa;
     color: #0e5397;
     margin: 15px 0px;
-    font-size: 14px;
+    font-size: 14px;;
+    border-left:4px solid #0e5397
 }
 
 #save-options{
@@ -489,6 +498,6 @@ img.icon.sm {
   .jv-logo-title {
       display: inline-block;
       font-size:18px;
-      color:var(--primary-text-color);
+      color: #fff;
       line-height: 100%;
   }

@@ -16,3 +16,13 @@ export const iconFillColor = (isDarkMode) => {
         fillColor: isDarkMode ? '#FFFFFF' : '#000000',
     };
 };
+
+export const getURL = (assetPath) => {
+    const optionUrl = window.extensionOptions?.optionPageURL ?? '';
+    try {
+        const url = new URL(optionUrl);
+        return `${url.origin}/${assetPath}`;
+    } catch (error) {
+        return assetPath;
+    }
+};

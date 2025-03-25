@@ -44,8 +44,6 @@ class Editor extends Component {
     }
 
     setCursorPosition = (selection) => {
-        //   const selection = this.codeMirror.current.state.selection;
-        console.log('Line Selection:', selection);
         this.setState({
             cursorPosition: selection,
         });

@@ -82,11 +82,13 @@ const initApplication = (options = {}) => {
 const applyOptions = (options) => {
     const themes = {
         default: 'dark-pro.css',
-        mdn: 'color-themes/mdn-light.css',
+        mdn: 'mdn-light.css',
     };
     const styleNode = document.getElementById(COLOR_THEME_LINK_TAG_ID);
     const colorThemeStylesheetUrl = themes[options.theme] || themes['default'];
-    const cssURL = chrome.runtime.getURL('/css/' + colorThemeStylesheetUrl);
+    const cssURL = chrome.runtime.getURL(
+        '/css/color-themes/' + colorThemeStylesheetUrl,
+    );
 
     if (styleNode.href.indexOf(colorThemeStylesheetUrl) < 0) {
         styleNode.setAttribute('href', cssURL);

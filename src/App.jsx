@@ -155,6 +155,7 @@ class App extends Component {
                         <ChartViews
                             rootData={this.state.json}
                             data={this.state.selectedJSON}
+                            isDarkMode={this.props.isDarkMode}
                             changeTargetNodeOnChart={this.changeTargetNodeOnChart.bind(
                                 this,
                             )}

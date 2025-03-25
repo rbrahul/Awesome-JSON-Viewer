@@ -41,6 +41,7 @@
                 "/css/color-themes/dark-pro.css",
                 "/css/color-themes/mdn-light.css",
                 "/css/codemirror.css",
+                "/images/icons/bell.svg",
                 "options.html"
             ],
             "matches": ["*://*/*", "ftp://*/*", "file:///*"]

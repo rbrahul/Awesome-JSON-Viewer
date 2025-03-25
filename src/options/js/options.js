@@ -29,7 +29,6 @@ async function sendMessage(action, message) {
     tabs.forEach(async (tab) => {
         try {
             if (tab.url) {
-                console.log('has tab url:', tab.url);
                 await chrome.tabs.sendMessage(tab.id, messageObj);
             } else {
                 chrome.tabs.remove(tab.id);
@@ -38,9 +37,7 @@ async function sendMessage(action, message) {
     });
 }
 
-function notify(message, type, duration) {
-    var messageType = type || 'success';
-    var maxVisibleTime = duration || 3000;
+function notify(message, messageType = 'success', duration = 3000) {
     var tostMessageElement = document.querySelector(selectors.tostMessage);
     ['success', 'error', 'info', 'warning'].forEach((className) => {
         tostMessageElement.classList.remove(className);
@@ -50,7 +47,7 @@ function notify(message, type, duration) {
 
     setTimeout(() => {
         tostMessageElement.classList.remove('active');
-    }, maxVisibleTime);
+    }, duration);
 }
 
 const saveOptions = async (value) => {
@@ -108,9 +105,6 @@ const initCodeMirror = (doc = DEFAULT_OPTIONS.css) => {
                 settings: {
                     background: '#070707',
                     gutterBackground: '#111111',
-
-                    // background: '#fff',
-                    // gutterBackground: '#efefef',
                 },
             }),
             css(),
@@ -157,7 +151,7 @@ const initOptions = async () => {
         async (e) => {
             try {
                 e.preventDefault();
-                const newOption = DEFAULT_OPTIONS;
+                const newOption = { ...DEFAULT_OPTIONS };
                 const theme = document.getElementById('theme').value;
                 if (theme) {
                     newOption.theme = theme;
@@ -181,11 +175,11 @@ const initOptions = async () => {
             try {
                 e.preventDefault();
                 await saveOptions(DEFAULT_OPTIONS);
-                await sendMessage('settings_updated');
                 document.getElementById('theme').value = DEFAULT_OPTIONS.theme;
-                initCodeMirror();
                 document.getElementById('collapsed').checked = false;
-                notify('Default settings have been saved', 'info', 2000);
+                initCodeMirror();
+                sendMessage('settings_updated');
+                notify('Default settings restored', 'info', 2000);
             } catch (error) {}
         },
         false,
@@ -238,7 +232,7 @@ async function updateURLView(urls) {
             urlItem += '</div>';
             urlItem += '<div class="action-menu m2">';
             urlItem +=
-                '<a href="#" class="btn btn-sm url-delete danger" data-url="' +
+                '<a href="#" class="btn btn-sm danger url-delete" data-url="' +
                 url +
                 '">Delete</a>';
             urlItem += '</div>';

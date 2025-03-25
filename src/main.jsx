@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import App from './App.jsx';
+import { getURL } from './utils/common';
 import { DARK_THEMES, DEFAULT_OPTIONS } from './constants/options.js';
 
 const codeMirrorStyleSheetId = 'codemirror-css';
@@ -13,16 +14,6 @@ const isJSONViewerProExtensionPage = () => {
         window.location.href.includes('chrome-extension://') &&
         window.location.search.includes('options')
     );
-};
-
-const getURL = (assetPath) => {
-    const optionUrl = window.extensionOptions?.optionPageURL ?? '';
-    try {
-        const url = new URL(optionUrl);
-        return `${url.origin}/${assetPath}`;
-    } catch (error) {
-        return assetPath;
-    }
 };
 
 const injectStyleSheet = (stylesheetUrl, idSelector) => {
@@ -41,13 +32,13 @@ const applyOptionsIfChromeExtensionPage = (options) => {
     }
     const themes = {
         default: 'dark-pro.css',
-        mdn: 'color-themes/mdn-light.css',
+        mdn: 'mdn-light.css',
     };
     let colorThemeStyleSheetLinkElement = document.getElementById(
         COLOR_THEME_LINK_TAG_ID,
     );
     const colorThemeStylesheetUrl = themes[options.theme] || themes['default'];
-    const cssURL = getURL('/css/' + colorThemeStylesheetUrl);
+    const cssURL = getURL('/css/color-themes/' + colorThemeStylesheetUrl);
 
     if (!colorThemeStyleSheetLinkElement) {
         injectStyleSheet(cssURL, COLOR_THEME_LINK_TAG_ID);
