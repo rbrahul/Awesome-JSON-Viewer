@@ -26,3 +26,14 @@ export const getURL = (assetPath) => {
         return assetPath;
     }
 };
+
+const bigIntToStrTransformer = (key, value, context) => {
+    if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
+        return String(context.source);
+    }
+    return value;
+};
+
+export const parseJson = (jsonStr) => {
+    return JSON.parse(jsonStr, bigIntToStrTransformer);
+};

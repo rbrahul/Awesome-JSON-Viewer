@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import App from './App.jsx';
-import { getURL } from './utils/common';
+import { getURL, parseJson } from './utils/common';
 import { DARK_THEMES, DEFAULT_OPTIONS } from './constants/options.js';
 
 const codeMirrorStyleSheetId = 'codemirror-css';
@@ -38,7 +38,7 @@ const applyOptionsIfChromeExtensionPage = (options) => {
         COLOR_THEME_LINK_TAG_ID,
     );
     const colorThemeStylesheetUrl = themes[options.theme] || themes['default'];
-    const cssURL = getURL('/css/color-themes/' + colorThemeStylesheetUrl);
+    const cssURL = getURL('css/color-themes/' + colorThemeStylesheetUrl);
 
     if (!colorThemeStyleSheetLinkElement) {
         injectStyleSheet(cssURL, COLOR_THEME_LINK_TAG_ID);
@@ -124,7 +124,7 @@ const detectCSPViolation = () => {
     try {
         let content = document.body?.textContent;
         content = content?.trim();
-        const jsonData = JSON.parse(content);
+        const jsonData = parseJson(content);
         window.json = jsonData;
         window.extensionOptions = await getOptions();
         applyOptionsIfChromeExtensionPage(window.extensionOptions);

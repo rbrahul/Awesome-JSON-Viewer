@@ -2,6 +2,7 @@
     "name": "json-viewer-pro",
     "version": "1.0.4",
     "private": true,
+    "type": "module",
     "devDependencies": {
         "@eslint/js": "^9.16.0",
         "@rollup/plugin-terser": "^0.4.4",
@@ -44,6 +45,7 @@
         "build": "NODE_ENV=production vite build",
         "build:option": "NODE_ENV=production vite build -c ./vite.options-page.config.js",
         "package": "npm run build && npm run build:option && make package",
+        "test:units": "node --test './src/utils/*.test.*'",
         "lint": "eslint .",
         "preview": "vite preview"
     }
