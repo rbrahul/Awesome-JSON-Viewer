@@ -153,6 +153,11 @@ class TreeView extends Component {
         this.cleanUpEventListeners();
         this.renderJSONTree(json);
         window.scrollTo(0, 0);
+        if (this.state.showCopier) {
+            this.setState({
+                showCopier: false,
+            });
+        }
     }
 
     restoreOriginalJSON() {
@@ -164,7 +169,7 @@ class TreeView extends Component {
         this.$node = $(this.jsonRenderer.current);
         if ($) {
             const pluginOptions = {
-                collapsed: 0,
+                collapsed: window.extensionOptions?.collapsed === 1,
                 withQuotes: true,
             };
             initPlugin(this.$node, $, data, pluginOptions);
@@ -174,16 +179,6 @@ class TreeView extends Component {
                 this.changeCopyIconLocation,
             );
             $(document).on('click', 'a.json-toggle', this.toggleSection);
-
-            setTimeout(() => {
-                if ((window.extensionOptions || {}).collapsed == 1) {
-                    $.each($('a.json-toggle'), function (index, item) {
-                        if (index > 0) {
-                            $(item).trigger('click');
-                        }
-                    });
-                }
-            }, 1000);
         }
     }
 

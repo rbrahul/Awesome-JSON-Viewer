@@ -3,6 +3,7 @@ import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { css } from '@codemirror/lang-css';
 
 import { DEFAULT_OPTIONS } from '../../constants/options';
+import Switch from './switch';
 
 var selectors = {
     tabActionButton: '.tab-action-btn',
@@ -144,6 +145,8 @@ const initOptions = async () => {
         document.getElementById('collapsed').checked = false;
     }
 
+    document.getElementById('collapsed').dispatchEvent(new Event('change'));
+
     initCodeMirror(optionsToSave.css || DEFAULT_OPTIONS.css);
 
     document.getElementById('save-options').addEventListener(
@@ -177,6 +180,9 @@ const initOptions = async () => {
                 await saveOptions(DEFAULT_OPTIONS);
                 document.getElementById('theme').value = DEFAULT_OPTIONS.theme;
                 document.getElementById('collapsed').checked = false;
+                document
+                    .getElementById('collapsed')
+                    .dispatchEvent(new Event('change'));
                 initCodeMirror();
                 sendMessage('settings_updated');
                 notify('Default settings restored', 'info', 2000);
@@ -325,5 +331,8 @@ function initEventListener() {
 
 document.body.onload = async function () {
     await updateURLView();
+    new Switch({
+        selector: '.switch',
+    });
     initEventListener();
 };

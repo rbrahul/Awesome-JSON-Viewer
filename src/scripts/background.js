@@ -99,7 +99,6 @@ const sendOptions = async () => {
 
     try {
         const tabs = await chrome.tabs.query({});
-        console.log('sending options received notification TAB:', tabs);
         tabs.forEach(async (tab) => {
             try {
                 await chrome.tabs.sendMessage(tab.id, {

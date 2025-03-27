@@ -108,10 +108,6 @@ const injectCodeMirrorStylesheet = () => {
  ** based on CSS in JS.
  **/
 const detectCSPViolation = () => {
-    window.addEventListener('message', (message) => {
-        console.log('message received:', message);
-    });
-
     document.addEventListener('securitypolicyviolation', function (e) {
         if (e.violatedDirective === 'style-src-elem') {
             injectCodeMirrorStylesheet();
