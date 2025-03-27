@@ -104,8 +104,7 @@ class ChartView extends Component {
             },
             position: 'top-center',
             animation: 'slide',
-            // duration: 2000,
-            autoClose: false,
+            duration: 2000,
             theme,
         };
         navigator.clipboard
@@ -237,12 +236,14 @@ class ChartView extends Component {
                 },
                 indentationSize: 2,
                 styles: {
-                    background: '#222',
+                    background: this.props.isDarkMode ? '#222' : '#fefefe',
                     padding: '8px',
-                    color: '#4FDEE5',
+                    color: this.props.isDarkMode ? '#4FDEE5' : '#3DAAE0',
                     'border-radius': '2px',
-                    'box-shadow': '0 7px 7px 0 #111',
-                    'font-size': '13px',
+                    'box-shadow':
+                        '0 7px 7px 0' +
+                        (this.props.isDarkMode ? '#111' : '#ccc'),
+                    'font-size': '14px',
                     'line-height': '1.3',
                 },
             },

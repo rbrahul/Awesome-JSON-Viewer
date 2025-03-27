@@ -1,9 +1,7 @@
-@use './dark-pro.scss';
-
 :root{
     --bg-color:#fff;
     --primary-text-color: #111;
-    --breadcumb-border-color: rgb(165, 164, 167);
+    --breadcumb-border-color: #ccc;
     --breadcumb-bg-color: #f6f6f6;
     --copy-path-btn-img-filter: invert(1);
     --menu-item-img-filter: invert(1);
