@@ -1,0 +1,37 @@
+{
+  "name": "map2tree",
+  "version": "4.0.0",
+  "description": "Utility for mapping maps to trees",
+  "private": true,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "prepack": "pnpm run clean && pnpm run build",
+    "prepublish": "pnpm run lint && pnpm run test"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "@types/lodash-es": "^4.17.12",
+    "immutable": "^4.3.7",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "~5.5.4"
+  }
+}

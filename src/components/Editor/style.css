@@ -1,0 +1,56 @@
+.jv-editor {
+    position:relative;
+    margin:0 auto;
+    margin-top: 80px;
+    width:  80%;
+}
+
+.jv-code-editor{
+    height: 600px;
+    box-sizing: border-box;
+    overflow:hidden;
+}
+
+.alert-close-btn{
+    float: right;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--primary-text-color);
+    font-size: 20px;
+    padding:0px;
+    margin:0px;
+}
+
+.editor-footer{
+    position: absolute;
+    bottom:-20px;
+    right: 0px;
+    left: 0px;
+    background-color: var(--editor-footer-bg-color);
+    color:var(--editor-footer-text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 12px;
+    padding: 5px 10px;
+    border: 1px solid var(--editor-footer-border-color);
+}
+
+.message-area{
+    box-sizing: border-box;
+    padding: 0px 10px;
+    width: 75%;
+}
+
+.info-area{
+    box-sizing: border-box;
+    width: 25%;
+    border-left: 1px solid var(--editor-footer-border-color);
+    padding: 0px 10px;
+}
+
+.cursor-position-info {
+    margin-right: 20px;
+}

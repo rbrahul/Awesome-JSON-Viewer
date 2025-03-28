@@ -1,0 +1,77 @@
+#tooltip-msg {
+    position:absolute;
+    padding: 15px;
+    border-radius: 4px;
+    color:#fff;
+    font-size: 14px;
+    transition: ease-in-ease-out .3s;
+    background:black;
+    z-index:100000000000;
+    max-width:300px;
+}
+
+#tooltip-msg.small {
+     padding: 8px;
+     font-size: 12px;
+}
+
+#tooltip-msg.medium {
+     padding: 10px;
+     font-size: 13px;
+}
+
+#tooltip-msg:before {
+    content: '';
+    width:0px;
+    height:0px;
+    border:8px solid black;
+    z-index:99999999;
+    position:absolute;
+    z-index:-1;
+}
+.hidden{
+   display:none !important;
+}
+.visible{
+    display:block !important;
+}
+
+#tooltip-msg.dir-right {
+    transform: translateY(-50%);
+}
+
+#tooltip-msg.dir-right::before {
+    left: -14px;
+    top: calc(50% - 2px);
+    transform: rotate(45deg) translateY(-50%);
+}
+
+#tooltip-msg.dir-bottom {
+    transform: translateX(-50%);
+}
+
+#tooltip-msg.dir-bottom::before {
+    left: 50%;
+    top: -2px;
+    transform: rotate(45deg) translateX(-50%);
+}
+
+#tooltip-msg.dir-left {
+    transform: translateX(-100%) translateY(-50%);
+}
+
+#tooltip-msg.dir-left::before {
+    right: -2px;
+    top: calc(50% - 2px);
+    transform: rotate(45deg) translateY(-50%);
+}
+
+#tooltip-msg.dir-top {
+    transform: translateX(-50%) translateY(-100%);
+}
+
+#tooltip-msg.dir-top::before {
+    left: 50%;
+    bottom: -12px;
+    transform: rotate(45deg) translateX(-50%);
+}
