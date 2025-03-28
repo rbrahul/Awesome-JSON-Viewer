@@ -4,11 +4,13 @@ chrome.action.onClicked.addListener(async (tab) => {
     const extensionOptions = await getBackwardCompatibleOptions(dbName);
     let queryParam = '';
     if (extensionOptions && extensionOptions.theme) {
-        queryParam = `?options=${encodeURIComponent(JSON.stringify(extensionOptions))}`;
+        queryParam = `?options=${encodeURIComponent(
+            JSON.stringify(extensionOptions),
+        )}`;
     }
     const url = chrome.runtime.getURL('index.html');
     chrome.tabs.create(
-        { url: queryParam ? url + queryParam : url},
+        { url: queryParam ? url + queryParam : url },
         function (tab) {},
     );
 });
@@ -55,7 +57,6 @@ const createContextMenu = async () => {
     }
 };
 
-
 const getBackwardCompatibleOptions = async (key) => {
     try {
         const data = await chrome.storage.local.get([key]);
@@ -64,7 +65,7 @@ const getBackwardCompatibleOptions = async (key) => {
             try {
                 const parsedData = JSON.parse(existingData);
                 if (parsedData && Object.keys(parsedData).length > 0) {
-                    return parsedData
+                    return parsedData;
                 }
             } catch (error) {
                 console.log('Error while parsing the existing options:', error);
@@ -91,15 +92,13 @@ const sendOptions = async () => {
             collapsed: 0,
             filteredURL: [],
         },
-        ...options
+        ...options,
     };
 
     options.optionPageURL = chrome.runtime.getURL('options.html');
-    options.optionIconURL = chrome.runtime.getURL('/images/icons/gear.png');
 
     try {
         const tabs = await chrome.tabs.query({});
-        console.log("sending options received notification TAB:", tabs)
         tabs.forEach(async (tab) => {
             try {
                 await chrome.tabs.sendMessage(tab.id, {
@@ -109,7 +108,10 @@ const sendOptions = async () => {
             } catch (error) {}
         });
     } catch (error) {
-        console.log('Error Found while sending options from background.js:', error);
+        console.log(
+            'Error Found while sending options from background.js:',
+            error,
+        );
     }
 };
 

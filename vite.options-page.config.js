@@ -1,23 +1,18 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 //@ts-ignore
 import path from 'path';
 import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
-    plugins: [react()],
-    css: {
-        postcss: './postcss.config.js',
-    },
     build: {
-        cssCodeSplit: false,
+        outDir: 'dist-options-page',
         rollupOptions: {
             input: {
-                main: path.resolve(__dirname, '/src/main.jsx'),
+                options: path.resolve(__dirname, '/src/options/js/options.js'),
             },
             output: {
-                entryFileNames: `assets/[name].js`,
-                assetFileNames: `assets/[name].[ext]`,
+                entryFileNames: `[name].js`,
+                assetFileNames: `[name].[ext]`,
                 format: 'iife',
                 plugins: [terser()],
             },

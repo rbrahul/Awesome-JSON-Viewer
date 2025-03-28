@@ -31,7 +31,7 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         let jsonPath = path;
         if (jsonPath.startsWith('[')) {
             jsonPath = `$.${jsonPath}`;
-        } else if(jsonPath.startsWith('.')){
+        } else if (jsonPath.startsWith('.')) {
             jsonPath = `\$${jsonPath}`;
         }
         const result = JSONPath({
@@ -94,9 +94,12 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                 return;
             }
             if (e.which === 13) {
-
-                const isSuggestionDropDownMenuActive = showSuggestion && filteredSuggestions.length > 0;
-                if (searchText.length === '' || isSuggestionDropDownMenuActive) {
+                const isSuggestionDropDownMenuActive =
+                    showSuggestion && filteredSuggestions.length > 0;
+                if (
+                    searchText.length === '' ||
+                    isSuggestionDropDownMenuActive
+                ) {
                     return;
                 }
 
@@ -116,7 +119,6 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                         setIsJsonModified(true);
                     }
                 } catch (error) {
-                    console.log('Rending JSON path error:', error);
                     setSearchInfo(
                         'Failed to retrieve value from the Path you provided',
                     );

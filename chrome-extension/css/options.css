@@ -1,12 +1,16 @@
+:root{
+    --accent-color:#5e47e5;
+}
 body {
-  color: #fefefe;
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #222;
   width: 100%;
+  background: #fff;
 }
+
 h1,
 h2,
 h3,
@@ -17,15 +21,19 @@ h6 {
   margin: 10px 0px;
   color: #464a4c;
 }
+
 h1 {
   font-size: 34px;
 }
+
 h2 {
   font-size: 30px;
 }
+
 h3 {
   font-size: 26px;
 }
+
 h4 {
   font-size: 22px;
 }
@@ -34,9 +42,10 @@ nav {
   margin: 0;
   padding: 0;
 }
+
 nav div.nav-wrapper {
-  background: #4a148c;
-  padding: 15px 15px;
+  background: var(--accent-color);
+  padding: 10px 15px;
 }
 
 nav div.nav-wrapper img.icon {
@@ -106,6 +115,10 @@ select {
   padding: 15px !important;
 }
 
+.wrapper{
+    margin-top:20px !important;
+}
+
 .m1 {
   box-sizing: border-box;
   width: calc((100% / 12) * 1);
@@ -155,6 +168,20 @@ select {
   width: calc((100% / 12) * 10);
 }
 
+.m11 {
+  box-sizing: border-box;
+  width: calc((100% / 12) * 11);
+}
+
+.m12 {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.no-margin{
+    margin: 0 !important;
+}
+
 .card {
   width: 100%;
   padding: 30px;
@@ -180,29 +207,22 @@ label {
   display: block;
   margin-bottom: 10px;
 }
+
 .form-item {
   margin-bottom: 30px;
   display: block;
 }
 
-textarea {
-  padding: 10px;
-  box-sizing: border-box;
-  font-size: 14px;
-  min-height: 200px;
-}
-
 .btn {
-  padding: 15px 20px;
+  padding: 12px 15px;
   width: auto;
   display: inline-block;
-  border-radius: 3px;
+  border-radius: 4px;
   text-align: center;
   text-decoration: none;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -213,7 +233,6 @@ textarea {
   text-align: center;
   text-decoration: none;
   outline: none;
-  text-transform: uppercase;
   padding: 5px 10px;
   font-size: 10px;
   font-weight: 300;
@@ -221,6 +240,11 @@ textarea {
 
 a.btn {
   text-decoration: none;
+}
+
+.btn-sm.url-delete {
+    font-size: 12px;
+    padding: 8px 12px;
 }
 
 .success {
@@ -231,6 +255,11 @@ a.btn {
 .info {
   color: #fff;
   background: #039be5;
+}
+
+.primary {
+  color: #fff;
+  background: #5e47e5;
 }
 
 a.info:hover,
@@ -307,6 +336,7 @@ ul.menu > li > a:hover {
   border-bottom-left-radius: 0;
   text-align: center;
   width: 100%;
+  border: 1px solid #039be5;
 }
 
 .url-items {
@@ -316,19 +346,21 @@ ul.menu > li > a:hover {
 }
 
 .url-item {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   border: 1px solid #eeeff0;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 1px 3px 1px rgba(160, 160, 160, 0.1);
 }
 
 .url-item .action-menu {
-  padding: 2px;
+  padding: 0;
+  text-align: right;
+  padding-right: 12px;
 }
 
 .url {
@@ -346,9 +378,6 @@ ul.menu > li > a:hover {
   color: #222;
 }
 
-.url-item .action-menu {
-  padding: 0;
-}
 
 img.icon.sm {
   width: 20px;
@@ -383,16 +412,16 @@ img.icon.sm {
 .tost-message {
   top: -100px;
   position: absolute;
-  left: calc(100% / 2 - 160px);
-  width: 320px;
-  padding: 12px 15px;
+  left: calc(100% / 2 - 130px);
+  width: 260px;
+  padding: 10px;
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 6px;
   display: block;
-  box-shadow: 0px 3px 6px 3px rgba(160, 160, 160, .5);
-  border: 2px solid white;
+  box-shadow: 0px 3px 6px 3px rgba(12, 12, 12, 0.4);
+  border: 1px solid white;
 }
 
 .tost-message.active{
@@ -402,18 +431,18 @@ img.icon.sm {
 }
 
 .info-icon {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     display: table-cell;
     border-radius: 50%;
     background: white;
     text-align: center;
     vertical-align: middle;
     content: 'i';
-    font-size: 18px;
+    font-size: 16px;
     color:#09b61d;
     font-weight: bold;
-    border:2px solid #99f1a4;
+    border:1px solid #99f1a4;
 }
 
 .tost-message > .text {
@@ -423,7 +452,6 @@ img.icon.sm {
     vertical-align: middle;
     padding-left: 20px;
 }
-
 
 .col {
     flex-direction: column;
@@ -435,9 +463,106 @@ img.icon.sm {
     background-color: #cee4fa;
     color: #0e5397;
     margin: 15px 0px;
-    font-size: 14px;
+    font-size: 14px;;
+    border-left:4px solid #0e5397
 }
 
 #save-options{
     margin-right: 20px;
+}
+
+.jv-logo {
+    box-sizing: border-box;
+    padding-top:3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.jv-logo-icon {
+    border:3px solid #fff;
+    background-color: #5e47e5;
+    margin: 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    border: 2px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding-bottom:3px;
+    margin-right: 15px;
+    color: white;
+  }
+
+  .jv-logo-title {
+      display: inline-block;
+      font-size:18px;
+      color: #fff;
+      line-height: 100%;
+  }
+
+
+  /* checkbox-switch*/
+  .checkbox-ui-wrapper {
+    position: relative;
+    display: inline-block;
+    border-radius: 50px;
+    width: 60px;
+    border: 1px solid rgb(196, 196, 196);
+    box-sizing: border-box;
+    padding: 3px;
+    height: 30px;
+    background-color: #efefef;
+    background-image: linear-gradient(to right, var(--accent-color), var(--accent-color));
+    background-position: 0px 0px;
+    background-size: 0%;
+    background-repeat: no-repeat;
+    transition: background-position 0.7s ease-in-out;
+    cursor: pointer;
+}
+
+.checkbox-ui-checked {
+    background-size: 100%;
+}
+
+.checkbox-ui-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    content: '';
+    display: block;
+    background: #fff;
+    border: 1px solid rgb(196, 196, 196);
+    border-radius: 50%;
+    left: 0px;
+    top: 1px;
+    transition: left 0.6s ease-in;
+}
+
+.checkbox-ui-checked .checkbox-ui-btn {
+    left: initial !important;
+    right: 0px !important;
+    transition: right 0.6s ease;
+    border-color: var(--accent-color);
+}
+
+.checkbox-ui-checkbox-shadow {
+    display: none;
+}
+
+.inline-middle{
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.mr-20{
+    margin-right: 20px !important;
+}
+
+.mb-0{
+    margin-bottom: 0px;
 }

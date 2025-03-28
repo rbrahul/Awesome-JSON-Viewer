@@ -1,34 +1,9 @@
-const options = {
-    theme: 'default',
-    collapsed: 0,
-    css: `/**Write your CSS style **/
-    .json-rb{
-        font-size: 15px;
-    }
-  .property{
-      /*color:#994c9e;*/
-   }
+import { basicSetup, EditorView } from 'codemirror';
+import { githubDarkInit } from '@uiw/codemirror-theme-github';
+import { css } from '@codemirror/lang-css';
 
-  .json-literal-numeric{
-      /*color:#F5B041;*/
-   }
-
-   .json-literal-url {
-      /*color: #34a632;*/
-   }
-
-   .json-literal-string{
-      /*color:#0642b0;*/
-   }
-
-   .json-literal{
-      /*color:#b568de;*/
-   }
-
-   .json-literal-boolean{
-      /*color: #f23ebb;*/
-   }`,
-};
+import { DEFAULT_OPTIONS } from '../../constants/options';
+import Switch from './switch';
 
 var selectors = {
     tabActionButton: '.tab-action-btn',
@@ -40,7 +15,7 @@ var selectors = {
     tostMessage: '.tost-message',
 };
 
-const dbName = 'rb-awesome-json-viewer-options';
+const DB_NAME = 'rb-awesome-json-viewer-options';
 
 async function sendMessage(action, message) {
     const messageObj = {
@@ -51,18 +26,19 @@ async function sendMessage(action, message) {
         messageObj.data = message;
     }
 
-    const tabs = await chrome.tabs.query({});
+    const tabs = await chrome.tabs.query({ active: false });
     tabs.forEach(async (tab) => {
         try {
-            await chrome.tabs.sendMessage(tab.id, messageObj);
-        } catch (error) {
-        }
+            if (tab.url) {
+                await chrome.tabs.sendMessage(tab.id, messageObj);
+            } else {
+                chrome.tabs.remove(tab.id);
+            }
+        } catch (error) {}
     });
 }
 
-function notify(message, type, duration) {
-    var messageType = type || 'success';
-    var maxVisibleTime = duration || 3000;
+function notify(message, messageType = 'success', duration = 3000) {
     var tostMessageElement = document.querySelector(selectors.tostMessage);
     ['success', 'error', 'info', 'warning'].forEach((className) => {
         tostMessageElement.classList.remove(className);
@@ -71,29 +47,33 @@ function notify(message, type, duration) {
     tostMessageElement.classList.add(messageType, 'active');
 
     setTimeout(() => {
-       tostMessageElement.classList.remove('active');
-    }, maxVisibleTime);
+        tostMessageElement.classList.remove('active');
+    }, duration);
 }
 
 const saveOptions = async (value) => {
     try {
-       await chrome.storage.local.set({
-            [dbName]: value
+        await chrome.storage.local.set({
+            [DB_NAME]: value,
         });
     } catch (e) {
-        console.error("chrome storage api error:", e);
+        console.error('chrome storage api error:', e);
     }
 };
 
 const migrateOptions = async () => {
     try {
-        const data = await chrome.storage.local.get([dbName]);
-        const existingData = data[dbName];
+        const data = await chrome.storage.local.get([DB_NAME]);
+        const existingData = data[DB_NAME];
         if (existingData && typeof existingData === 'string') {
             try {
                 const parsedData = JSON.parse(existingData);
                 if (parsedData && Object.keys(parsedData).length > 0) {
-                    await saveOptions(parsedData);
+                    const optionsToSave = {
+                        ...DEFAULT_OPTIONS,
+                        ...parsedData,
+                    };
+                    await saveOptions(optionsToSave);
                 }
             } catch (error) {
                 console.log('Error while parsing the existing options:', error);
@@ -114,63 +94,80 @@ const getOptions = async (key) => {
     return null;
 };
 
-const initCodeMirror = () => {
-
-    // window.cssEditor = CodeMirror.fromTextArea(
-    //     document.getElementById('code'),
-    //     {
-    //         lineNumbers: true,
-    //         mode: 'css',
-    //         extraKeys: { 'Ctrl-Space': 'autocomplete' },
-    //         theme: 'dracula',
-    //     },
-    // );
+const initCodeMirror = (doc = DEFAULT_OPTIONS.css) => {
+    if (window.cssEditor) {
+        window.cssEditor.destroy();
+    }
+    window.cssEditor = new EditorView({
+        doc,
+        extensions: [
+            basicSetup,
+            githubDarkInit({
+                settings: {
+                    background: '#070707',
+                    gutterBackground: '#111111',
+                },
+            }),
+            css(),
+        ],
+        parent: document.getElementById('code'),
+    });
+    window.cssEditor.dom.style.height = '400px';
 };
 
 const initOptions = async () => {
-    if (!window.cssEditor) {
-        initCodeMirror();
-    }
-
     // Need a backward compatibility check for the old options
-    // Previous we stored in the localstorage as string
+    // Previously, we stored in the localstorage as string
     // now we are storing as object.
-    // So old options saved as string object needs to be re-saved as object
+    // So old options saved as string needs to be re-saved as object
 
-    await migrateOptions()
+    await migrateOptions();
 
-    const currentOptions = await getOptions(dbName);
+    const savedOptions = await getOptions(DB_NAME);
 
-    if (!currentOptions) {
-        await saveOptions(options);
+    // If it's a fresh installation and options is missing in DB then just save the DEFAULT_OPTIONS
+    let optionsToSave = DEFAULT_OPTIONS;
+    if (savedOptions) {
+        // If options exists already in the DB then merge with DEFAULT_OPTIONS and save
+        optionsToSave = {
+            ...DEFAULT_OPTIONS,
+            ...savedOptions,
+        };
     }
 
-    const savedOptions = await getOptions(dbName);
-    document.getElementById('theme').value = savedOptions.theme;
-   // window.cssEditor.setValue(savedOptions.css);
-    if (savedOptions.collapsed == 1) {
+    await saveOptions(optionsToSave);
+
+    document.getElementById('theme').value = optionsToSave?.theme;
+
+    if (optionsToSave.collapsed == 1) {
         document.getElementById('collapsed').setAttribute('checked', 'checked');
     } else {
         document.getElementById('collapsed').checked = false;
     }
 
+    document.getElementById('collapsed').dispatchEvent(new Event('change'));
+
+    initCodeMirror(optionsToSave.css || DEFAULT_OPTIONS.css);
+
     document.getElementById('save-options').addEventListener(
         'click',
         async (e) => {
-            e.preventDefault();
-            const newOption = {
-                theme: 'default',
-            };
-            const theme = document.getElementById('theme').value;
-            if (theme) {
-                newOption.theme = theme;
-            }
-           // newOption.css = window.cssEditor.getValue();
-            newOption.css = '';
-            newOption.collapsed = document.getElementById('collapsed').checked ? 1 : 0;
-            await saveOptions(newOption);
-            await sendMessage('settings_updated');
-            notify('Changes have been saved');
+            try {
+                e.preventDefault();
+                const newOption = { ...DEFAULT_OPTIONS };
+                const theme = document.getElementById('theme').value;
+                if (theme) {
+                    newOption.theme = theme;
+                }
+                newOption.css = window.cssEditor.state.doc.toString().trim();
+                newOption.collapsed = document.getElementById('collapsed')
+                    .checked
+                    ? 1
+                    : 0;
+                await saveOptions(newOption);
+                await sendMessage('settings_updated');
+                notify('Changes have been saved');
+            } catch (error) {}
         },
         false,
     );
@@ -178,21 +175,25 @@ const initOptions = async () => {
     document.getElementById('reset-options').addEventListener(
         'click',
         async (e) => {
-            e.preventDefault();
-            await saveOptions(options);
-            await sendMessage('settings_updated');
-            document.getElementById('theme').value = options.theme;
-            document.getElementById('code').value = options.css;
-          //  window.cssEditor.setValue(options.css);
-            document.getElementById('collapsed').checked = false;
-            notify('Default settings have been saved', 'info', 2000);
+            try {
+                e.preventDefault();
+                await saveOptions(DEFAULT_OPTIONS);
+                document.getElementById('theme').value = DEFAULT_OPTIONS.theme;
+                document.getElementById('collapsed').checked = false;
+                document
+                    .getElementById('collapsed')
+                    .dispatchEvent(new Event('change'));
+                initCodeMirror();
+                sendMessage('settings_updated');
+                notify('Default settings restored', 'info', 2000);
+            } catch (error) {}
         },
         false,
     );
 };
 
 var listner = {
-    activateTab: function (event) {
+    activateTab: (event) => {
         var url = event.currentTarget.href;
         var tabView = url.substring(url.indexOf('#') + 1);
         var allTabs = document.querySelectorAll(`[data-tab-view]`);
@@ -219,8 +220,8 @@ function emptyNode(element) {
 }
 
 async function updateURLView(urls) {
-    const extensionOptions = await getOptions(dbName);
-    const urlItems = urls || (extensionOptions || {}).filteredURL;
+    const extensionOptions = await getOptions(DB_NAME);
+    const urlItems = urls || extensionOptions?.filteredURL;
     if (urlItems) {
         var urlItemsContainer = document.querySelector(
             selectors.urlItemsContainer,
@@ -237,7 +238,7 @@ async function updateURLView(urls) {
             urlItem += '</div>';
             urlItem += '<div class="action-menu m2">';
             urlItem +=
-                '<a href="#" class="btn btn-sm url-delete danger" data-url="' +
+                '<a href="#" class="btn btn-sm danger url-delete" data-url="' +
                 url +
                 '">Delete</a>';
             urlItem += '</div>';
@@ -267,25 +268,28 @@ function intializeURLInput() {
         .querySelector(selectors.urlSaveBtn)
         .addEventListener('click', async () => {
             var url = document.querySelector(selectors.urlInput).value;
-            var urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*(:[0-9]{1,5})?(\/.*)?$/;
+            var urlPattern =
+                /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*(:[0-9]{1,5})?(\/.*)?$/;
             if (url && urlPattern.test(url)) {
                 url = url.trim();
-                var options = await getOptions(dbName);
+                var options = await getOptions(DB_NAME);
                 if (options) {
                     if (options.filteredURL) {
                         options.filteredURL.push(url);
                     } else {
                         options.filteredURL = [url];
                     }
-                    await saveOptions(options);
-                    document.querySelector(selectors.urlInput).value = '';
-                    await updateURLView(options.filteredURL);
-                    await sendMessage('settings_updated');
-                    notify(
-                        'URL has been saved in filtered list',
-                        'success',
-                        2000,
-                    );
+                    try {
+                        await saveOptions(options);
+                        document.querySelector(selectors.urlInput).value = '';
+                        await updateURLView(options.filteredURL);
+                        await sendMessage('settings_updated');
+                        notify(
+                            'URL has been saved in filtered list',
+                            'success',
+                            2000,
+                        );
+                    } catch (error) {}
                 }
             } else {
                 notify('Please enter a valid URL', 'error', 2000);
@@ -296,7 +300,7 @@ function intializeURLInput() {
 async function deleteURL(event) {
     event.preventDefault();
     var deletableURL = event.currentTarget.getAttribute('data-url');
-    var options = await getOptions(dbName);
+    var options = await getOptions(DB_NAME);
     var filteredURL = (options || {}).filteredURL;
     options.filteredURL = filteredURL.filter(function (url) {
         return url !== deletableURL;
@@ -326,6 +330,9 @@ function initEventListener() {
 })();
 
 document.body.onload = async function () {
-    await updateURLView()
+    await updateURLView();
+    new Switch({
+        selector: '.switch',
+    });
     initEventListener();
 };

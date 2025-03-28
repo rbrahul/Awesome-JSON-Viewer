@@ -3,14 +3,14 @@ import toast from 'honey-toast';
 import { tree } from './vendor/d3-state-visualizer';
 import { getAppliedTransformation } from './utils/chart';
 import { FiCopy } from 'react-icons/fi';
+import { getURL } from './utils/common';
 
 import 'honey-toast/dist/style.css';
-import clsx from 'clsx';
 
 const ROOT_NODE_LABEL = 'ROOT';
 const TREE_NODE_ID = 'json-viewer-pro-tree';
 
-const isInt = (text) => /^\d+$/.test(text)
+const isInt = (text) => /^\d+$/.test(text);
 
 class ChartView extends Component {
     constructor(props) {
@@ -83,33 +83,37 @@ class ChartView extends Component {
             } else if (isInt(current)) {
                 accum += `[${current}]`;
             } else {
-                accum += `${index > 0 ? '.': ''}${current}`;
+                accum += `${index > 0 ? '.' : ''}${current}`;
             }
             return accum;
         }, '');
     };
 
     onCopy = () => {
-        const pathToCopy = this.buildsonPathFromArray(this.state.breadcrumbs.slice(1));
+        if (this.state.breadcrumbs.length === 1) {
+            return;
+        }
+        const pathToCopy = this.buildsonPathFromArray(
+            this.state.breadcrumbs.slice(1),
+        );
+        const theme = this.props.isDarkMode ? 'dark' : 'light';
+        const toastConfig = {
+            icon: {
+                url: getURL('images/icons/bell.svg'),
+                size: 'small',
+            },
+            position: 'top-center',
+            animation: 'slide',
+            duration: 2000,
+            theme,
+        };
         navigator.clipboard
             .writeText(pathToCopy)
             .then(() => {
-                toast.notify('Path has been copied', {
-                    type: 'success',
-                    theme: 'dark', // todo make it configurable
-                    position: 'top-center',
-                    animation: 'slide',
-                    duration: 2000,
-                });
+                toast.success('Path has been copied', toastConfig);
             })
             .catch(() => {
-                toast.notify('Failed to copy path', {
-                    type: 'error',
-                    theme: 'dark', // todo make it configurable
-                    position: 'top-center',
-                    animation: 'slide',
-                    duration: 2000,
-                });
+                toast.error('Failed to copy path', toastConfig);
             });
     };
 
@@ -168,14 +172,6 @@ class ChartView extends Component {
             breadcrumbs: hirarchy,
         });
 
-        console.log(
-            'hirarchy:',
-            hirarchy,
-            'breadcumbs',
-            this.state.breadcrumbs,
-            'updateTargetPath:',
-            updateTargetPath,
-        );
         setTimeout(this.reposition, 1000);
     };
 
@@ -240,12 +236,14 @@ class ChartView extends Component {
                 },
                 indentationSize: 2,
                 styles: {
-                    background: '#222',
+                    background: this.props.isDarkMode ? '#222' : '#fefefe',
                     padding: '8px',
-                    color: '#4FDEE5',
+                    color: this.props.isDarkMode ? '#4FDEE5' : '#3DAAE0',
                     'border-radius': '2px',
-                    'box-shadow': '0 7px 7px 0 #111',
-                    'font-size': '13px',
+                    'box-shadow':
+                        '0 7px 7px 0' +
+                        (this.props.isDarkMode ? '#111' : '#ccc'),
+                    'font-size': '14px',
                     'line-height': '1.3',
                 },
             },
@@ -268,8 +266,6 @@ class ChartView extends Component {
         const chartContainer = document.querySelector(`#${TREE_NODE_ID} > g`);
         const { height } = chartContainer.getBoundingClientRect();
         const appliedTransforms = getAppliedTransformation(chartContainer);
-        console.log('appliedTransforms:', appliedTransforms);
-
         const offsetX = 100;
         const offsetY = 100;
         const scaleValue = appliedTransforms.scaleValue ?? 1;
@@ -307,12 +303,12 @@ class ChartView extends Component {
             <div ref={this.wrapperRef}>
                 <div className="breadcumb">
                     <div
-                        className={clsx('copy-breadcumb-btn',{'disabled-btn': this.state.breadcrumbs.length===1})}
+                        className="copy-breadcumb-btn"
                         data-tooltip="Copy"
                         data-direction="bottom"
                         onClick={this.onCopy}
                     >
-                        <FiCopy className="sm-icon path-copy-icon"/>
+                        <FiCopy className="sm-icon path-copy-icon" />
                     </div>
                     <ul className="breadcumb-items">
                         {this.state.breadcrumbs.map((item, i) => {

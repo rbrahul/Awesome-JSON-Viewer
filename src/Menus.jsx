@@ -4,6 +4,7 @@ import Tree from './components/Icons/Tree';
 import Branch from './components/Icons/Branch';
 import Brackets from './components/Icons/Brackets';
 import Gear from './components/Icons/Gear';
+import { iconFillColor } from './utils/common';
 
 class Menus extends Component {
     constructor(props) {
@@ -75,7 +76,10 @@ class Menus extends Component {
                         }
                     >
                         <a href="#" onClick={this.setActive.bind(this, 'tree')}>
-                            <Tree className="sm-icon" />
+                            <Tree
+                                className="sm-icon"
+                                {...iconFillColor(this.props.isDarkMode)}
+                            />
                             <span className="menu-label">Tree</span>
                         </a>
                     </li>
@@ -88,7 +92,10 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'chart')}
                         >
-                            <Branch className="sm-icon rotate-270" />
+                            <Branch
+                                className="sm-icon rotate-270"
+                                {...iconFillColor(this.props.isDarkMode)}
+                            />
                             <span className="menu-label">Chart</span>
                         </a>
                     </li>
@@ -103,14 +110,18 @@ class Menus extends Component {
                             href="#"
                             onClick={this.setActive.bind(this, 'jsonInput')}
                         >
-                           <Brackets className="sm-icon"/>
+                            <Brackets
+                                className="sm-icon"
+                                {...iconFillColor(this.props.isDarkMode)}
+                            />
                             <span className="menu-label">JSON Editor</span>
                         </a>
                     </li>
                     <li className="">
                         <a
                             href={
-                                window.extensionOptions?.optionPageURL ?? '/options.html'
+                                window.extensionOptions?.optionPageURL ??
+                                '/options.html'
                             }
                             target="_blank"
                             className="option-menu"
@@ -119,7 +130,10 @@ class Menus extends Component {
                             data-tooltip="Settings"
                             data-direction="bottom"
                         >
-                            <Gear className="sm-icon option-icon"/>
+                            <Gear
+                                className="sm-icon option-icon"
+                                {...iconFillColor(this.props.isDarkMode)}
+                            />
                         </a>
                     </li>
                 </ul>

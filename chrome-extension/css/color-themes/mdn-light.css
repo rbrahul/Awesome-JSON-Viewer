@@ -1,9 +1,7 @@
-@use './dark-pro.scss';
-
 :root{
     --bg-color:#fff;
     --primary-text-color: #111;
-    --breadcumb-border-color: rgb(165, 164, 167);
+    --breadcumb-border-color: #ccc;
     --breadcumb-bg-color: #f6f6f6;
     --copy-path-btn-img-filter: invert(1);
     --menu-item-img-filter: invert(1);
@@ -36,7 +34,7 @@
     --json-chart-circle-bg: #01ff70;
 
     /* editor */
-    --json-input-bg-color: white;
+    /* --json-input-bg-color: white; */
     --json-input-border-color: #ccc;
     --error-msg-bg-color: #1f0604;
     --editor-footer-bg-color: #efefef;
@@ -57,6 +55,7 @@
     --searchbar-text-input-border-color: #ccc;
     --searchbar-text-input-text-color: #994c9e;
     --searchbar-text-input-focus-outline-color: #ccc;
+    --searchbar-info-text-color: #565454;
     --search-clear-btn-text-color: var(--primary-text-color);
     --search-clear-btn-bg-color: transparent;
 

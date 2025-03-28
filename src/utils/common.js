@@ -10,3 +10,30 @@ export const calculateFileSize = (size) => {
     }
     return size;
 };
+
+export const iconFillColor = (isDarkMode) => {
+    return {
+        fillColor: isDarkMode ? '#FFFFFF' : '#000000',
+    };
+};
+
+export const getURL = (assetPath) => {
+    const optionUrl = window.extensionOptions?.optionPageURL ?? '';
+    try {
+        const url = new URL(optionUrl);
+        return `${url.origin}/${assetPath}`;
+    } catch (error) {
+        return assetPath;
+    }
+};
+
+const bigIntToStrTransformer = (key, value, context) => {
+    if (typeof value === 'number' && value > Number.MAX_SAFE_INTEGER) {
+        return String(context.source);
+    }
+    return value;
+};
+
+export const parseJson = (jsonStr) => {
+    return JSON.parse(jsonStr, bigIntToStrTransformer);
+};

@@ -11,16 +11,35 @@ function isCollapsable(arg) {
  * @return boolean
  */
 function isUrl(string) {
-    var regexp = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    var regexp =
+        /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
     return regexp.test(string);
 }
+
+const getJsonToggleClassNames = (isCollapsed) => {
+    let classNames = 'json-toggle';
+    return isCollapsed ? classNames + ' collapsed' : classNames;
+};
+
+const getToggleStyle = (isCollapsed) => {
+    return isCollapsed ? 'style="display:none;"' : '';
+};
+
+const createPlaceHolderNode = (isCollapsed, count) => {
+    return isCollapsed && count > 0
+        ? `<a href class="json-placeholder">${count} item${
+              count > 1 ? 's' : ''
+          }</a>`
+        : '';
+};
 
 /**
  * Transform a json object into html representation
  * @return string
  */
-function json2html(json, options) {
+function json2html(json, options, nestedLevel = []) {
     var html = '';
+    const isCollapsed = options.collapsed && nestedLevel.length > 0;
     if (typeof json === 'string') {
         // Escape tags
         json = json
@@ -43,28 +62,31 @@ function json2html(json, options) {
         html += '<span class="json-literal">null</span>';
     } else if (json instanceof Array) {
         if (json.length > 0) {
-            html += '[<ol class="json-array">';
+            html += `[<ol class="json-array" ${getToggleStyle(isCollapsed)}>`;
             for (var i = 0; i < json.length; ++i) {
                 html += '<li>';
                 // Add toggle button if item is collapsable
                 if (isCollapsable(json[i])) {
-                    html += '<a href class="json-toggle"></a>';
+                    html += `<a href class="${getJsonToggleClassNames(
+                        options.collapsed,
+                    )}"></a>`;
                 }
-                html += json2html(json[i], options);
+                nestedLevel.push(1);
+                html += json2html(json[i], options, nestedLevel);
                 // Add comma if item is not last
                 if (i < json.length - 1) {
                     html += ',';
                 }
                 html += '</li>';
             }
-            html += '</ol>]';
+            html += `</ol>${createPlaceHolderNode(isCollapsed, json.length)}]`;
         } else {
             html += '[]';
         }
     } else if (typeof json === 'object') {
         var key_count = Object.keys(json).length;
         if (key_count > 0) {
-            html += '{<ul class="json-dict ">';
+            html += `{<ul class="json-dict" ${getToggleStyle(isCollapsed)}>`;
             for (var key in json) {
                 if (json.hasOwnProperty(key)) {
                     html += '<li>';
@@ -74,17 +96,25 @@ function json2html(json, options) {
                     // Add toggle button if item is collapsable
                     if (isCollapsable(json[key])) {
                         html +=
-                            '<a href class="json-toggle">' + keyRepr + '</a>';
+                            `<a href class="${getJsonToggleClassNames(
+                                options.collapsed,
+                            )}">` +
+                            keyRepr +
+                            '</a>';
                     } else {
                         html += keyRepr;
                     }
-                    html += ': ' + json2html(json[key], options);
+                    nestedLevel.push(1);
+                    html += ': ' + json2html(json[key], options, nestedLevel);
                     // Add comma if item is not last
                     if (--key_count > 0) html += ',';
                     html += '</li>';
                 }
             }
-            html += '</ul>}';
+            html += `</ul>${createPlaceHolderNode(
+                isCollapsed,
+                Object.keys(json).length,
+            )}}`;
         } else {
             html += '{}';
         }
@@ -103,9 +133,9 @@ export const initPlugin = function (node, jQuery, json, option) {
         // jQuery chaining
         return $(node).each(function () {
             // Transform to HTML
-            var html = json2html(json, options);
+            var html = json2html(json, options, []);
             if (isCollapsable(json))
-                html = '<a href class="json-toggle"></a>' + html;
+                html = `<a href class="json-toggle"></a>` + html;
 
             // Insert HTML in target DOM element
             $(this).html(html);

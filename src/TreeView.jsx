@@ -2,8 +2,10 @@ import React, { Component, createRef, useRef } from 'react';
 import $ from 'jquery';
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/json-viewer.js';
-import SearchBar from './components/Searchbar/index.jsx';
+import { iconFillColor } from './utils/common';
+import SearchBar from './components/Searchbar';
 import CopyIcon from './components/Icons/Copy';
+
 import './utils/json-viewer/json-viewer.css';
 
 class TreeView extends Component {
@@ -30,7 +32,7 @@ class TreeView extends Component {
             context = this.state.value;
         }
         let selElement, selRange, selection;
-        selElement = document.createElement("span");
+        selElement = document.createElement('span');
         selRange = document.createRange();
         selElement.innerText = context;
         document.body.appendChild(selElement);
@@ -38,7 +40,7 @@ class TreeView extends Component {
         selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(selRange);
-        document.execCommand("Copy");
+        document.execCommand('Copy');
         document.body.removeChild(selElement);
     }
 
@@ -47,16 +49,19 @@ class TreeView extends Component {
         this.findPath(self, e);
         self.setState({
             top: $(e.target).offset().top,
-            showCopier: true
+            showCopier: true,
         });
         return false;
     }
 
     getArrayIndex(path) {
-        const arrayIndexBracketStartAt = path.lastIndexOf("[");
-        const arrayIndexBracketEndAt = path.lastIndexOf("]");
+        const arrayIndexBracketStartAt = path.lastIndexOf('[');
+        const arrayIndexBracketEndAt = path.lastIndexOf(']');
         if (arrayIndexBracketStartAt > -1) {
-            return path.substring(arrayIndexBracketStartAt + 1, arrayIndexBracketEndAt);
+            return path.substring(
+                arrayIndexBracketStartAt + 1,
+                arrayIndexBracketEndAt,
+            );
         }
         return path;
     }
@@ -68,9 +73,9 @@ class TreeView extends Component {
                 path = path.concat(item);
             } else {
                 if (item.indexOf('-') > -1 || item.indexOf(' ') > -1) {
-                    path = `${path}['${item}']`
+                    path = `${path}['${item}']`;
                 } else if (isNaN(item) === false) {
-                    path = `${path}[${item}]`
+                    path = `${path}[${item}]`;
                 } else {
                     path = path.concat('.').concat(item);
                 }
@@ -81,44 +86,60 @@ class TreeView extends Component {
 
     findPath(self, e) {
         let keys = [];
-        let keyValueString = $(e.target).parents("li").first().text();
+        let keyValueString = $(e.target).parents('li').first().text();
         let firstIndexOfColone = keyValueString.indexOf(':');
         let value = keyValueString.substring(firstIndexOfColone + 1);
-        let nodes = $(e.target).parentsUntil("#json-rb");
+        let nodes = $(e.target).parentsUntil('#json-viewer');
         $(nodes).each(function (i, node) {
-
-            if ($(node).get(0).tagName == "LI" && $(node).parent()[0].tagName == "UL") {
-                let parentKey = $(node).find("span.property").eq(0).text();
+            if (
+                $(node).get(0).tagName == 'LI' &&
+                $(node).parent()[0].tagName == 'UL'
+            ) {
+                let parentKey = $(node).find('span.property').eq(0).text();
                 keys.push(self.getArrayIndex(parentKey.replace(/\"+/g, '')));
             }
 
-            if ($(node).get(0).tagName == "LI" && $(node).parent()[0].tagName == "OL") {
-                var parentKey = $(node).parent("OL").parent("li").find("span.property").eq(0).text() + '[' + $(node).index() + ']';
+            if (
+                $(node).get(0).tagName == 'LI' &&
+                $(node).parent()[0].tagName == 'OL'
+            ) {
+                var parentKey =
+                    $(node)
+                        .parent('OL')
+                        .parent('li')
+                        .find('span.property')
+                        .eq(0)
+                        .text() +
+                    '[' +
+                    $(node).index() +
+                    ']';
                 keys.push(self.getArrayIndex(parentKey.replace(/\"+/g, '')));
             }
-
         });
 
         if (value[value.length - 1] === ',') {
             value = value.substring(0, value.length - 1);
         }
         self.setState({
-            'actualPath': self.createValidPath(keys.reverse()),
-            value
+            actualPath: self.createValidPath(keys.reverse()),
+            value,
         });
     }
 
     toggleSection(e) {
         e.preventDefault();
-        var target = $(e.target).toggleClass('collapsed').siblings('ul.json-dict, ol.json-array');
+        var target = $(e.target)
+            .toggleClass('collapsed')
+            .siblings('ul.json-dict, ol.json-array');
         target.toggle();
         if (target.is(':visible')) {
             target.siblings('.json-placeholder').remove();
-        }
-        else {
+        } else {
             var count = target.children('li').length;
             var placeholder = count + (count > 1 ? ' items' : ' item');
-            target.after('<a href class="json-placeholder">' + placeholder + '</a>');
+            target.after(
+                '<a href class="json-placeholder">' + placeholder + '</a>',
+            );
         }
     }
 
@@ -132,9 +153,14 @@ class TreeView extends Component {
         this.cleanUpEventListeners();
         this.renderJSONTree(json);
         window.scrollTo(0, 0);
+        if (this.state.showCopier) {
+            this.setState({
+                showCopier: false,
+            });
+        }
     }
 
-    restoreOriginalJSON(){
+    restoreOriginalJSON() {
         this.reRenderTree(this.props.data);
     }
 
@@ -143,32 +169,26 @@ class TreeView extends Component {
         this.$node = $(this.jsonRenderer.current);
         if ($) {
             const pluginOptions = {
-                collapsed: 0,
-                withQuotes: true
+                collapsed: window.extensionOptions?.collapsed === 1,
+                withQuotes: true,
             };
             initPlugin(this.$node, $, data, pluginOptions);
-            $(document).on("click", "span.property", this.changeCopyIconLocation);
-            $(document).on("click", "a.json-toggle", this.toggleSection);
-
-          setTimeout(() => {
-                if ((window.extensionOptions || {}).collapsed == 1) {
-                $.each($('a.json-toggle'), function (index, item) {
-                    if (index > 0) {
-                        $(item).trigger('click');
-                    }
-                });
-            }
-          }, 1000);
+            $(document).on(
+                'click',
+                'span.property',
+                this.changeCopyIconLocation,
+            );
+            $(document).on('click', 'a.json-toggle', this.toggleSection);
         }
     }
 
     componentDidMount() {
-       this.renderJSONTree();
+        this.renderJSONTree();
     }
 
     cleanUpEventListeners() {
-        $(document).off("click", "span.property", this.changeCopyIconLocation);
-        $(document).off("click", "a.json-toggle", this.toggleSection);
+        $(document).off('click', 'span.property', this.changeCopyIconLocation);
+        $(document).off('click', 'a.json-toggle', this.toggleSection);
     }
 
     componentWillUnmount() {
@@ -179,16 +199,40 @@ class TreeView extends Component {
         window.json = this.props.data;
         return (
             <div>
-                <a className="copier" style={{ top: this.state.top, display: this.state.showCopier ? 'block' : 'none' }}>
-                    <CopyIcon className="sm-icon copy-btn"/>
+                <a
+                    className="copier"
+                    style={{
+                        top: this.state.top,
+                        display: this.state.showCopier ? 'block' : 'none',
+                    }}
+                >
+                    <CopyIcon
+                        className="sm-icon copy-btn"
+                        {...iconFillColor(this.props.isDarkMode)}
+                    />
                     <ul className="copyMenu">
-                        <li><a onClick={this.copy.bind(this, event, 'path')}>Copy path</a></li>
-                        <li><a onClick={this.copy.bind(this, event, 'value')}>Copy Value</a></li>
+                        <li>
+                            <a onClick={this.copy.bind(this, event, 'path')}>
+                                Copy path
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick={this.copy.bind(this, event, 'value')}>
+                                Copy Value
+                            </a>
+                        </li>
                     </ul>
                 </a>
-                <pre ref={this.jsonRenderer} id="json-rb">
-                </pre>
-                {this.props.isSearchBarVisible && <SearchBar json={this.props.data} renderJSON={this.reRenderTree.bind(this)} restoreOriginalJSON={this.restoreOriginalJSON.bind(this)} />}
+                <pre ref={this.jsonRenderer} id="json-viewer"></pre>
+                {this.props.isSearchBarVisible && (
+                    <SearchBar
+                        json={this.props.data}
+                        renderJSON={this.reRenderTree.bind(this)}
+                        restoreOriginalJSON={this.restoreOriginalJSON.bind(
+                            this,
+                        )}
+                    />
+                )}
             </div>
         );
     }

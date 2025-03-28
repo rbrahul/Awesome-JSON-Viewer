@@ -40,7 +40,7 @@
     --json-chart-circle-bg: #01ff70;
 
     /* editor */
-    --json-input-bg-color: #17202a;
+    --json-input-bg-color: #070707;
     --json-input-border-color: #363537;
     --error-msg-bg-color: #1f0604;
     --editor-footer-bg-color: #111;
@@ -61,6 +61,7 @@
     --searchbar-text-input-border-color: #222;
     --searchbar-text-input-text-color: #01ff70;
     --searchbar-text-input-focus-outline-color: #4a4173;
+    --searchbar-info-text-color: #d8d6d6;
     --search-clear-btn-text-color: #4a4173;
     --search-clear-btn-bg-color: #000000;
 

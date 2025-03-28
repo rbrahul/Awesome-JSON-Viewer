@@ -1,7 +1,8 @@
 {
     "name": "json-viewer-pro",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "private": true,
+    "type": "module",
     "devDependencies": {
         "@eslint/js": "^9.16.0",
         "@rollup/plugin-terser": "^0.4.4",
@@ -20,6 +21,7 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.26.9",
+        "@codemirror/lang-css": "^6.3.1",
         "@codemirror/lang-json": "^6.0.1",
         "@codemirror/lang-xml": "^6.1.0",
         "@codemirror/lang-yaml": "^6.1.2",
@@ -39,8 +41,11 @@
     },
     "scripts": {
         "start": "vite",
+        "dev:option": "vite ./src/options",
         "build": "NODE_ENV=production vite build",
-        "package": "npm run build && make package",
+        "build:option": "NODE_ENV=production vite build -c ./vite.options-page.config.js",
+        "package": "npm run build && npm run build:option && make package",
+        "test:units": "node --test './src/utils/*.test.*'",
         "lint": "eslint .",
         "preview": "vite preview"
     }

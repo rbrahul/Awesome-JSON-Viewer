@@ -1,6 +1,6 @@
 # JSON Viewer Pro (Completely Free)
 
-A Chrome browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
+A browser extension to visualize JSON response in awesome Tree and Chart view with great user experience and options.
 
 # Welcome to the JSON Viewer Pro. It is absolutely free and has no annoying advertisements.
 
@@ -12,9 +12,10 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 -   ✅ Visual representation of JSON
 -   ✅ Depth traversing of JSON property using breadcrumbs
 -   ✅ Write custom JSON in Input area
+-   ✅ Access JSON response via Path navigation prompt with Auto-completion
 -   ✅ Import local JSON file
 -   ✅ Download JSON file using Context Menu
--   ✅ URL filters
+-   ✅ URL black listing to ignore on certain websites
 -   ✅ Change Themes
 -   ✅ Custom CSS
 -   ✅ Cool User Interface.
@@ -34,10 +35,6 @@ A Chrome browser extension to visualize JSON response in awesome Tree and Chart 
 ## Online JSON viewer(without any installation needed):
 
 [Awesome JSON View Online Editor with very limited features](https://rbrahul.github.io/Awesome-JSON-Viewer/# 'Awesome JSON Viewer')
-
-## Known Issue/Expected Behaviour:
-
--   Custom CSS/Style, Theme, Collapsible settings are not applicable on **chrome-extension://eifflpmocdbdmepbjaopkkhbfmdgijcc/index.html** page as **chrome-extension://\*** doesn't allow **conentScript** to be executed.
 
 ## Change Log:
 

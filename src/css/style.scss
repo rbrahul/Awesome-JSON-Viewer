@@ -1,4 +1,3 @@
-
 @use './color-themes/dark-pro.css';
 
 body {
@@ -8,14 +7,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: var(--primary-font-family);
-  }
+}
 
-  .tab-container {
+.tab-container {
     margin: 20px;
     margin-left: 40px;
-  }
+}
 
-  .breadcumb {
+.breadcumb {
     position: fixed;
     top: 20px;
     left: 20px;
@@ -31,17 +30,17 @@ body {
         padding: 0;
         max-width: 600px;
 
-        &> li {
+        & > li {
             list-style: none;
             display: inline-block;
-          }
-      }
-  }
+        }
+    }
+}
 
-  .breadcumb > ul > li > a {
+.breadcumb > ul > li > a {
     display: block;
     padding: 10px;
-    padding-right:0px;
+    padding-right: 0px;
     text-decoration: none;
     color: var(--primary-text-color);
     width: auto;
@@ -54,29 +53,28 @@ body {
     &:hover {
         color: var(--breadcumb-item-hover-color);
     }
-  }
+}
 
-
-  .breadcumb > ul > li:last-child > a {
+.breadcumb > ul > li:last-child > a {
     padding-right: 10px;
-  }
+}
 
-  .breadcumb > ul > li:first-child > a {
+.breadcumb > ul > li:first-child > a {
     padding-left: 10px;
-  }
+}
 
-  .breadcumb > ul > li > a::after {
-    content: "\276F"; /* left arrow */
+.breadcumb > ul > li > a::after {
+    content: '\276F'; /* left arrow */
     color: var(--breadcumb-arrow-color);
     cursor: auto;
     margin-left: 7px;
-  }
+}
 
-  .breadcumb > ul > li:last-child > a::after {
-    content: ""; /* no arrow after last child*/
-  }
+.breadcumb > ul > li:last-child > a::after {
+    content: ''; /* no arrow after last child*/
+}
 
-  .copy-breadcumb-btn {
+.copy-breadcumb-btn {
     text-align: center;
     align-items: center;
     display: flex;
@@ -87,17 +85,17 @@ body {
     img.path-copy-icon {
         filter: var(--copy-path-btn-img-filter);
     }
-  }
+}
 
-  .action-area {
+.action-area {
     width: auto;
     position: fixed;
     top: 20px;
     right: 10px;
     user-select: none;
-  }
+}
 
-  .action-area > ul.menus {
+.action-area > ul.menus {
     margin: 0;
     padding: 0;
 
@@ -123,141 +121,139 @@ body {
             img {
                 filter: var(--menu-item-img-filter);
             }
-          }
+        }
     }
-  }
+}
 
-
-  .rotate-90{
+.rotate-90 {
     transform: rotate(90deg);
-  }
+}
 
-  .rotate-270{
+.rotate-270 {
     transform: rotate(270deg);
-  }
+}
 
-  .sm-icon {
+.sm-icon {
     width: 20px;
     height: 20px;
-  }
+}
 
-  .sm-icon:has(+span.menu-label) {
-     margin-right: 5px;
-  }
+.sm-icon:has(+ span.menu-label) {
+    margin-right: 5px;
+}
 
-  .sm-icon.option-icon{
+.sm-icon.option-icon {
     width: 24px;
     height: 24px;
-  }
+}
 
-  .action-area > ul.menus > li.active > a {
+.action-area > ul.menus > li.active > a {
     border: 1px solid var(--menu-item-active-border-color);
     background-color: var(--menu-item-active-bg-color);
-  }
+}
 
-  .action-area > ul.menus > li > a.option-menu {
+.action-area > ul.menus > li > a.option-menu {
     padding: 6px !important;
-  }
+}
 
-
-  ul.json-dict li {
+ul.json-dict li {
     width: auto;
     display: block;
     line-height: 180%;
-  }
+}
 
-  .copyable {
+.copyable {
     background: var(--copyable-property-bg-color);
     width: auto;
     border: 1px dotted var(--copyable-property-border-color);
-  }
+}
 
-  .copyable > ul.json-dict,
-  .copyable > ol.json-array {
+.copyable > ul.json-dict,
+.copyable > ol.json-array {
     border-left: none;
-  }
+}
 
-  .property {
+.property {
     color: var(--property-color); /*#3DAAE0;*/
     line-height: 160%;
     font-weight: bold;
-  }
+}
 
-  .json-literal-numeric {
+.json-literal-numeric {
     color: var(--json-literal-numeric);
-  }
+}
 
-  .json-literal-string {
+.json-literal-string {
     color: var(--json-literal-string);
     white-space: normal;
-  }
+}
 
-  .json-literal-url {
+.json-literal-url {
     color: var(--json-literal-url);
     white-space: normal;
-  }
+}
 
-  .json-literal-boolean,
-  .json-literal {
+.json-literal-boolean,
+.json-literal {
     color: var(--json-literal-and-boolean);
-  }
+}
 
-  .nodeCircle {
+.nodeCircle {
     fill: var(--json-chart-circle-bg);
-  }
+}
 
-  .chart-holder {
+.chart-holder {
     font-size: 14px;
-  }
+}
 
-  .json-input-section {
+.json-input-section {
     width: 100%;
-  }
+}
 
-  .json-input-section h1 {
+.json-input-section h1 {
     color: var(--primary-text-color);
     font-size: 30px;
     font-weight: 100;
     line-height: 110%;
     text-align: center;
-  }
+}
 
+.save-btn-area {
+    text-align: center;
+}
 
-  .save-btn-area{
-      text-align: center;
-  }
+.save-btn-area button:not(:first-child) {
+    margin-left: 1em;
+}
 
-  .save-btn-area button:not(:first-child) {
-      margin-left: 1em;
-  }
-
-  .json-input-error-msg{
+.json-input-error-msg {
     color: var(--primary-text-color);
     padding: 12px 15px;
     background-color: var(--error-msg-bg-color);
     margin: 0 auto;
     box-shadow: 0 7px 7px 0 #111;
     border: 1px solid rgb(201, 9, 9);
-  }
+}
 
-  .copier {
-    background: var(--copier-bg-color);
-    padding: 0px 3px;
+.copier {
+    background: transparent;
+    padding: 3px 3px 0px 3px;
     display: none;
     top: 10px;
     left: 10px;
     position: absolute;
     z-index: 1001;
     box-sizing: border-box;
-  }
+}
 
-  .copy-btn {
-    width: 24px;
+.copy-btn {
+    width: 26px;
     height: auto;
-  }
+    margin-top: -5px;
+}
 
-  ul.copyMenu {
-    left: 40px;
+ul.copyMenu {
+    left: 30px;
     top: -20px;
     padding: 0;
     list-style: none;
@@ -265,16 +261,16 @@ body {
     z-index: 1001;
     display: none;
     border: 1px solid var(--dropdown-menu-item-border-color);
-  }
+}
 
-  .copier:hover > ul.copyMenu {
+.copier:hover > ul.copyMenu {
     display: block;
-  }
+}
 
-  ul.copyMenu::before {
+ul.copyMenu::before {
     width: 20px;
     height: 20px;
-    content: "";
+    content: '';
     transform: rotate(45deg);
     background: var(--dropdown-bg-primary);
     position: absolute;
@@ -282,9 +278,9 @@ body {
     left: -10px;
     z-index: -100;
     border: 1px solid var(--dropdown-menu-item-border-color);
-  }
+}
 
-  ul.copyMenu {
+ul.copyMenu {
     box-shadow: 0 5px 10px 0 rgba(6, 6, 6, 0.8);
 
     li > a {
@@ -310,98 +306,95 @@ body {
 
     li:last-child {
         border-radius: 0 0 4px 4px;
-        &> a {
+        & > a {
             border-bottom: none;
         }
     }
-  }
+}
 
+.d-none {
+    display: none !important;
+}
 
-  .d-none {
-      display: none!important;
-  }
-
-
-  text.nodeText{
+text.nodeText {
     color: var(--primary-text-color);
-  }
+}
 
-  .jv-btn {
+.jv-btn {
     border: 1px solid var(--btn-border-color);
     font-size: 15px;
     border-radius: 4px;
     background-color: var(--btn-bg-color);
-  }
+}
 
-  .jv-btn-md {
+.jv-btn-md {
     padding: 10px 16px;
     font-size: 16px;
     border-radius: 4px;
-  }
+}
 
-  .jv-btn-sm {
+.jv-btn-sm {
     padding: 6px 12px;
     font-size: 14px;
     border-radius: 4px;
-  }
+}
 
-  .jv-btn-default {
+.jv-btn-default {
     background-color: var(--btn-default-bg-color);
     color: var(--primary-text-color);
-  }
+}
 
-  .jv-btn-primary {
+.jv-btn-primary {
     background-color: var(--btn-primary-bg-color);
     color: var(--btn-primary-text-color);
-  }
+}
 
-  .jv-align-start {
+.jv-align-start {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-  }
+}
 
-  .jv-align-right {
+.jv-align-right {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-  }
+}
 
-  .jv-width-half {
+.jv-width-half {
     width: 50%;
-  }
+}
 
-  .debug-cmd{
+.debug-cmd {
     font-size: 16px;
     margin: 5px;
     margin-left: 15px;
-  }
+}
 
-  .sm-btn-icon {
+.sm-btn-icon {
     margin-right: 10px;
     display: inline-flex;
     align-items: center;
-  }
+}
 
-  .inline-flex {
+.inline-flex {
     display: inline-flex;
     align-items: center;
-  }
+}
 
-  .search-icon-btn{
+.search-icon-btn {
     font-size: 20px !important;
-    padding:8px !important;
+    padding: 8px !important;
     text-align: center;
     box-sizing: border-box;
-  }
+}
 
-  .path-copy-icon{
+.path-copy-icon {
     user-select: none;
-  }
+}
 
-  .disabled-btn {
+.disabled-btn {
     user-select: none;
     -moz-user-select: none;
     pointer-events: none;
-  }
-
+}
