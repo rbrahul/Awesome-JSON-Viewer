@@ -23,6 +23,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 dist
+dist-options-page
 dist-ssr
 *.local
 
