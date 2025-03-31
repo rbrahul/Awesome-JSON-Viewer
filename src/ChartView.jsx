@@ -9,6 +9,8 @@ import 'honey-toast/dist/style.css';
 
 const ROOT_NODE_LABEL = 'ROOT';
 const TREE_NODE_ID = 'json-viewer-pro-tree';
+const CHART_TOP_OFFSET = 150;
+const CHART_LEFT_OFFSET = 100;
 
 const isInt = (text) => /^\d+$/.test(text);
 
@@ -16,6 +18,7 @@ class ChartView extends Component {
     constructor(props) {
         super(props);
         this.wrapperRef = React.createRef();
+        this.respositionTimeoutIdRef = React.createRef();
         this.renderChartFn = null;
         this.state = {
             breadcrumbs: [ROOT_NODE_LABEL],
@@ -120,13 +123,11 @@ class ChartView extends Component {
     onNodeClick = (targetNode) => {
         const data = targetNode.data;
         let hirarchy;
-        let updateTargetPath = false;
         let selectedNodeName = this.createValidPath(data.name); //data.value || data.object || data.children;
         const lastBreadcrumbsItem =
             this.state.breadcrumbs[this.state.breadcrumbs.length - 1];
 
         if (lastBreadcrumbsItem !== data.name && targetNode.depth > 0) {
-            updateTargetPath = true;
             hirarchy = [selectedNodeName];
             let currentNode = { ...targetNode };
             while (currentNode?.parent) {
@@ -172,7 +173,7 @@ class ChartView extends Component {
             breadcrumbs: hirarchy,
         });
 
-        setTimeout(this.reposition, 1000);
+        this.respositionTimeoutIdRef.current = setTimeout(this.reposition, 1000);
     };
 
     createNewNodeValue = (depthPath) => {
@@ -200,12 +201,12 @@ class ChartView extends Component {
                 this.onNodeClick(targetNode);
             },
             id: TREE_NODE_ID,
-            size: window.innerWidth - 100,
+            size: window.innerWidth - CHART_LEFT_OFFSET,
             aspectRatio: 0.8,
             isSorted: false,
             margin: {
-                top: 100,
-                left: 100,
+                top: CHART_TOP_OFFSET,
+                left: CHART_LEFT_OFFSET,
             },
             widthBetweenNodesCoeff: 1.5,
             heightBetweenNodesCoeff: 2,
@@ -250,7 +251,7 @@ class ChartView extends Component {
         };
         const render = tree(this.wrapperRef.current, config);
         this.renderChartFn = (data) => {
-            setTimeout(this.reposition, 1000);
+            this.respositionTimeoutIdRef.current = setTimeout(this.reposition, 1000);
             return render(data);
         };
         render();
@@ -266,28 +267,26 @@ class ChartView extends Component {
         const chartContainer = document.querySelector(`#${TREE_NODE_ID} > g`);
         const { height } = chartContainer.getBoundingClientRect();
         const appliedTransforms = getAppliedTransformation(chartContainer);
-        const offsetX = 100;
-        const offsetY = 100;
         const scaleValue = appliedTransforms.scaleValue ?? 1;
-        let translateX = appliedTransforms.translateX ?? offsetX;
-        let translateY = offsetY * scaleValue;
+        let translateX = appliedTransforms.translateX ?? CHART_LEFT_OFFSET;
+        let translateY = CHART_TOP_OFFSET * scaleValue;
 
-        if (height > window.screen.availHeight) {
+        if (height > window.innerHeight) {
             translateY =
-                window.screen.availHeight -
-                (height / 2 + window.screen.availHeight / 2);
+                window.innerHeight -
+                (height / 2 + window.innerHeight / 2);
         }
 
         if (
-            appliedTransforms.translateX < 0 ||
-            appliedTransforms.translateX > window.screen.availWidth
+            appliedTransforms.translateX < CHART_LEFT_OFFSET ||
+            appliedTransforms.translateX > window.innerWidth
         ) {
-            translateX = offsetX * scaleValue;
+            translateX = CHART_LEFT_OFFSET * scaleValue;
         }
 
         if (
-            appliedTransforms.translateX < 0 ||
-            appliedTransforms.translateY < 0
+            appliedTransforms.translateX < CHART_LEFT_OFFSET ||
+            appliedTransforms.translateY < CHART_TOP_OFFSET
         ) {
             const newTransform = `translate(${translateX}, ${translateY}), ${appliedTransforms.scale}`;
             chartContainer.setAttribute('transform', newTransform);
@@ -296,6 +295,13 @@ class ChartView extends Component {
 
     componentDidMount = () => {
         this.renderChart();
+    };
+
+    componentWillUnmount = () => {
+        if(this.respositionTimeoutIdRef.current) {
+            clearTimeout(this.respositionTimeoutIdRef.current);
+            this.respositionTimeoutIdRef.current = null;
+        }
     };
 
     render() {

@@ -12,7 +12,6 @@
   "types": "lib/index.d.ts",
   "type": "module",
   "sideEffects": false,
-
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib",
