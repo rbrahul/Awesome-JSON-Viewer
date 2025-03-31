@@ -90,11 +90,15 @@ A browser extension to visualize JSON response in awesome Tree and Chart view wi
 -   Settings and Custom CSS were not applied properly.
 
 ### Version 1.0.5 on 31-03-2025
+
 **Bug Fixes:**
-    - Sometimes the JSON tree collapse icon was not working after clicking
-    - JSON Chart sometimes goes outside the visible area
-    - First few lines in JSON Tree view were getting covered by the Menu for longer texts.
-    - Menu Icons were turned into black for the very first installation as the default settings were not properly applied.
+
+- Sometimes the JSON tree collapse icon was not working after clicking
+- JSON Chart sometimes goes outside the visible area
+- First few lines in JSON Tree view were getting covered by the Menu for longer texts.
+- Menu Icons were turned into black for the very first installation as the default settings were not properly applied.
+
+
 
 **Note:**
 Besides these above mentioned points, there were lot of improvements made in the build process and development practices. I have mroe plans to improve the code quality and the performance of the application rendering in upcoming days.
