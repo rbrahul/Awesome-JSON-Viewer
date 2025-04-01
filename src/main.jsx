@@ -134,7 +134,7 @@ const detectCSPViolation = () => {
             <App
                 json={jsonData}
                 isDarkMode={DARK_THEMES.includes(
-                    window.extensionOptions?.theme,
+                    window.extensionOptions?.theme ?? 'dark-pro',
                 )}
             />,
         );

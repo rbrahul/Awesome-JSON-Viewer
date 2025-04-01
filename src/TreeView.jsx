@@ -1,4 +1,4 @@
-import React, { Component, createRef, useRef } from 'react';
+import React, { Component, createRef } from 'react';
 import $ from 'jquery';
 var jQuery = $;
 import { initPlugin } from './utils/json-viewer/json-viewer.js';
@@ -128,19 +128,26 @@ class TreeView extends Component {
 
     toggleSection(e) {
         e.preventDefault();
-        var target = $(e.target)
-            .toggleClass('collapsed')
-            .siblings('ul.json-dict, ol.json-array');
-        target.toggle();
-        if (target.is(':visible')) {
-            target.siblings('.json-placeholder').remove();
-        } else {
-            var count = target.children('li').length;
-            var placeholder = count + (count > 1 ? ' items' : ' item');
-            target.after(
+        e.stopPropagation();
+        const carretIcon = $(e.currentTarget);
+        const collapsibleNode = carretIcon.siblings('ul.json-dict, ol.json-array');
+
+
+        // Going to toggle the class and visibility of the carret icon
+        // Class will be set to 'collapsed' and collapsibleNode will have style display none since it's visible
+        const isVislbe = collapsibleNode.get(0).checkVisibility();
+        if (isVislbe) {
+            const count = collapsibleNode.children('li').length;
+            const placeholder = count + (count > 1 ? ' items' : ' item');
+            collapsibleNode.after(
                 '<a href class="json-placeholder">' + placeholder + '</a>',
             );
+        } else {
+            collapsibleNode.siblings('.json-placeholder').remove();
         }
+
+        collapsibleNode.toggle();
+        carretIcon.toggleClass('collapsed');
     }
 
     componentDidUpdate(prevProps) {
@@ -178,6 +185,7 @@ class TreeView extends Component {
                 'span.property',
                 this.changeCopyIconLocation,
             );
+            $(document).off('click', 'a.json-toggle');
             $(document).on('click', 'a.json-toggle', this.toggleSection);
         }
     }
