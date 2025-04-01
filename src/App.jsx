@@ -68,12 +68,6 @@ class App extends Component {
         this.changeJSON(this.originalJSONRef.current, false);
     }
 
-    changeTargetNodeOnChart(json) {
-        this.setState({
-            selectedJSON: json,
-        });
-    }
-
     locationHashChanged() {
         if (window.location.href.includes('downloadJSON=true')) {
             this.downloadAsJSON();
@@ -156,9 +150,6 @@ class App extends Component {
                             rootData={this.state.json}
                             data={this.state.selectedJSON}
                             isDarkMode={this.props.isDarkMode}
-                            changeTargetNodeOnChart={this.changeTargetNodeOnChart.bind(
-                                this,
-                            )}
                         />
                     )}
                     {this.state.selectedTab === 'jsonInput' && (

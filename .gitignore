@@ -6,6 +6,7 @@ coverage
 
 # production
 build
+chrome-extension
 
 # misc
 .idea
