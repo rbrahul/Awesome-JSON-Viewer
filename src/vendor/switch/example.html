@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Switch</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            .toolbar {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .checkboxes {
+                margin-top: 30px;
+            }
+
+            .checkbox-item {
+                display: flex;
+                flex-direction: row;
+                width: 300px;
+                margin-bottom: 20px;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .checkbox-item > label {
+                display: inline-flex;
+                font-size: 15px;
+                margin-left: 20px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                margin-right: 20px;
+            }
+
+            .multiple-select-btn {
+                margin-right: 15px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="./switch.css" />
+    </head>
+    <body>
+        <div class="toolbar">
+            <button type="button" class="btn destroy-btn">Destroy</button>
+            <button type="button" class="btn initialise-btn">Initialise</button>
+            <input
+                type="checkbox"
+                class="select-all"
+                data-class="multiple-select-btn"
+            />
+            <label>Select all</label>
+        </div>
+        <hr />
+
+        <div class="checkboxes">
+            <div class="checkbox-item">
+                <input type="checkbox" name="" class="switch first" />
+                <label>First</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" name="" class="switch second" checked />
+                <label>Second</label>
+            </div>
+            <div class="checkbox-item">
+                <input
+                    type="checkbox"
+                    name=""
+                    data-color="#ff0000"
+                    class="switch third"
+                />
+                <label>Third</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" name="" class="switch fourth" />
+                <label>4th</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" name="" class="switch fifth" />
+                <label>5ths</label>
+            </div>
+
+            <div class="checkbox-item">
+                <input type="radio" value="1" checked class="switch sixth" />
+                <label>I am Radio</label>
+            </div>
+        </div>
+
+        <script type="module" src="switch.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const switchObj = new Switch({
+                    selector: '.switch',
+                    accentColor: '#1fc91f',
+                    onDestroy: () => {
+                        console.log('Destroyed');
+                    },
+                    onInitialise: () => {
+                        console.log('initialised');
+                    },
+                });
+
+                document
+                    .querySelector('.destroy-btn')
+                    .addEventListener('click', switchObj.destroy);
+                document
+                    .querySelector('.initialise-btn')
+                    .addEventListener('click', switchObj.initialise);
+
+                /* select and unselect all */
+                new Switch({ selector: '.select-all' });
+                const selectAllcheckbox = document.querySelector('.select-all');
+                selectAllcheckbox.addEventListener('change', (e) => {
+                    console.log('Selected All?:', e.currentTarget.checked);
+                    if (e.currentTarget.checked) {
+                        switchObj.checkAll();
+                    } else {
+                        switchObj.uncheckAll();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

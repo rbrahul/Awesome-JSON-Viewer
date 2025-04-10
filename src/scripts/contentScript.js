@@ -94,18 +94,6 @@ const applyOptions = (options) => {
         styleNode.setAttribute('href', cssURL);
     }
     document.getElementById('custom-css').textContent = options.css || '';
-
-    // setTimeout(
-    //     (options) => {
-    //         if (!!document.getElementById('option-menu')) {
-    //             document
-    //                 .getElementById('option-menu')
-    //                 .setAttribute('href', options.optionPageURL);
-    //         }
-    //     },
-    //     1 * 1000,
-    //     options,
-    // );
 };
 
 const renderApplicationWithURLFiltering = (options) => {
