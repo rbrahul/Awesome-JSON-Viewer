@@ -2,7 +2,7 @@
     "name": "JSON Viewer Pro",
     "short_name": "JSON Viewer",
     "offline_enabled": true,
-    "version": "1.0.5",
+    "version": "1.0.6",
     "manifest_version": 3,
     "icons": {
         "16": "images/icons/icon-16.png",
@@ -22,23 +22,16 @@
                 "file:///*",
                 "*://*/*"
             ],
-            "js": [
-                "/js/contentScript.js"
-            ],
+            "js": ["/js/contentScript.js"],
             "run_at": "document_start",
-            "all_frames": true
+            "all_frames": false
         }
     ],
     "action": {
         "default_icon": "images/icons/icon-32.png"
     },
-    "permissions": [
-        "contextMenus",
-        "storage"
-    ],
-    "host_permissions": [
-        "*://*/*"
-    ],
+    "permissions": ["contextMenus", "storage"],
+    "host_permissions": ["*://*/*"],
     "web_accessible_resources": [
         {
             "resources": [
@@ -50,11 +43,7 @@
                 "/images/icons/bell.svg",
                 "options.html"
             ],
-            "matches": [
-                "*://*/*",
-                "ftp://*/*",
-                "file:///*"
-            ]
+            "matches": ["*://*/*", "ftp://*/*", "file:///*"]
         }
     ]
 }

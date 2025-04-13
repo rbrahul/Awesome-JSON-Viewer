@@ -40,6 +40,15 @@
                             >
                         </li>
                         <li>
+                            <a href="#json-detection" class="tab-action-btn"
+                                ><img
+                                    class="icon"
+                                    src="/images/icons/json-file.png"
+                                    alt=""
+                                /><span>JSON Detection</span></a
+                            >
+                        </li>
+                        <li>
                             <a href="#url-manager" class="tab-action-btn">
                                 <img
                                     class="icon"
@@ -104,7 +113,7 @@
                                 <input
                                     type="checkbox"
                                     id="collapsed"
-                                    class="switch"
+                                    class="collapsed-switch"
                                 />
                             </div>
 
@@ -119,6 +128,157 @@
                                     >Restore Default</a
                                 >
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="card hidden" data-tab-view="json-detection">
+                        <div class="card-content">
+                            <h3 class="title">JSON Detection Strategy:</h3>
+                            <form
+                                action="#"
+                                id="json-detection-settings-form"
+                                method="post"
+                            >
+                                <div class="form-item mb-50">
+                                    <div class="row json-detection-options">
+                                        <div
+                                            class="detection-option-tile"
+                                            data-detection="contentType"
+                                        >
+                                            <h5 class="label">Content Type</h5>
+                                            <span class="option-hint"
+                                                >Checks if the Content-Type of
+                                                the response matches one of the
+                                                selected Content types or Mime
+                                                types</span
+                                            >
+                                            <input
+                                                type="radio"
+                                                name="detectionmethod"
+                                                class="detectionmethod"
+                                                value="contentType"
+                                            />
+                                        </div>
+                                        <div
+                                            class="detection-option-tile"
+                                            data-detection="jsonContent"
+                                        >
+                                            <h5>JSON Content</h5>
+                                            <span class="option-hint"
+                                                >Regardless of the Content-Type,
+                                                it only checks if the Content is
+                                                valid JSON.</span
+                                            >
+                                            <input
+                                                type="radio"
+                                                name="detectionmethod"
+                                                class="detectionmethod"
+                                                value="jsonContent"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="form-item contenttypes-checkbox-group"
+                                >
+                                    <label>Select Content Types:</label>
+                                    <div class="checkboxes">
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="application/json"
+                                                class="switch first"
+                                            />
+                                            <label>application/json</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="application/javascript"
+                                                class="switch"
+                                            />
+                                            <label
+                                                >application/javascript</label
+                                            >
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="application/x-javascript"
+                                                class="switch"
+                                            />
+                                            <label
+                                                >application/x-javascript</label
+                                            >
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="application/vnd.api+json"
+                                                class="switch"
+                                            />
+                                            <label
+                                                >application/vnd.api+json</label
+                                            >
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="text/json"
+                                                class="switch"
+                                            />
+                                            <label>text/json</label>
+                                        </div>
+
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="text/x-json"
+                                                class="switch"
+                                            />
+                                            <label>text/x-json</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="contenttypes"
+                                                value="text/x-javascript"
+                                                class="switch"
+                                            />
+                                            <label>text/x-javascript</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                class="select-all-options"
+                                            />
+                                            <label>Select All</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-item no-margin mt-50">
+                                    <button
+                                        type="submit"
+                                        class="btn primary mr-20 save-json-detection"
+                                    >
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        type="reset"
+                                        class="btn default reset-json-detection"
+                                    >
+                                        Restore Default
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
 

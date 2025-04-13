@@ -4,10 +4,32 @@ const BASE_STYLE_LINK_TAG_ID = 'main-css';
 const COLOR_THEME_LINK_TAG_ID = 'color-theme-css';
 const CUSTOM_CSS_STYLE_TAG_ID = 'custom-css';
 const MAINJS_SCRIPT_TAG_ID = 'main-script';
+const ALLOWED_CONTENT_TYPES = [
+    'application/json',
+    'text/json',
+    'application/javascript',
+    'application/x-javascript',
+    'application/vnd.api+json',
+    'text/x-json',
+    'text/x-javascript',
+];
 
-const isJSONResponse = () => document.contentType === 'application/json';
+function getCleanTextContent() {
+    const clonedDom = document.documentElement.cloneNode(true);
+    clonedDom.querySelectorAll('script, style').forEach((el) => el.remove());
+    let bodyInnerText = clonedDom.innerText;
+    if (typeof bodyInnerText === 'string') {
+        return bodyInnerText.trim();
+    }
+    return bodyInnerText;
+}
+
+const isDocumentContentTypeJSON = () =>
+    ALLOWED_CONTENT_TYPES.includes(document.contentType);
+
 const isJsonViewerLoaded = () =>
-    !!document.getElementById('rbrahul-awesome-json');
+    !!document.getElementById('rbrahul-awesome-json') ||
+    window.JSON_VIEWER_PRO_INITIALISED;
 
 const addBodyTagIfMissing = () => {
     if (!document.querySelector('body')) {
@@ -102,10 +124,45 @@ const renderApplicationWithURLFiltering = (options) => {
         window.location.href.startsWith(url),
     );
 
-    if (isURLBlocked || !isJSONResponse()) return;
+    if (
+        !isURLBlocked &&
+        (matchesContentType(options) ||
+            (isJSONContentDetectionEnabled(options) &&
+                doesPageContainsValidJSON()))
+    ) {
+        initApplication(options);
+        applyOptions(options);
+        window.JSON_VIEWER_PRO_INITIALISED = true;
+    }
+};
 
-    initApplication(options);
-    applyOptions(options);
+const matchesContentType = (extensionOptions) => {
+    return (
+        extensionOptions.jsonDetection.method === 'contentType' &&
+        extensionOptions.jsonDetection.selectedContentTypes.includes(
+            document.contentType,
+        )
+    );
+};
+
+const isJSONContentDetectionEnabled = (extensionOptions) => {
+    return extensionOptions.jsonDetection.method === 'jsonContent';
+};
+
+const doesPageContainsValidJSON = () => {
+    try {
+        const textContent = getCleanTextContent();
+        console.log('document text:', textContent);
+        JSON.parse(textContent);
+        return true;
+    } catch (error) {
+        console.log('Page does not contain valid json', error);
+        return false;
+    }
+};
+
+const isContentTypeDetectionEnabled = (extensionOptions) => {
+    return extensionOptions.jsonDetection.method === 'contentType';
 };
 
 const messageReceiver = () => {
@@ -117,7 +174,29 @@ const messageReceiver = () => {
                 break;
 
             case 'settings_updated':
-                if (isJSONResponse() || isJsonViewerLoaded()) {
+                const previousOptions = window.extensionOptions;
+                const newOptions = message.options;
+
+                const contentTypeDetectionEnabled =
+                    (isContentTypeDetectionEnabled(previousOptions) ||
+                        isContentTypeDetectionEnabled(newOptions)) &&
+                    isDocumentContentTypeJSON();
+
+                const jsonContentDetectionEnabled =
+                    isJSONContentDetectionEnabled(previousOptions) ||
+                    isJSONContentDetectionEnabled(newOptions);
+
+                // window.extensionOptions is the previsous state once options are updated
+                // Previsously rendered page needs to be reloaded to reflect updated options
+                console.log(
+                    'window.JSON_VIEWER_PRO_INITIALISED',
+                    window.JSON_VIEWER_PRO_INITIALISED,
+                );
+                if (
+                    isJsonViewerLoaded() ||
+                    contentTypeDetectionEnabled ||
+                    jsonContentDetectionEnabled
+                ) {
                     window.location.reload();
                 }
                 break;
@@ -137,8 +216,6 @@ messageReceiver();
 // alternative to DOMContentLoaded event
 document.onreadystatechange = function () {
     if (document.readyState === 'interactive') {
-        if (isJSONResponse()) {
-            chrome.runtime.sendMessage({ action: 'give_me_options' });
-        }
+        chrome.runtime.sendMessage({ action: 'give_me_options' });
     }
 };

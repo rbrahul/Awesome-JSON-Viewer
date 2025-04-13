@@ -118,7 +118,7 @@ const detectCSPViolation = () => {
 (async () => {
     detectCSPViolation();
     try {
-        let content = document.body?.textContent;
+        let content = document.body?.innerText;
         content = content?.trim();
         const jsonData = parseJson(content);
         window.json = jsonData;

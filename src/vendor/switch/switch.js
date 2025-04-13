@@ -2,7 +2,7 @@ const SWITCH_APPLIED_CLASS_NAME = 'checkbox-ui-checkbox-shadow';
 const SWITCH_WRAPPER_CLASS_NAME = 'checkbox-ui-wrapper';
 
 class Switch {
-    changeEvent = new Event('change');
+    changeEvent = new CustomEvent('change');
     options = {
         selector: '.switch',
         onDestroy: () => {},
@@ -35,6 +35,7 @@ class Switch {
         }
         checkBox.setAttribute('checked', 'checked');
         checkBox.checked = true;
+        console.log('Change Event:', this.changeEvent);
         checkBox.dispatchEvent(this.changeEvent);
     };
 
