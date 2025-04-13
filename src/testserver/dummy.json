@@ -1,0 +1,51 @@
+[
+    {
+        "_id": "67fb877de766c949c7a54a37",
+        "index": 0,
+        "guid": "f809a75c-4d40-4416-b500-7f1ca560ab8f",
+        "isActive": false,
+        "balance": "$2,772.84",
+        "picture": "http://placehold.it/32x32",
+        "salary": 21,
+        "eyeColor": "brown",
+        "name": "Alford Ashley",
+        "gender": "male",
+        "company": "NIPAZ",
+        "email": "alfordashley@nipaz.com",
+        "phone": "+1 (828) 503-2560",
+        "address": "659 Linden Boulevard, Southmont, Alabama, 8543"
+    },
+
+    {
+        "_id": "67fb877d165ded4382e0ecd9",
+        "index": 2,
+        "guid": "279df46c-3690-4575-a4cc-62693078b50b",
+        "isActive": false,
+        "balance": "$1,483.39",
+        "picture": "http://placehold.it/32x32",
+        "salary": 30,
+        "eyeColor": "green",
+        "name": "Delia Medina",
+        "gender": "female",
+        "company": "GENEKOM",
+        "email": "deliamedina@genekom.com",
+        "phone": "+1 (820) 415-2907",
+        "address": "192 Union Street, Waterford, Oregon, 5854"
+    },
+    {
+        "_id": "67fb877dc434d258aa0ae48f",
+        "index": 3,
+        "guid": "45baeed3-b4d5-4563-9bca-399f7d0445d1",
+        "isActive": true,
+        "balance": "$1,633.62",
+        "picture": "http://placehold.it/32x32",
+        "salary": 24,
+        "eyeColor": "blue",
+        "name": "Stark Farrell",
+        "gender": "male",
+        "company": "POLARIUM",
+        "email": "starkfarrell@polarium.com",
+        "phone": "+1 (915) 503-3694",
+        "address": "528 Bassett Avenue, Frizzleburg, Nebraska, 8538"
+    }
+]
