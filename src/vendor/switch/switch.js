@@ -35,7 +35,6 @@ class Switch {
         }
         checkBox.setAttribute('checked', 'checked');
         checkBox.checked = true;
-        console.log('Change Event:', this.changeEvent);
         checkBox.dispatchEvent(this.changeEvent);
     };
 

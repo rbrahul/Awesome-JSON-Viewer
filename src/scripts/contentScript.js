@@ -152,11 +152,9 @@ const isJSONContentDetectionEnabled = (extensionOptions) => {
 const doesPageContainsValidJSON = () => {
     try {
         const textContent = getCleanTextContent();
-        console.log('document text:', textContent);
         JSON.parse(textContent);
         return true;
     } catch (error) {
-        console.log('Page does not contain valid json', error);
         return false;
     }
 };
@@ -188,10 +186,6 @@ const messageReceiver = () => {
 
                 // window.extensionOptions is the previsous state once options are updated
                 // Previsously rendered page needs to be reloaded to reflect updated options
-                console.log(
-                    'window.JSON_VIEWER_PRO_INITIALISED',
-                    window.JSON_VIEWER_PRO_INITIALISED,
-                );
                 if (
                     isJsonViewerLoaded() ||
                     contentTypeDetectionEnabled ||

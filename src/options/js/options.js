@@ -6,7 +6,6 @@ import {
     DEFAULT_OPTIONS,
     DEFAULT_SELECTED_CONTENT_TYPES,
     DETECTION_METHOD_CONTENT_TYPE,
-    DETECTION_METHOD_JSON_CONTENT,
 } from '../../constants/options';
 import Switch from '../../vendor/switch/switch';
 
