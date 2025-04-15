@@ -25,4 +25,5 @@ package:
 clean:
 	@rm -rf ${chrome_build_dir}
 	@rm -rf ./dist
+	@rm -rf ./dist-options-page
 	@echo "✅ Deleted BUILD and CHROME_EXTENSION Directories"

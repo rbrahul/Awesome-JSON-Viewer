@@ -91,6 +91,14 @@ const sendOptions = async () => {
             css: '',
             collapsed: 0,
             filteredURL: [],
+            jsonDetection: {
+                method: 'contentType',
+                selectedContentTypes: [
+                    'application/json',
+                    'text/json',
+                    'application/javascript',
+                ],
+            },
         },
         ...options,
     };

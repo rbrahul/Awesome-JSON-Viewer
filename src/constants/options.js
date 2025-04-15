@@ -1,3 +1,12 @@
+export const DETECTION_METHOD_CONTENT_TYPE = 'contentType';
+export const DETECTION_METHOD_JSON_CONTENT = 'jsonContent';
+
+export const DEFAULT_SELECTED_CONTENT_TYPES = [
+    'application/json',
+    'text/json',
+    'application/javascript',
+];
+
 export const DEFAULT_OPTIONS = {
     theme: 'default',
     collapsed: 0,
@@ -30,6 +39,10 @@ export const DEFAULT_OPTIONS = {
 .json-literal-boolean{
     /*color: #f23ebb;*/
 }`,
+    jsonDetection: {
+        method: DETECTION_METHOD_CONTENT_TYPE, // contentType | jsonContent
+        selectedContentTypes: DEFAULT_SELECTED_CONTENT_TYPES,
+    },
 };
 
 export const DARK_THEMES = ['default', 'dark-pro'];

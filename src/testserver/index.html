@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test Content Type</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+            }
+
+            .wrapper {
+                width: 80%;
+                margin: 0 auto;
+                margin-top: 100px;
+            }
+
+            .navbar {
+                margin-bottom: 80px;
+            }
+            .menu {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .menu a {
+                margin: 0px 50px 50px 0px;
+                background-color: #427bed;
+                color: #fff;
+                border: none;
+                text-decoration: none;
+                border-radius: 4px;
+                padding: 15px 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="wrapper">
+            <div class="navbar">
+                <h1>Test Content-Type:</h1>
+                <p>
+                    prerequisite: Install/Enable JSON Viewer Pro Chrome
+                    Extension
+                </p>
+            </div>
+
+            <div class="menu">
+                <a href="/api?ctype=application/json" target="_blank"
+                    >application/json</a
+                >
+                <a href="/api?ctype=application/javascript" target="_blank"
+                    >application/javascript</a
+                >
+                <a href="/api?ctype=application/x-javascript" target="_blank"
+                    >application/x-javascript</a
+                >
+                <a href="/api?ctype=text/json" target="_blank">text/json</a>
+                <a href="/api?ctype=text/x-json" target="_blank">text/x-json</a>
+                <a href="/api?ctype=text/x-javascript" target="_blank"
+                    >text/x-javascript</a
+                >
+                <a
+                    href="/api?ctype=application%2Fvnd.api%2Bjson"
+                    target="_blank"
+                    >application/vnd.api+json</a
+                >
+                <a href="/api?ctype=text/html" target="_blank">text/html</a>
+            </div>
+        </section>
+    </body>
+</html>

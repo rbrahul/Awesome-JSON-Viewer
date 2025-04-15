@@ -2,8 +2,12 @@ import { basicSetup, EditorView } from 'codemirror';
 import { githubDarkInit } from '@uiw/codemirror-theme-github';
 import { css } from '@codemirror/lang-css';
 
-import { DEFAULT_OPTIONS } from '../../constants/options';
-import Switch from './switch';
+import {
+    DEFAULT_OPTIONS,
+    DEFAULT_SELECTED_CONTENT_TYPES,
+    DETECTION_METHOD_CONTENT_TYPE,
+} from '../../constants/options';
+import Switch from '../../vendor/switch/switch';
 
 var selectors = {
     tabActionButton: '.tab-action-btn',
@@ -13,6 +17,13 @@ var selectors = {
     noURLMessage: '.no-urls-msg',
     urlDelete: '.url-delete',
     tostMessage: '.tost-message',
+    detectionOptionTile: '.detection-option-tile',
+    contentTypeOptionsSwitch: '.switch',
+    selectAllContentTypeSwitch: '.select-all-options',
+    saveContentDetectionBtn: '.save-json-detection',
+    resetContentDetectionBtn: '.reset-json-detection',
+    jsonDetectionSettingsForm: '#json-detection-settings-form',
+    contentTypeCheckboxGroup: '.contenttypes-checkbox-group',
 };
 
 const DB_NAME = 'rb-awesome-json-viewer-options';
@@ -23,7 +34,7 @@ async function sendMessage(action, message) {
     };
 
     if (message) {
-        messageObj.data = message;
+        messageObj.options = message;
     }
 
     const tabs = await chrome.tabs.query({ active: false });
@@ -139,13 +150,21 @@ const initOptions = async () => {
 
     document.getElementById('theme').value = optionsToSave?.theme;
 
-    if (optionsToSave.collapsed == 1) {
-        document.getElementById('collapsed').setAttribute('checked', 'checked');
-    } else {
-        document.getElementById('collapsed').checked = false;
-    }
+    new Switch({
+        selector: '.collapsed-switch',
+    });
 
-    document.getElementById('collapsed').dispatchEvent(new Event('change'));
+    const collapsedSwitch = document.getElementById('collapsed');
+
+    if (optionsToSave.collapsed == 1) {
+        collapsedSwitch.checked = true;
+        collapsedSwitch.setAttribute('checked', 'checked');
+        collapsedSwitch.dispatchEvent(new CustomEvent('change'));
+    } else {
+        collapsedSwitch.checked = false;
+        collapsedSwitch.removeAttribute('checked');
+        collapsedSwitch.dispatchEvent(new CustomEvent('change'));
+    }
 
     initCodeMirror(optionsToSave.css || DEFAULT_OPTIONS.css);
 
@@ -154,7 +173,12 @@ const initOptions = async () => {
         async (e) => {
             try {
                 e.preventDefault();
-                const newOption = { ...DEFAULT_OPTIONS };
+                let newOption = { ...DEFAULT_OPTIONS };
+                const extensionOptions = (await getOptions(DB_NAME)) || {};
+                newOption = {
+                    ...newOption,
+                    ...extensionOptions,
+                };
                 const theme = document.getElementById('theme').value;
                 if (theme) {
                     newOption.theme = theme;
@@ -165,7 +189,7 @@ const initOptions = async () => {
                     ? 1
                     : 0;
                 await saveOptions(newOption);
-                await sendMessage('settings_updated');
+                await sendMessage('settings_updated', newOption);
                 notify('Changes have been saved');
             } catch (error) {}
         },
@@ -180,11 +204,8 @@ const initOptions = async () => {
                 await saveOptions(DEFAULT_OPTIONS);
                 document.getElementById('theme').value = DEFAULT_OPTIONS.theme;
                 document.getElementById('collapsed').checked = false;
-                document
-                    .getElementById('collapsed')
-                    .dispatchEvent(new Event('change'));
                 initCodeMirror();
-                sendMessage('settings_updated');
+                sendMessage('settings_updated', DEFAULT_OPTIONS);
                 notify('Default settings restored', 'info', 2000);
             } catch (error) {}
         },
@@ -283,7 +304,7 @@ function intializeURLInput() {
                         await saveOptions(options);
                         document.querySelector(selectors.urlInput).value = '';
                         await updateURLView(options.filteredURL);
-                        await sendMessage('settings_updated');
+                        await sendMessage('settings_updated', options);
                         notify(
                             'URL has been saved in filtered list',
                             'success',
@@ -308,7 +329,7 @@ async function deleteURL(event) {
 
     await saveOptions(options);
     await updateURLView(options.filteredURL);
-    await sendMessage('settings_updated');
+    await sendMessage('settings_updated', options);
 }
 
 function initializeURLDeleteEventListner() {
@@ -319,20 +340,221 @@ function initializeURLDeleteEventListner() {
     );
 }
 
-function initEventListener() {
+const getAllConentTypeOptionCards = () =>
+    document.querySelectorAll(selectors.detectionOptionTile);
+
+const onContentTypeOptionCardClick = (e) => {
+    document
+        .querySelectorAll(`input[name="detectionmethod"]`)
+        .forEach((item) => {
+            item.checked = false;
+            item.removeAttribute('checked');
+        });
+    const targetedOption = e.currentTarget.querySelector('input[type="radio"]');
+    targetedOption.checked = true;
+    targetedOption.setAttribute('checked', 'checked');
+    targetedOption.dispatchEvent(new Event('change'));
+};
+
+function initialiseSelectAllContentTypeEventListener(contentTypeOptionSwitch) {
+    const selectAllSwitch = document.querySelector(
+        selectors.selectAllContentTypeSwitch,
+    );
+    selectAllSwitch.addEventListener('change', (e) => {
+        const checked = e.currentTarget.checked;
+        if (checked) {
+            contentTypeOptionSwitch.checkAll();
+        } else {
+            contentTypeOptionSwitch.uncheckAll();
+        }
+    });
+}
+
+const saveContentDetectionSettings = async (e) => {
+    try {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const method = data.get('detectionmethod');
+        const selectedContentTypes = data.getAll('contenttypes');
+        const savedOptions = (await getOptions(DB_NAME)) || {};
+        const newOptions = {
+            ...savedOptions,
+            jsonDetection: {
+                method,
+                selectedContentTypes,
+            },
+        };
+        await saveOptions(newOptions);
+        await sendMessage('settings_updated', newOptions);
+        notify('Settings have been saved');
+    } catch (error) {
+        notify('Failed to save options', 'error');
+        console.log('Failed to save:', error);
+    }
+};
+
+const restoreDefaultContentDetectionSettings = async (e) => {
+    try {
+        const savedOptions = (await getOptions(DB_NAME)) || {};
+        savedOptions.jsonDetection = DEFAULT_OPTIONS.jsonDetection;
+        initialiseContentDetectionForm(DEFAULT_OPTIONS);
+
+        await saveOptions(savedOptions);
+        await sendMessage('settings_updated', savedOptions);
+        notify('Settings have been restored');
+    } catch (error) {
+        notify('Failed to restore options', 'error');
+        console.log('Failed to restore content detection form:', error);
+    }
+};
+
+function initialiseContentDetectionFormEventListener() {
+    const form = document.querySelector(selectors.jsonDetectionSettingsForm);
+    form.addEventListener('submit', saveContentDetectionSettings);
+    form.addEventListener('reset', restoreDefaultContentDetectionSettings);
+}
+
+function initialiseContentTypeOptionsChangeEventListener() {
+    document.querySelectorAll('input[name="contenttypes"]').forEach((item) => {
+        item.addEventListener(
+            'change',
+            udpateSelectAllSwitchBasedOnSelectedCheckboxes,
+        );
+    });
+}
+
+function initialiseContentDetectionMethodRadioInputChangeEventListener() {
+    const detectionMethodInputs = document.querySelectorAll(
+        `input[name="detectionmethod"]`,
+    );
+    detectionMethodInputs.forEach((item) => {
+        item.addEventListener('change', (e) => {
+            detectionMethodInputs.forEach((item) => {
+                if (e.currentTarget !== item) {
+                    item.checked = false;
+                    item.removeAttribute('checked');
+                }
+            });
+            const selectedDetectionMethod =
+                document.querySelector(`input[name="detectionmethod"]:checked`)
+                    ?.value ?? DETECTION_METHOD_CONTENT_TYPE;
+            onJSONDetectionInputChange(selectedDetectionMethod);
+        });
+    });
+}
+
+function initializeContentDetectionEventListeners(contentTypeOptionSwitch) {
+    const optionTiles = getAllConentTypeOptionCards();
+    optionTiles.forEach((item) => {
+        item.addEventListener('click', onContentTypeOptionCardClick, false);
+    });
+
+    initialiseSelectAllContentTypeEventListener(contentTypeOptionSwitch);
+    initialiseContentDetectionFormEventListener();
+    initialiseContentTypeOptionsChangeEventListener();
+    initialiseContentDetectionMethodRadioInputChangeEventListener();
+}
+
+const udpateSelectAllSwitchBasedOnSelectedCheckboxes = () => {
+    const contentTypeSwitches = document.querySelectorAll(
+        'input[name="contenttypes"]',
+    );
+    const allSelected = Array.from(contentTypeSwitches).every(
+        (input) => !!input.checked,
+    );
+
+    const allSelectionSwitch = document.querySelector(
+        selectors.selectAllContentTypeSwitch,
+    );
+    if (allSelected) {
+        allSelectionSwitch.checked = true;
+        allSelectionSwitch.setAttribute('checked', 'checked');
+    } else {
+        allSelectionSwitch.checked = false;
+        allSelectionSwitch.removeAttribute('checked');
+    }
+};
+
+const onJSONDetectionInputChange = (detectionMethod) => {
+    const contentTypeCheckboxGroup = document.querySelector(
+        selectors.contentTypeCheckboxGroup,
+    );
+    if (detectionMethod !== DETECTION_METHOD_CONTENT_TYPE) {
+        if (!contentTypeCheckboxGroup.classList.contains('hidden')) {
+            contentTypeCheckboxGroup.classList.add('hidden');
+        }
+    } else {
+        if (contentTypeCheckboxGroup.classList.contains('hidden')) {
+            contentTypeCheckboxGroup.classList.remove('hidden');
+        }
+    }
+};
+
+const initialiseContentDetectionForm = (options) => {
+    // set content detection radio to checked
+    const detectionMethod =
+        options.jsonDetection?.method ?? DETECTION_METHOD_CONTENT_TYPE;
+    const targetedOption = document.querySelector(
+        `input[value="${detectionMethod}"]`,
+    );
+    targetedOption.checked = true;
+    targetedOption.setAttribute('checked', 'checked');
+
+    onJSONDetectionInputChange(detectionMethod);
+
+    // reset all the content type options chekboxes
+    document.querySelectorAll('input[name="contenttypes"]').forEach((item) => {
+        item.checked = false;
+        item.removeAttribute('checked');
+    });
+
+    // check selected content types checkboxes to checked
+    const selectedContentTypes =
+        options?.jsonDetection?.selectedContentTypes ||
+        DEFAULT_SELECTED_CONTENT_TYPES;
+
+    selectedContentTypes.forEach((item) => {
+        const targetedOption = document.querySelector(`input[value="${item}"]`);
+        if (targetedOption) {
+            targetedOption.checked = true;
+            targetedOption.setAttribute('checked', 'checked');
+        }
+    });
+
+    // if all the content types are checked then set selectAll checkbox to checked,
+    // set to unchecked otherwise
+    udpateSelectAllSwitchBasedOnSelectedCheckboxes();
+};
+
+const initialiseContentDetectionOptions = async () => {
+    try {
+        const savedOptions = (await getOptions(DB_NAME)) || {};
+        initialiseContentDetectionForm(savedOptions);
+    } catch (error) {
+        console.log('Error while initialising content type options', error);
+    }
+};
+
+const initializeContentDetection = async () => {
+    const contentTypeOptionSwitch = new Switch({
+        selector: selectors.contentTypeOptionsSwitch,
+    });
+    new Switch({
+        selector: selectors.selectAllContentTypeSwitch,
+    });
+    initialiseContentDetectionOptions();
+    initializeContentDetectionEventListeners(contentTypeOptionSwitch);
+};
+
+function bootstrap() {
     initilizeTab();
+    initializeContentDetection();
+    updateURLView();
     intializeURLInput();
     initializeURLDeleteEventListner();
 }
 
-(async () => {
-    await initOptions();
-})();
-
 document.body.onload = async function () {
-    await updateURLView();
-    new Switch({
-        selector: '.switch',
-    });
-    initEventListener();
+    await initOptions();
+    bootstrap();
 };

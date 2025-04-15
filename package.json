@@ -1,6 +1,6 @@
 {
     "name": "json-viewer-pro",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "private": true,
     "type": "module",
     "devDependencies": {
@@ -46,6 +46,7 @@
         "build:option": "NODE_ENV=production vite build -c ./vite.options-page.config.js",
         "package": "npm run build && npm run build:option && make package",
         "test:units": "node --test './src/utils/*.test.*'",
+        "test:ctype": "node './src/testserver/index.js'",
         "lint": "eslint .",
         "preview": "vite preview"
     }
