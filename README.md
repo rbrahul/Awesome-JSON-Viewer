@@ -13,6 +13,7 @@ A browser extension to visualize JSON response in awesome Tree and Chart view wi
 -   ✅ Depth traversing of JSON property using breadcrumbs
 -   ✅ Write custom JSON in Input area
 -   ✅ Access JSON response via Path navigation prompt with Auto-completion
+-   ✅ Full JSONPath support — filter expressions, recursive descent, array slicing, and multi-result queries
 -   ✅ Import local JSON file
 -   ✅ Download JSON file using Context Menu
 -   ✅ URL black listing to ignore on certain websites
@@ -106,6 +107,16 @@ A browser extension to visualize JSON response in awesome Tree and Chart view wi
 
 **Note:**
 Besides these above mentioned points, there were lot of improvements made in the build process and development practices. I have mroe plans to improve the code quality and the performance of the application rendering in upcoming days.
+
+### Version 1.0.7 (Fork) — Full JSONPath Support
+
+**New Features:**
+
+-   **Filter expressions** — e.g. `$..books[?(@.price < 10)]`
+-   **Recursive descent** — e.g. `$..author` with auto-completion
+-   **Array slicing** — e.g. `$[0:3]`
+-   **Multiple results** — shows all matched nodes with count feedback
+-   Success/error state indicators for query feedback
 
 Enjoy the JSON Viewer Pro.
 

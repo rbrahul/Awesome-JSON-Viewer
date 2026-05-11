@@ -7,6 +7,40 @@ import { FiDelete } from 'react-icons/fi';
 
 const JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION = /(\.|\[|\"|\'|\[")/;
 
+/**
+ * Recursively collect all keys at every nesting level (for .. descent suggestions)
+ */
+const collectAllKeysDeep = (obj, depth = 0, maxDepth = 6) => {
+    if (depth > maxDepth) return new Set();
+    const keys = new Set();
+    if (obj && typeof obj === 'object') {
+        if (Array.isArray(obj)) {
+            obj.forEach((item) => {
+                collectAllKeysDeep(item, depth + 1, maxDepth).forEach((k) =>
+                    keys.add(k),
+                );
+            });
+        } else {
+            Object.keys(obj).forEach((k) => {
+                keys.add(k);
+                collectAllKeysDeep(obj[k], depth + 1, maxDepth).forEach(
+                    (kk) => keys.add(kk),
+                );
+            });
+        }
+    }
+    return keys;
+};
+
+/**
+ * Check if cursor is inside a filter expression ?( ... )
+ */
+const isInsideFilterExpr = (path) => {
+    const lastQ = path.lastIndexOf('?(');
+    const lastClose = path.lastIndexOf(')');
+    return lastQ > -1 && lastQ > lastClose;
+};
+
 const makeListItem = (items, searchFlag) => {
     let filteredList = items;
     if (searchFlag.length > 0) {
@@ -27,21 +61,43 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [isJsonModified, setIsJsonModified] = useState(false);
 
+    const normalizePath = (path) => {
+        if (path.startsWith('[')) return `$.${path}`;
+        if (path.startsWith('.')) return `$${path}`;
+        return path;
+    };
+
+    /**
+     * Parse and return ALL matched results (not just the first one)
+     */
     const parseViaJSONPath = (path) => {
-        let jsonPath = path;
-        if (jsonPath.startsWith('[')) {
-            jsonPath = `$.${jsonPath}`;
-        } else if (jsonPath.startsWith('.')) {
-            jsonPath = `\$${jsonPath}`;
-        }
+        const jsonPath = normalizePath(path);
+        // eval must be enabled (default) to support filter expressions like [?(@.price < 10)]
         const result = JSONPath({
             path: jsonPath,
             json,
-            eval: false,
         });
-        if (result && Array.isArray(result) && result.length > 0) {
-            return result[0];
+        return result;
+    };
+
+    /**
+     * Lightweight parse for autocomplete — returns the resolved value of the path so far
+     */
+    const resolvePathForAutocomplete = (path) => {
+        const jsonPath = normalizePath(path);
+        try {
+            const result = JSONPath({
+                path: jsonPath,
+                json,
+                eval: false,
+            });
+            if (result && Array.isArray(result) && result.length > 0) {
+                return result[0];
+            }
+        } catch (e) {
+            // ignore
         }
+        return null;
     };
 
     const onInputChange = (e) => {
@@ -52,6 +108,13 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
         setSearchText(path);
         setShowSuggestion(true);
         setSearchInfo('');
+
+        // Don't try autocomplete inside filter expressions — let user type freely
+        if (isInsideFilterExpr(path)) {
+            setSuggestions([]);
+            return;
+        }
+
         try {
             const matchedDelemeterParts =
                 path.endsWith('.') ||
@@ -63,7 +126,21 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
             if (!matchedDelemeterParts) {
                 return;
             }
-            const resolvedPathValue = parseViaJSONPath(path);
+
+            // Handle recursive descent suggestions
+            if (path.endsWith('..')) {
+                // strip ".." to resolve the parent path for deep key collection
+                const resolvedPath = path.slice(0, -2);
+                const resolvedValue = resolvedPath.length > 1
+                    ? resolvePathForAutocomplete(resolvedPath) || json
+                    : json;
+                const allKeys = collectAllKeysDeep(resolvedValue);
+                setSuggestions([...allKeys]);
+                setSearchInfo('');
+                return;
+            }
+
+            const resolvedPathValue = resolvePathForAutocomplete(path);
             if (resolvedPathValue) {
                 let suggestions = [];
                 if (!Array.isArray(resolvedPathValue)) {
@@ -104,23 +181,35 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                 }
 
                 try {
-                    const resolvedPathValue = parseViaJSONPath(searchText);
-                    if (typeof resolvedPathValue === 'undefined') {
-                        setSearchInfo(
-                            'Failed to retrieve value from the Path you provided',
-                        );
+                    const results = parseViaJSONPath(searchText);
+                    if (!results || results.length === 0) {
+                        setSearchInfo('No matches found');
                         return;
                     }
-                    const newJsonToRender = {
-                        [searchText]: resolvedPathValue,
-                    };
+
+                    let newJsonToRender;
+                    if (results.length === 1) {
+                        newJsonToRender = { [searchText]: results[0] };
+                    } else {
+                        // Multiple matches — wrap in an array keyed by the query
+                        newJsonToRender = { [searchText]: results };
+                    }
+
+                    const matchCount = results.length;
+                    setSearchInfo(
+                        matchCount === 1
+                            ? '1 match'
+                            : `${matchCount} matches`,
+                    );
+
                     if (typeof renderJSON === 'function') {
                         renderJSON(newJsonToRender);
                         setIsJsonModified(true);
                     }
                 } catch (error) {
+                    console.error('JSONPath error:', error);
                     setSearchInfo(
-                        'Failed to retrieve value from the Path you provided',
+                        'Invalid JSONPath expression',
                     );
                 }
             }
@@ -149,6 +238,7 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
             '"': '"',
             '[': ']',
             '.': '',
+            '..': '',
         };
         const searchParts = searchText.split(
             JSON_PATH_SEARCH_PATTERN_FOR_AUTO_SUGGESTION,
@@ -203,12 +293,19 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
 
     useEffect(() => restoreOriginalJSON, []);
 
+    const infoClass =
+        searchInfo === 'No matches found' ||
+        searchInfo.startsWith('Invalid') ||
+        searchInfo.startsWith('Failed')
+            ? 'search-info-error'
+            : 'search-info-success';
+
     return (
         <div className="searchbar">
             <div className="search-input-container">
                 <input
                     ref={searchInputRef}
-                    placeholder="Type . to start or paste Path"
+                    placeholder="Type . or paste a JSONPath expression"
                     type="text"
                     className="search-input"
                     name="search-input"
@@ -247,8 +344,8 @@ const SearchBar = ({ json, renderJSON, restoreOriginalJSON }) => {
                     )}
             </div>
             {searchInfo && (
-                <div className="search-info-container">
-                    <span>Invalid JSON Path</span>
+                <div className={`search-info-container ${infoClass}`}>
+                    <span>{searchInfo}</span>
                 </div>
             )}
         </div>

@@ -28,6 +28,14 @@
     padding: 10px;
     font-size: 14px;
     color: var(--searchbar-info-text-color);
+
+    &.search-info-success {
+        color: #4caf50;
+    }
+
+    &.search-info-error {
+        color: #f44336;
+    }
 }
 
 .search-input {
