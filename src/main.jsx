@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { getURL, parseJson } from './utils/common';
 import { DARK_THEMES, DEFAULT_OPTIONS } from './constants/options.js';
+import { useOptions } from './hooks/useOptions.jsx'; // Import the useTheme hook to ensure it is included in the bundle
 
 const codeMirrorStyleSheetId = 'codemirror-css';
 const COLOR_THEME_LINK_TAG_ID = 'color-theme-css';
@@ -11,8 +12,7 @@ const CUSTOM_CSS_STYLE_TAG_ID = 'custom-css';
 
 const isJSONViewerProExtensionPage = () => {
     return (
-        window.location.href.includes('chrome-extension://') &&
-        window.location.search.includes('options')
+        window.location.protocol === 'chrome-extension:' && window.location.hostname === chrome.runtime.id && window.location.pathname === '/index.html'
     );
 };
 
@@ -72,19 +72,13 @@ const getOptions = async () => {
             return JSON.parse(options);
         }
 
-        if (isJSONViewerProExtensionPage()) {
-            return JSON.parse(
-                decodeURIComponent(
-                    new URLSearchParams(window.location.search).get('options'),
-                ),
-            );
-        }
-
         const chrome = window.chrome;
         if (chrome && chrome.storage && chrome.storage.local) {
-            return await chrome.storage.local.get([
+            const data = await chrome.storage.local.get([
                 'rb-awesome-json-viewer-options',
             ]);
+            // console.log('getOptions:Fetched options from chrome storage', data?.['rb-awesome-json-viewer-options']);
+            return data?.['rb-awesome-json-viewer-options'] ?? DEFAULT_OPTIONS;
         }
     } catch (error) {
         console.error('Error while fetching options', error);
@@ -115,8 +109,41 @@ const detectCSPViolation = () => {
     });
 };
 
+
+const handleThemeChange = (event) => {
+    console.log("Event in main.jsx", event)
+    const updatedOptions = event.detail ?? DEFAULT_OPTIONS;
+    window.extensionOptions = updatedOptions;
+    applyOptionsIfChromeExtensionPage(updatedOptions);
+};
+
+// listen for events from appscript.js which is injected into the page for extension page as contentscript is not getting executed on chrome-extension:// protocol pages.
+// So we are using appscript.js to listen for events and send it to content script which will then send it to background.js
+const listenForAppscriptEvents = () => {
+    if (!isJSONViewerProExtensionPage()) {
+        return;
+    }
+    window.addEventListener('rb_json_viewer_pro_appscript_options_received', handleThemeChange);
+    window.addEventListener('rb_json_viewer_pro_appscript_options_updated', handleThemeChange);
+}
+
+const ExtensionApp = ({json}) => {
+    const options = useOptions(window.extensionOptions || DEFAULT_OPTIONS);
+    const theme = options.theme || 'dark-pro';
+
+    return (
+        <App
+            json={json}
+            isDarkMode={DARK_THEMES.includes(theme)}
+            collapsed={options?.collapsed || 0}
+            optionPageURL={options?.optionPageURL}
+        />
+    );
+};
+
 (async () => {
     detectCSPViolation();
+    listenForAppscriptEvents();
     try {
         let content = document.body?.innerText;
         content = content?.trim();
@@ -131,11 +158,8 @@ const detectCSPViolation = () => {
         document.body.appendChild(rootElement);
         const root = createRoot(rootElement);
         root.render(
-            <App
+            <ExtensionApp
                 json={jsonData}
-                isDarkMode={DARK_THEMES.includes(
-                    window.extensionOptions?.theme ?? 'dark-pro',
-                )}
             />,
         );
     } catch (e) {
