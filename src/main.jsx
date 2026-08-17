@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { getURL, parseJson } from './utils/common';
 import { DARK_THEMES, DEFAULT_OPTIONS } from './constants/options.js';
-import { useOptions } from './hooks/useOptions.jsx'; // Import the useTheme hook to ensure it is included in the bundle
+import { useOptions } from './hooks/useOptions.jsx';
 
 const codeMirrorStyleSheetId = 'codemirror-css';
 const COLOR_THEME_LINK_TAG_ID = 'color-theme-css';

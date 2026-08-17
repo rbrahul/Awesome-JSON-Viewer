@@ -1,7 +1,7 @@
 {
     "name": "JSON Viewer Pro",
     "short_name": "JSON Viewer",
-    "description": "A powerful JSON viewer and formatter that offers advanced features for developers and data analysts. It provides a user-friendly interface to visualize, format, and analyze JSON data with ease.",
+    "description": "A powerful JSON viewer and formatter that offers advanced features for developers and data analysts to visualise and analyse JSON",
     "offline_enabled": true,
     "version": "1.0.7",
     "manifest_version": 3,
