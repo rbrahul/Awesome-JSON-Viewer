@@ -111,7 +111,6 @@ const detectCSPViolation = () => {
 
 
 const handleThemeChange = (event) => {
-    console.log("Event in main.jsx", event)
     const updatedOptions = event.detail ?? DEFAULT_OPTIONS;
     window.extensionOptions = updatedOptions;
     applyOptionsIfChromeExtensionPage(updatedOptions);

@@ -4,7 +4,6 @@ export const useOptions = (defaultOptions) => {
   const [options, setOptions] = useState(defaultOptions);
   useEffect(() => {
     const handleOptionsChange = (event) => {
-      console.log('Received options change event in useOptions:', event);
       const newOptions = event.detail || {};
       setOptions(newOptions);
     };

@@ -41,13 +41,8 @@ async function sendMessage(action, message) {
     tabs.forEach(async (tab) => {
         try {
             await chrome.tabs.sendMessage(tab.id, messageObj);
-            // if (tab.url) {
-            //     await chrome.tabs.sendMessage(tab.id, messageObj);
-            // } else {
-            //     chrome.tabs.remove(tab.id);
-            // }
         } catch (error) {
-            console.log('Error while sending message to tab:', error);
+            //console.log('Error while sending message to tab:', error);
         }
     });
 }
