@@ -151,7 +151,7 @@ class TreeView extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
+        if (prevProps.data !== this.props.data || prevProps.collapsed !== this.props.collapsed) {
             this.reRenderTree();
         }
     }
@@ -176,7 +176,7 @@ class TreeView extends Component {
         this.$node = $(this.jsonRenderer.current);
         if ($) {
             const pluginOptions = {
-                collapsed: window.extensionOptions?.collapsed === 1,
+                collapsed: this.props.collapsed === 1,
                 withQuotes: true,
             };
             initPlugin(this.$node, $, data, pluginOptions);

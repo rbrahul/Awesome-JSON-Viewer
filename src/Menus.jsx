@@ -120,7 +120,7 @@ class Menus extends Component {
                     <li className="">
                         <a
                             href={
-                                window.extensionOptions?.optionPageURL ??
+                                this.props?.optionPageURL ??
                                 '/options.html'
                             }
                             target="_blank"

@@ -136,6 +136,7 @@ class App extends Component {
                     hideSearchBar={this.hideSearchBar}
                     isSearchBarVisible={this.state.isSearchBarVisible}
                     isDarkMode={this.props.isDarkMode}
+                    optionPageURL={this.props.optionPageURL}
                 />
                 <div className="tab-container">
                     {this.state.selectedTab === 'tree' && (
@@ -143,6 +144,7 @@ class App extends Component {
                             data={this.state.json}
                             isSearchBarVisible={this.state.isSearchBarVisible}
                             isDarkMode={this.props.isDarkMode}
+                            collapsed={this.props.collapsed}
                         />
                     )}
                     {this.state.selectedTab === 'chart' && (

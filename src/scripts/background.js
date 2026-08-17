@@ -1,16 +1,9 @@
 const dbName = 'rb-awesome-json-viewer-options';
 
 chrome.action.onClicked.addListener(async (tab) => {
-    const extensionOptions = await getBackwardCompatibleOptions(dbName);
-    let queryParam = '';
-    if (extensionOptions && extensionOptions.theme) {
-        queryParam = `?options=${encodeURIComponent(
-            JSON.stringify(extensionOptions),
-        )}`;
-    }
     const url = chrome.runtime.getURL('index.html');
     chrome.tabs.create(
-        { url: queryParam ? url + queryParam : url },
+        { url },
         function (tab) {},
     );
 });
