@@ -107,6 +107,16 @@ A browser extension to visualize JSON response in awesome Tree and Chart view wi
 **Note:**
 Besides these above mentioned points, there were lot of improvements made in the build process and development practices. I have mroe plans to improve the code quality and the performance of the application rendering in upcoming days.
 
+### Version 1.0.7 on 21-08-2026:
+
+**Bug Fixes:**
+
+- After updating settings from the setting pages existing extension pages with url protocol 'chrome-extension://' closes automatically.
+
+
+
+
+
 Enjoy the JSON Viewer Pro.
 
 **Developed with ♥ using ReactJS and D3**
