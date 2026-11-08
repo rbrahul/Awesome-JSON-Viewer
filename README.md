@@ -113,6 +113,11 @@ Besides these above mentioned points, there were lot of improvements made in the
 
 - After updating settings from the setting pages existing extension pages with url protocol 'chrome-extension://' closes automatically.
 
+### Version 1.0.8 on 09-10-2026:
+
+**Bug Fixes:**
+
+- HTML anchor tag for URL and property element creation in tree view could render unsafe HTML and Javascript code. Now we are escaping html charachters and fixed the potential XSS Vulnerabilities.
 
 
 

@@ -11,9 +11,21 @@ function isCollapsable(arg) {
  * @return boolean
  */
 function isUrl(string) {
-    var regexp =
-        /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-    return regexp.test(string);
+    try {
+        const parsedUrl = new URL(string);
+        return ['http:', 'https:', 'ftp:', 'ftps:'].includes(parsedUrl.protocol);
+    } catch (e) {
+        return false;
+    }
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 const getJsonToggleClassNames = (isCollapsed) => {
@@ -41,26 +53,19 @@ function json2html(json, options, nestedLevel = []) {
     var html = '';
     const isCollapsed = options.collapsed && nestedLevel.length > 0;
     if (typeof json === 'string') {
-        // Escape tags
-        json = json
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-        if (isUrl(json))
-            html +=
-                '<a href="' +
-                json +
-                '" class="json-literal-url">"' +
-                json +
-                '"</a>';
-        else html += '<span class="json-literal-string">"' + json + '"</span>';
+        const escapedJson = escapeHtml(json);
+        if (isUrl(json)) {
+            html += `<a href="${escapedJson}" class="json-literal-url" target="_blank">"${escapedJson}"</a>`;
+        } else {
+            html += `<span class="json-literal-string">"${escapedJson}"</span>`;
+        }
     } else if (typeof json === 'number') {
         html += '<span class="json-literal-numeric">' + json + '</span>';
     } else if (typeof json === 'boolean') {
         html += '<span class="json-literal-boolean">' + json + '</span>';
     } else if (json === null) {
         html += '<span class="json-literal">null</span>';
-    } else if (json instanceof Array) {
+    } else if (Array.isArray(json)) {
         if (json.length > 0) {
             html += `[<ol class="json-array" ${getToggleStyle(isCollapsed)}>`;
             for (var i = 0; i < json.length; ++i) {
@@ -83,7 +88,7 @@ function json2html(json, options, nestedLevel = []) {
         } else {
             html += '[]';
         }
-    } else if (typeof json === 'object') {
+    } else if (typeof json === 'object' && json !== null) {
         var key_count = Object.keys(json).length;
         if (key_count > 0) {
             html += `{<ul class="json-dict" ${getToggleStyle(isCollapsed)}>`;
@@ -91,8 +96,8 @@ function json2html(json, options, nestedLevel = []) {
                 if (json.hasOwnProperty(key)) {
                     html += '<li>';
                     var keyRepr = options.withQuotes
-                        ? '<span class="property">"' + key + '"</span>'
-                        : key;
+                        ? '<span class="property">"' + escapeHtml(key) + '"</span>'
+                        : escapeHtml(key);
                     // Add toggle button if item is collapsable
                     if (isCollapsable(json[key])) {
                         html +=

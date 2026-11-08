@@ -3,7 +3,7 @@
     "short_name": "JSON Viewer",
     "description": "A powerful JSON viewer and formatter that offers advanced features for developers and data analysts to visualise and analyse JSON",
     "offline_enabled": true,
-    "version": "1.0.7",
+    "version": "1.0.8",
     "manifest_version": 3,
     "icons": {
         "16": "images/icons/icon-16.png",
